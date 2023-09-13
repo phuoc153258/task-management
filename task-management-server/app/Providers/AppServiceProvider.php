@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\File\FileService;
+use App\Services\File\FileServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            PaginateServiceInterface::class,
+            PaginateService::class,
+            FileServiceInterface::class,
+            FileService::class
+        );
     }
 
     /**
