@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait JwtResponse
+trait JwtResponseTrait
 {
     protected function respondWithToken($token)
     {

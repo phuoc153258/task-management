@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Traits\HttpResponse;
-use App\Traits\JwtResponse;
+use App\Traits\HttpResponseTrait;
+use App\Traits\JwtResponseTrait;
 
 class AuthController extends Controller
 {
-    use HttpResponse;
-    use JwtResponse;
+    use HttpResponseTrait;
+    use JwtResponseTrait;
     private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)

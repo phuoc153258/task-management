@@ -2,7 +2,6 @@
 
 namespace App\Services\Paginate;
 
-use Illuminate\Database\Query\Builder;
 use App\Services\Paginate\PaginateServiceInterface;
 
 class PaginateService implements PaginateServiceInterface
@@ -11,13 +10,15 @@ class PaginateService implements PaginateServiceInterface
     {
     }
 
-    public function paginate(array $options, Builder $query): array
+    public function paginate(array $options, $query)
     {
+        if (!$options['is_paginate']) return $query->get();
+
         if ($options['search'])
             $query
                 ->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
 
-        if ($options['sort'])
+        if ($options['sort'] != '')
             $query
                 ->orderBy($options['sort_by'], $options['sort']);
 

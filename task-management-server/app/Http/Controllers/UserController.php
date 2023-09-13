@@ -2,43 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-use App\Services\Paginate\PaginateService;
-use App\Traits\HttpResponse;
+use App\Traits\HttpResponseTrait;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\File\FileService;
 
 class UserController extends Controller
 {
-    use HttpResponse;
-    private PaginateService $paginateService;
+    use HttpResponseTrait;
     private FileService $fileService;
     private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->paginateService = new PaginateService();
         $this->fileService = new FileService();
         $this->userRepository = $userRepository;
     }
 
     public function index(Request $request)
     {
-        $query =  DB::table('users');
         $options = [
             'search' => empty($request->input('search')) ? '' : $request->input('search'),
-            'sort' => empty($request->input('sort')) ? 'asc' : $request->input('sort'),
+            'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
             'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
             'page' => empty($request->input('page')) ? 1 : intval($request->input('page')),
+            'is_paginate' => filter_var($request->input('is_paginate', true), FILTER_VALIDATE_BOOLEAN),
             'search_by' => 'name',
             'sort_by' => 'id',
             'select' => ['*']
         ];
-        $usersResponse = $this->paginateService->paginate($options, $query);
+        $usersResponse = $this->userRepository->getUsers($options);
         return $this->success($usersResponse, trans('user.get-list-user-success'), 200);
     }
 

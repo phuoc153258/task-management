@@ -4,7 +4,7 @@ namespace App\Repositories\User;
 
 interface UserRepositoryInterface
 {
-    public function getUsers();
+    public function getUsers($options);
     public function getUserById($userId);
     public function getUserByCondition($field, $value);
     public function deleteUser($userId);

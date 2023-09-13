@@ -4,12 +4,23 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Paginate\PaginateService;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function getUsers()
+    private PaginateService $paginateService;
+
+    public function __construct()
     {
-        return User::all();
+        $this->paginateService = new PaginateService();
+    }
+
+    public function getUsers($options)
+    {
+        $query =  DB::table('users');
+        $userResponse = $this->paginateService->paginate($options, $query);
+        return $userResponse;
     }
 
     public function getUserById($userId)

@@ -16,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PaginateServiceInterface::class,
             PaginateService::class,
+        );
+        $this->app->bind(
             FileServiceInterface::class,
             FileService::class
         );
