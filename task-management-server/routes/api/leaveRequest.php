@@ -10,4 +10,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/{id}', [LeaveRequestController::class, 'show']);
 
     Route::post('/', [LeaveRequestController::class, 'create']);
+
+    Route::put('/{id}', [LeaveRequestController::class, 'update']);
+
+    Route::delete('/{id}', [LeaveRequestController::class, 'delete']);
 });

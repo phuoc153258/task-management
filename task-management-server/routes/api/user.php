@@ -8,7 +8,7 @@ Route::get('/', [UserController::class, 'index']);
 
 Route::get('/{id}', [UserController::class, 'show']);
 
-// Route::post('/', [UserController::class, 'create']);
+Route::post('/', [UserController::class, 'create']);
 
 Route::post('/{id}', [UserController::class, 'update']);
 

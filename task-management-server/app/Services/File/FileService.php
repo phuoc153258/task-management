@@ -13,8 +13,8 @@ class FileService implements FileServiceInterface
 
     public function upload($file, $type): string
     {
-        if (!$file->getSize() > FILE_SIZE_LIMIT)  abort(400, trans('file.file-size'));
-        if (!in_array($file->getClientOriginalExtension($type), FILE_EXTENSION))  abort(400, trans('file.format-file'));
+        if (!$file->getSize() > FILE_SIZE_LIMIT)  abort(400, trans('error.file.file-size'));
+        if (!in_array($file->getClientOriginalExtension($type), FILE_EXTENSION))  abort(400, trans('error.file.format-file'));
 
         $file_type = getFileType($file->getClientMimeType($type));
         $file_name = genarateUUID() . " - " . $file->getClientOriginalName($type);
@@ -24,12 +24,11 @@ class FileService implements FileServiceInterface
 
     public function delete($file): string
     {
-        if ($file === null) return trans('file.delete-file-success');
-
-        if (!File::exists($file))  abort(400, trans('file.file-not-exist'));
+        if ($file === null || in_array($file, FILE_IMAGE_BASE) || !File::exists($file))
+            return trans('message.delete-file-success');
 
         File::delete($file);
 
-        return trans('file.delete-file-success');
+        return trans('message.delete-file-success');
     }
 }

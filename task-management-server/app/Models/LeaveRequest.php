@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,4 +18,9 @@ class LeaveRequest extends Model
         'user_id',
         'leave_request_type_id',
     ];
+
+    public function scopeOfUser(Builder $query, $id): void
+    {
+        $query->where('user_id', $id);
+    }
 }

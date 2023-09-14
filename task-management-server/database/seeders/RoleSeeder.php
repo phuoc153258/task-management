@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
             'title' => 'leader',
         ]);
         Role::create([
-            'title' => 'censor',
+            'title' => 'manager',
         ]);
     }
 }
