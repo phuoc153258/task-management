@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\LeaveRequest\LeaveRequestRepository;
 use App\Repositories\LeaveRequest\LeaveRequestRepositoryInterface;
+use App\Repositories\LeaveRequestType\LeaveRequestTypeRepository;
+use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             UserRepositoryInterface::class,
             UserRepository::class,
+        );
+        $this->app->bind(
+            LeaveRequestTypeRepositoryInterface::class,
+            LeaveRequestTypeRepository::class,
         );
     }
 

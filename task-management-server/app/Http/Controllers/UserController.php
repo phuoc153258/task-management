@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\Request;
 
@@ -46,24 +47,26 @@ class UserController extends Controller
         return $this->success($user, trans('user.get-user-success'), 200);
     }
 
-    // public function create(CreateUserRequest $request)
-    // {
-    //     $user = $this->userRepository->createUser($request->validated());
-    //     return $this->success($user, trans('user.create-user-success'), 200);
-    // }
+    public function create(CreateUserRequest $request)
+    {
+        $user = $this->userRepository->createUser($request->validated());
+        return $this->success($user, trans('user.create-user-success'), 200);
+    }
 
     public function update(UpdateUserRequest $request, $id)
     {
         try {
             $user = $this->userRepository->getUserById($id);
             if (empty($user)) return $this->error(null, trans('user.user-is-not-exist'), 400);
-            $this->fileService->delete($user->avatar);
             $infoUser = [
-                'name' => $request->input('name'),
+                'username' => $request->input('username'),
+                'fullname' => $request->input('fullname'),
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
-                'avatar' => $this->fileService->upload($request->file('avatar'), 'avatar')
+                'avatar' => $this->fileService->upload($request->file('avatar'), 'avatar'),
+                'role_id' => $request->input('role_id'),
             ];
+            $this->fileService->delete($user->avatar);
             $user->update($infoUser);
             return $this->success($user, trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
