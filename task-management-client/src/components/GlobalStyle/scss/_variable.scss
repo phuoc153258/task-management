@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$system-ui: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+
+:root {
+    --primary-color: #fa9e1b;
+    --white-color: #fff;
+    --violet: #8d4fff;
+    --yellow: #fa9e1b;
+    --black: #2d2c2c;
+    --btn-black: #31124b;
+    --bg-header: rgba(54, 19, 84, 0.6);
+    --bg-header-scroll: rgba(54, 19, 84, 0.85);
+    --offer-color: #eda84a;
+    --bg-btn: linear-gradient(to right, #fa9e1b, #8d4fff, #fa9e1b);
+    --bg-section: linear-gradient(to right, #fa9e1b, #8d4fff);
+    --border: linear-gradient(to right, #fa9e1b, #8d4fff);
+}
