@@ -6,6 +6,7 @@ use App\Http\Requests\LeaveRequest\CreateLeaveRequestRequest;
 use App\Http\Requests\LeaveRequest\UpdateLeaveRequestRequest;
 use App\Repositories\LeaveRequest\LeaveRequestRepositoryInterface;
 use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
+use App\Services\LeaveRequest\LeaveRequestService;
 use App\Traits\AuthorizationTrait;
 use App\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
@@ -14,12 +15,10 @@ class LeaveRequestController extends Controller
 {
     use HttpResponseTrait, AuthorizationTrait;
 
-    protected LeaveRequestRepositoryInterface $leaveRequestRepository;
-    protected LeaveRequestTypeRepositoryInterface $leaveRequestTypeRepository;
+    private LeaveRequestService $leaveRequestService;
     public function __construct(LeaveRequestRepositoryInterface $leaveRequestRepository, LeaveRequestTypeRepositoryInterface $leaveRequestTypeRepository)
     {
-        $this->leaveRequestRepository = $leaveRequestRepository;
-        $this->leaveRequestTypeRepository = $leaveRequestTypeRepository;
+        $this->leaveRequestService = new LeaveRequestService($leaveRequestRepository, $leaveRequestTypeRepository);
     }
 
     public function index(Request $request)
@@ -36,7 +35,7 @@ class LeaveRequestController extends Controller
                 'sort_by' => 'id',
                 'select' => ['*']
             ];
-            $leaveRequestResponse = $this->leaveRequestRepository->getLeaveRequests($options, $user->id);
+            $leaveRequestResponse = $this->leaveRequestService->index($options, $user->id);
             return $this->success($leaveRequestResponse, trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
@@ -45,12 +44,13 @@ class LeaveRequestController extends Controller
 
     public function show($id)
     {
-        $user = $this->getCurrentUser();
-        $leaveRequest = $this->leaveRequestRepository->getLeaveRequest($id, $user->id);
-        if (empty($leaveRequest))
-            return $this->error(null, trans('base.base-failed'), 400);
-
-        return $this->success($leaveRequest, trans('base.base-success'), 200);
+        try {
+            $user = $this->getCurrentUser();
+            $leaveRequestResponse = $this->leaveRequestService->show($id, $user->id);
+            return $this->success($leaveRequestResponse, trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
     }
 
     public function create(CreateLeaveRequestRequest $request)
@@ -58,7 +58,7 @@ class LeaveRequestController extends Controller
         try {
             $currentUser = $this->getCurrentUser();
             $leaveRequestDetails = [...$request->all(), 'user_id' => $currentUser->id];
-            $leaveRequestResponse = $this->leaveRequestRepository->createLeaveRequest($leaveRequestDetails);
+            $leaveRequestResponse = $this->leaveRequestService->create($leaveRequestDetails);
             return $this->success($leaveRequestResponse, trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
@@ -69,10 +69,8 @@ class LeaveRequestController extends Controller
     {
         try {
             $currentUser = $this->getCurrentUser();
-            $leaveRequest = $this->leaveRequestRepository->getLeaveRequest($id, $currentUser->id);
-            if (empty($leaveRequest)) return $this->error(null, trans('base.base-failed'));
-            $this->leaveRequestRepository->updateLeaveRequest($leaveRequest, $request->validated());
-            return $this->success($leaveRequest->fresh(), trans('base.base-success'), 200);
+            $leaveRequestResponse = $this->leaveRequestService->update($request->validated(), $id, $currentUser->id);
+            return $this->success($leaveRequestResponse->fresh(), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }
@@ -80,11 +78,12 @@ class LeaveRequestController extends Controller
 
     public function delete($id)
     {
-        $currentUser = $this->getCurrentUser();
-        $leaveRequest = $this->leaveRequestRepository->getLeaveRequest($id, $currentUser->id);
-        if (empty($leaveRequest)) return $this->error(null, trans('base.base-failed'));
-
-        $leaveRequest->delete();
-        return $this->success($leaveRequest, trans('user.delete-user-success'), 200);
+        try {
+            $currentUser = $this->getCurrentUser();
+            $leaveRequest = $this->leaveRequestService->delete($id, $currentUser->id);
+            return $this->success($leaveRequest, trans('user.delete-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
     }
 }

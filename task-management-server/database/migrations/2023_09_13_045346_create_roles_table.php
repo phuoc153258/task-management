@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('title'); // 1: admin | 2: user | 3: leader | 4:censor
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

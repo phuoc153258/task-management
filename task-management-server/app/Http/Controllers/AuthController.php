@@ -5,37 +5,37 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Auth\AuthService;
 use App\Traits\HttpResponseTrait;
-use App\Traits\JwtResponseTrait;
 
 class AuthController extends Controller
 {
     use HttpResponseTrait;
-    use JwtResponseTrait;
-    private UserRepositoryInterface $userRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    private AuthService $authService;
+
+    public function __construct(UserRepositoryInterface $userRepositoryInterface)
     {
-        $this->userRepository = $userRepository;
-        // $this->middleware('auth:api', ['except' => ['login']]);
+        $this->authService = new AuthService($userRepositoryInterface);
     }
 
     public function login()
     {
-        $credentials = request(['username', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
-            return $this->error(['error' => 'Unauthorized'], trans('auth.login-failed'), 401);
+        try {
+            $credentials = request(['username', 'password']);
+            $token = $this->authService->login($credentials);
+            return $this->success($token, trans('auth.login-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('auth.login-failed'), 401);
         }
-
-        return $this->success($this->respondWithToken($token), trans('auth.login-success'), 200);
     }
 
     public function register(CreateUserRequest $request)
     {
         try {
-            $user = $this->userRepository->createUser($request->validated());
-            return $this->success($user, trans('message.create-user-success'), 200);
+            $userInfo = $request->validated();
+            $userResponse = $this->authService->register($userInfo);
+            return $this->success($userResponse, trans('message.create-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }
@@ -43,18 +43,32 @@ class AuthController extends Controller
 
     public function me()
     {
-        return $this->success(auth()->user(), trans('base.base-success'));
+        try {
+            $userResponse = $this->authService->me();
+            return $this->success($userResponse, trans('base.base-success'));
+        } catch (\Throwable $th) {
+            return $this->error(null, trans('base.base-failed'));
+        }
     }
 
     public function logout()
     {
-        auth()->logout();
+        try {
+            $this->authService->logout();
 
-        return $this->success(['message' => 'Successfully logged out'], trans('base.base-success'));
+            return $this->success('Successfully logged out', trans('base.base-success'));
+        } catch (\Throwable $th) {
+            return $this->error(null, trans('base.base-failed'));
+        }
     }
 
     public function refresh()
     {
-        return $this->success($this->respondWithToken(auth()->refresh()), trans('base.base-success'));
+        try {
+            $token = $this->authService->refresh();
+            return $this->success($token, trans('base.base-success'));
+        } catch (\Throwable $th) {
+            return $this->error(null, trans('base.base-failed'));
+        }
     }
 }

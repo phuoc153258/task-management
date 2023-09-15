@@ -2,73 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\CreateUserRequest;
-use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\Request;
 
 use App\Traits\HttpResponseTrait;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Services\File\FileService;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Services\User\UserService;
 
 class UserController extends Controller
 {
     use HttpResponseTrait;
-    private FileService $fileService;
-    private UserRepositoryInterface $userRepository;
-
+    private UserService $userService;
     public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->fileService = new FileService();
-        $this->userRepository = $userRepository;
+        $this->userService = new UserService($userRepository);
     }
 
     public function index(Request $request)
     {
-        $options = [
-            'search' => empty($request->input('search')) ? '' : $request->input('search'),
-            'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
-            'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
-            'page' => empty($request->input('page')) ? 1 : intval($request->input('page')),
-            'is_paginate' => filter_var($request->input('is_paginate', true), FILTER_VALIDATE_BOOLEAN),
-            'search_by' => 'name',
-            'sort_by' => 'id',
-            'select' => ['*']
-        ];
-        $usersResponse = $this->userRepository->getUsers($options);
-        return $this->success($usersResponse, trans('user.get-list-user-success'), 200);
+        try {
+            $options = [
+                'search' => empty($request->input('search')) ? '' : $request->input('search'),
+                'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
+                'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
+                'page' => empty($request->input('page')) ? 1 : intval($request->input('page')),
+                'is_paginate' => filter_var($request->input('is_paginate', true), FILTER_VALIDATE_BOOLEAN),
+                'search_by' => 'username',
+                'sort_by' => 'id',
+                'select' => ['*']
+            ];
+            $userResponse = $this->userService->index($options);
+            return $this->success($userResponse, trans('user.get-list-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error(null, trans('base.base-failed'));
+        }
     }
 
     public function show($id)
     {
-        $user = $this->userRepository->getUserById($id);
-        if (empty($user))
-            return $this->error(null, trans('user.get-user-failed'), 400);
-
-        return $this->success($user, trans('user.get-user-success'), 200);
+        try {
+            $userResponse = $this->userService->show($id);
+            return $this->success($userResponse, trans('user.get-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('user.get-user-failed'), 400);
+        }
     }
 
     public function create(CreateUserRequest $request)
     {
-        $user = $this->userRepository->createUser($request->validated());
-        return $this->success($user, trans('user.create-user-success'), 200);
+        try {
+            $userInfo = $request->validated();
+            $userResponse = $this->userService->create($userInfo);
+            return $this->success($userResponse, trans('user.create-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
     }
 
     public function update(UpdateUserRequest $request, $id)
     {
         try {
-            $user = $this->userRepository->getUserById($id);
-            if (empty($user)) return $this->error(null, trans('user.user-is-not-exist'), 400);
-            $infoUser = [
-                'username' => $request->input('username'),
-                'fullname' => $request->input('fullname'),
-                'email' => $request->input('email'),
-                'password' => $request->input('password'),
-                'avatar' => $this->fileService->upload($request->file('avatar'), 'avatar'),
-                'role_id' => $request->input('role_id'),
-            ];
-            $this->fileService->delete($user->avatar);
-            $user->update($infoUser);
-            return $this->success($user, trans('user.update-user-success'), 200);
+            $userInfo = $request->validated();
+            $avatar = $request->file('avatar');
+            $userResponse = $this->userService->update($userInfo, $id, $avatar);
+            return $this->success($userResponse, trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
@@ -76,10 +74,11 @@ class UserController extends Controller
 
     public function delete($id)
     {
-        $user = $this->userRepository->getUserById($id);
-        if (empty($user)) return $this->error(null, trans('user.user-is-not-exist'), 400);
-
-        $user->delete();
-        return $this->success($user, trans('user.delete-user-success'), 200);
+        try {
+            $userResponse = $this->userService->delete($id);
+            return $this->success($userResponse, trans('user.delete-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
+        }
     }
 }
