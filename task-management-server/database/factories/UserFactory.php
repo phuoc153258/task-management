@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,7 +24,6 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'password' => '$2y$10$rws9RlrlNjDHc5ebCqrlKeJua0.UdxwhTLuMBIgh70gSyxrk1cgT6',
             'avatar' => 'image/user_avatar_default.jpg',
-            'role_id' => 2,
         ];
     }
 
@@ -35,5 +35,12 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole('user');
+        });
     }
 }

@@ -47,7 +47,6 @@ class UserService implements UserServiceInterface
             'email' => $userInfo['email'],
             'password' => $userInfo['password'],
             'avatar' => $this->fileService->upload($avatar, 'avatar'),
-            'role_id' => $userInfo['role_id'],
         ];
         $this->fileService->delete($user->avatar);
         $user->update($infoUser);

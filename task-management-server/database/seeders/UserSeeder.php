@@ -18,7 +18,6 @@ class UserSeeder extends Seeder
             'fullname' => 'Nguyen Don Phuoc',
             'email' => 'admin@gmail.com',
             'password' => '$2y$10$rws9RlrlNjDHc5ebCqrlKeJua0.UdxwhTLuMBIgh70gSyxrk1cgT6',
-            'role_id' => 1
-        ]);
+        ])->assignRole([1]);
     }
 }

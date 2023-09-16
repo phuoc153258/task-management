@@ -47,7 +47,7 @@ class UserRepository implements UserRepositoryInterface
                 'fullname' => $userDetails['fullname'],
                 'password' => $userDetails['password']
             ]
-        );
+        )->assignRole([2]);
     }
 
     public function updateUser($orderId, array $newDetails)

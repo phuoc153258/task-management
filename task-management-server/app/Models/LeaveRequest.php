@@ -23,4 +23,9 @@ class LeaveRequest extends Model
     {
         $query->where('user_id', $id);
     }
+
+    public function scopePendingStatus(Builder $query): void
+    {
+        $query->where('status', 0)->where('accept_by', null);
+    }
 }
