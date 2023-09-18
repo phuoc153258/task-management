@@ -42,6 +42,8 @@ class RouteServiceProvider extends ServiceProvider
                     Route::prefix('auth')->group(base_path('routes/api/auth.php'));
                     Route::prefix('leave-request')->group(base_path('routes/api/leaveRequest.php'));
 
+                    Route::prefix('leave-request-type')->group(base_path('routes/api/leaveRequestType.php'));
+
                     Route::prefix('admin')->group(function () {
                         Route::prefix('leave-request')->group(base_path('routes/api/admin/leaveRequest.php'));
                     });

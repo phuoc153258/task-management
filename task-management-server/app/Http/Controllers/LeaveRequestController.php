@@ -31,8 +31,8 @@ class LeaveRequestController extends Controller
                 'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
                 'page' => empty($request->input('page')) ? 1 : intval($request->input('page')),
                 'is_paginate' => filter_var($request->input('is_paginate', true), FILTER_VALIDATE_BOOLEAN),
-                'search_by' => 'title',
-                'sort_by' => 'id',
+                'search_by' => 'content',
+                'sort_by' => 'created_at',
                 'select' => ['*']
             ];
             $leaveRequestResponse = $this->leaveRequestService->index($options, $user->id);

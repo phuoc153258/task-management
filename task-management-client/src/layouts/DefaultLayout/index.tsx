@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Sidebar from '../components/Sidebar';
 
 const DefaultLayout = ({
     children,
@@ -9,8 +9,13 @@ const DefaultLayout = ({
     return (
         <>
             <Header />
-            {children}
-            <Footer />
+            <div className="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+                <Sidebar />
+
+                <div className="relative h-full w-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
+                    <main>{children}</main>
+                </div>
+            </div>
         </>
     );
 };
