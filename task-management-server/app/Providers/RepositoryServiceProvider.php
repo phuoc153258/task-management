@@ -30,6 +30,10 @@ class RepositoryServiceProvider extends ServiceProvider
             LeaveRequestTypeRepositoryInterface::class,
             LeaveRequestTypeRepository::class,
         );
+        $this->app->bind(
+            'App\Repositories\Admin\LeaveRequest\LeaveRequestRepositoryInterface',
+            'App\Repositories\Admin\LeaveRequest\LeaveRequestRepository'
+        );
     }
 
     /**

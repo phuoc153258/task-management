@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LeaveRequest extends Model
 {
@@ -24,8 +25,13 @@ class LeaveRequest extends Model
         $query->where('user_id', $id);
     }
 
-    public function scopePendingStatus(Builder $query): void
+    public function scopeStatus(Builder $query): void
     {
         $query->where('status', 0)->where('accept_by', null);
+    }
+
+    public function leaveRequestType(): BelongsTo
+    {
+        return $this->belongsTo(LeaveRequestType::class);
     }
 }

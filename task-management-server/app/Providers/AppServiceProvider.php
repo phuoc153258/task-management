@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Admin\LeaveRequest\LeaveRequestService;
+use App\Services\Admin\LeaveRequest\LeaveRequestServiceInterface;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\File\FileService;
@@ -26,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             AuthServiceInterface::class,
             AuthService::class
+        );
+        $this->app->bind(
+            LeaveRequestServiceInterface::class,
+            LeaveRequestService::class
         );
     }
 
