@@ -194,3 +194,19 @@ export function convertDateTimePicker(datetime: any) {
     // Construct the final formatted date and time
     return `${parsedDate} ${parsedHours.toString().padStart(2, '0')}:${minutes}:00`;
 }
+
+export function formattedDateStr(date: any) {
+
+    const inputDate = new Date(date);
+
+    // Get the components of the date (year, month, day, hours, minutes, seconds)
+    const year = inputDate.getFullYear();
+    const month = String(inputDate.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+    const day = String(inputDate.getDate()).padStart(2, "0");
+    const hours = String(inputDate.getHours()).padStart(2, "0");
+    const minutes = String(inputDate.getMinutes()).padStart(2, "0");
+    const seconds = String(inputDate.getSeconds()).padStart(2, "0");
+
+    // Create the formatted date string
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}

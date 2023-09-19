@@ -5,6 +5,7 @@ namespace App\Services\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\File\FileService;
 use App\Services\User\UserServiceInterface;
+use Illuminate\Support\Facades\Hash;
 
 class UserService implements UserServiceInterface
 {
@@ -56,6 +57,7 @@ class UserService implements UserServiceInterface
         $user = $this->userRepository->getUserById($id);
         if (empty($user)) abort(400, trans('user.user-is-not-exist'));
 
+        if (!Hash::check($userInfo['old_password'], $user->password)) abort(400, 'Old password is not correct');
         $user->update($userInfo);
         return $user;
     }

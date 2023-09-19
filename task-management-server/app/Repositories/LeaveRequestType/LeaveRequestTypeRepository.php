@@ -18,7 +18,7 @@ class LeaveRequestTypeRepository implements LeaveRequestTypeRepositoryInterface
 
     public function getAll()
     {
-        return LeaveRequestType::all();
+        return LeaveRequestType::get();
     }
 
     public function getById(int $id)

@@ -15,6 +15,18 @@ class LeaveRequestService {
         return fetch.post(uri, params);
     }
 
+    static update(params: object, id: any) {
+        let uri =
+            LEAVE_REQUEST_ROUTER.update + id;
+        return fetch.put(uri, params);
+    }
+
+    static delete(params: object, id: any) {
+        let uri =
+            LEAVE_REQUEST_ROUTER.update + id;
+        return fetch.delete(uri, params);
+    }
+
     static show(params: object, id: any) {
         let uri =
             LEAVE_REQUEST_ROUTER.show + id;

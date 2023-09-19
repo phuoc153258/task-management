@@ -2,21 +2,24 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import FormDateTime from '../../../components/FormDateTime';
 import LeaveRequestService from '../../../services/leaveRequest';
-import { convertDateTimePicker } from '../../../helpers';
+import { convertDateTimePicker, formattedDateStr } from '../../../helpers';
 import { toast } from 'react-toastify';
 
 
 function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setIsFetchData }: any) {
     const [leaveRequest, setLeaveRequest] = useState({
         leave_request_type_id: 1,
-        start_date: '',
-        end_date: '',
+        start_date: new Date(),
+        end_date: new Date(),
         content: ''
     })
 
     const handleCreateLeaveRequest = async () => {
         try {
-            await LeaveRequestService.create(leaveRequest)
+            const leaveRequestInfo = {
+                ...leaveRequest, start_date: formattedDateStr(leaveRequest.start_date), end_date: formattedDateStr(leaveRequest.end_date)
+            }
+            await LeaveRequestService.create(leaveRequestInfo)
             setShowModal(false)
             setIsFetchData(!isFetchData)
             toast('Create leave request success');
@@ -90,8 +93,8 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                                 Start date
                             </label>
                             <FormDateTime callback={(e: any) => {
-                                setLeaveRequest({ ...leaveRequest, start_date: convertDateTimePicker(e.target.value) })
-                            }} />
+                                setLeaveRequest({ ...leaveRequest, start_date: e })
+                            }} value={leaveRequest.start_date} />
                         </div>
 
                         <div className="mb-6">
@@ -101,8 +104,8 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                                 End date
                             </label>
                             <FormDateTime callback={(e: any) => {
-                                setLeaveRequest({ ...leaveRequest, end_date: convertDateTimePicker(e.target.value) })
-                            }} />
+                                setLeaveRequest({ ...leaveRequest, end_date: e })
+                            }} value={leaveRequest.end_date} />
                         </div>
                         <div className="mb-6">
                             <label

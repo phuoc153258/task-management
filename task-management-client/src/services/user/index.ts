@@ -10,6 +10,11 @@ class UserService {
         let uri = USER_ROUTER.UPDATE_CURRENT_USER;
         return fetch.postFile(uri, formData);
     }
+
+    static password(params: any) {
+        let uri = USER_ROUTER.CHANGE_PASSWORD_USER;
+        return fetch.put(uri, params);
+    }
 }
 
 export default UserService;

@@ -63,7 +63,7 @@ const DefaultLayout = ({
                                 </div>
                             </div>
                             <div className="col-span-4 sm:col-span-9">
-                                <div className="bg-white shadow rounded-lg p-6">
+                                <div className="bg-white shadow rounded-lg p-6 w-full">
                                     {children}
                                 </div>
                             </div>

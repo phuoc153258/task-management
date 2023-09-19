@@ -2,47 +2,26 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import FormDateTime from '../../../components/FormDateTime';
 import LeaveRequestService from '../../../services/leaveRequest';
-import { convertDateTimePicker } from '../../../helpers';
+import { convertDateTimePicker, formattedDateStr } from '../../../helpers';
 import { toast } from 'react-toastify';
 
 
-function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setIsFetchData, leaveRequestId }: any) {
-    const [leaveRequest, setLeaveRequest] = useState<any>({
-        leave_request_type_id: 1,
-        start_date: '',
-        end_date: '',
-        content: ''
-    });
-    const [show, setShow] = useState(false);
+function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setIsFetchData, leaveRequest, setLeaveRequest }: any) {
 
     const handleCreateLeaveRequest = async () => {
         try {
-            await LeaveRequestService.create(leaveRequest)
-            setShow(false)
+            const leaveRequestInfo = {
+                ...leaveRequest, start_date: formattedDateStr(leaveRequest.start_date), end_date: formattedDateStr(leaveRequest.end_date)
+            }
+            await LeaveRequestService.update(leaveRequestInfo, leaveRequest.id)
+            setShowModal(false)
             setIsFetchData(!isFetchData)
-            toast('Create leave request success');
+            toast('Update leave request success');
         } catch (error) {
-            toast('Create leave request failed');
+            toast('Update leave request failed');
             console.log(error);
         }
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const fetchData = async () => {
-        try {
-            const leaveRequestsResponse: any = await LeaveRequestService.show({}, leaveRequestId)
-            setLeaveRequest(leaveRequestsResponse.data.data)
-            setShow(true)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-
-    if (!show) return <></>
 
     return (
         <div
@@ -108,7 +87,7 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                                 Start date
                             </label>
                             <FormDateTime value={leaveRequest.start_date} callback={(e: any) => {
-                                setLeaveRequest({ ...leaveRequest, start_date: convertDateTimePicker(e.target.value) })
+                                setLeaveRequest({ ...leaveRequest, start_date: e })
                             }} />
                         </div>
 
@@ -119,7 +98,7 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                                 End date
                             </label>
                             <FormDateTime value={leaveRequest.end_date} callback={(e: any) => {
-                                setLeaveRequest({ ...leaveRequest, end_date: convertDateTimePicker(e.target.value) })
+                                setLeaveRequest({ ...leaveRequest, end_date: e })
                             }} />
                         </div>
                         <div className="mb-6">

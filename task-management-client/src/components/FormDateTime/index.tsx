@@ -1,34 +1,16 @@
 import React, { useEffect } from 'react';
-import { Datetimepicker, Input, initTE } from 'tw-elements';
+import DateTimePicker from 'react-datetime-picker';
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const FormDateTime = ({ callback, value }: any) => {
-    useEffect(() => {
-        initTE({ Datetimepicker, Input });
-    }, []);
 
-    return (
-        <div
-            className="relative mb-3"
-            data-te-date-timepicker-init
-            data-te-input-wrapper-init
-            data-te-inline="true"
-            onChange={callback}
-            data-te-default-date={value.split(' ')[0]}
-            data-te-default-time={value.split(' ')[1]}
-        >
-            <input
-                type="text"
-                className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-4 py-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                id="form2"
-            />
-            <label
-                htmlFor="form2"
-                className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-            >
-                Select a time
-            </label>
-        </div>
-    );
+    return <DateTimePicker onChange={callback} value={value === undefined ? '' : value} format={"d-MM-yyyy HH:mm:ss"} />
+
 };
 
 export default FormDateTime;

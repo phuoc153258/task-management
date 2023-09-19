@@ -5,6 +5,7 @@ import LeaveRequestService from '../../services/leaveRequest';
 import LeaveRequestTypeService from '../../services/leaveRequestType';
 import CreateLeaveRequest from './Modal/CreateLeaveRequest';
 import UpdateLeaveRequest from './Modal/UpdateLeaveRequest';
+import { toast } from 'react-toastify';
 
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +19,7 @@ function Home() {
         limit: 10,
         search: '',
     });
-    const [updateLeaveRequestId, setUpdateLeaveRequestId] = useState(null);
+    const [updateLeaveRequest, setUpdateLeaveRequest] = useState(null);
 
     const [showModalCreate, setShowModalCreate] = useState(false);
     const [showModalUpdate, setShowModalUpdate] = useState(false);
@@ -62,6 +63,28 @@ function Home() {
             console.log(error);
         }
     };
+
+    const getLeaveRequest = async (id: any) => {
+        try {
+            const leaveRequestsResponse: any = await LeaveRequestService.show({}, id)
+            setUpdateLeaveRequest(leaveRequestsResponse.data.data)
+            setShowModalUpdate(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleDeleteLeaveRequest = async (id: any) => {
+        try {
+            if (window.confirm('Xóa mục này !')) {
+                const leaveRequestsResponse: any = await LeaveRequestService.delete({}, id)
+                setIsFetchData(!isFetchData);
+                toast('Delete leave request success');
+            }
+        } catch (error) {
+            toast('Delete leave request failed')
+        }
+    }
 
     useEffect(() => {
         fetchData();
@@ -267,8 +290,8 @@ function Home() {
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => {
-                                                                        setUpdateLeaveRequestId(value.id)
-                                                                        setShowModalUpdate(true)
+                                                                        getLeaveRequest(value.id)
+
                                                                     }}
                                                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-indigo-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                                                 >
@@ -289,6 +312,9 @@ function Home() {
                                                                 </button>
                                                                 <button
                                                                     type="button"
+                                                                    onClick={() => {
+                                                                        handleDeleteLeaveRequest(value.id)
+                                                                    }}
                                                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
                                                                 >
                                                                     <svg
@@ -419,7 +445,7 @@ function Home() {
             )}
 
             {showModalUpdate === true && (
-                <UpdateLeaveRequest setShowModal={setShowModalUpdate} leaveRequestTypes={leaveRequestTypes} isFetchData={isFetchData} setIsFetchData={setIsFetchData} leaveRequestId={updateLeaveRequestId} />
+                <UpdateLeaveRequest setShowModal={setShowModalUpdate} leaveRequestTypes={leaveRequestTypes} isFetchData={isFetchData} setIsFetchData={setIsFetchData} leaveRequest={updateLeaveRequest} setLeaveRequest={setUpdateLeaveRequest} />
             )}
         </>
     );
