@@ -18,7 +18,7 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
 
     public function getLeaveRequests($options)
     {
-        $query = LeaveRequest::status();
+        $query = LeaveRequest::with('leaveRequestType')->status();
         $leaveRequestResponse = $this->paginateService->paginate($options, $query);
         return $leaveRequestResponse;
     }

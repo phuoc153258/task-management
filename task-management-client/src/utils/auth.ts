@@ -50,4 +50,13 @@ function isAuthenticate() {
     return true;
 }
 
-export { setToken, setUser, Logout, getCurrentUser, getCurrentToken, isAuthenticate };
+function isHaveRole(role: any) {
+    const token: string = cookie.get('token')!;
+    const user: string = cookie.get('user')!;
+    if (token === undefined || user === undefined) return false;
+    const userJson = JSON.parse(user)
+    if (userJson.role[0].id != role) return false
+    return true;
+}
+
+export { setToken, setUser, Logout, getCurrentUser, getCurrentToken, isAuthenticate, isHaveRole };
