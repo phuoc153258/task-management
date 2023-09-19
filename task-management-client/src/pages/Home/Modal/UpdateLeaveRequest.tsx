@@ -6,18 +6,19 @@ import { convertDateTimePicker } from '../../../helpers';
 import { toast } from 'react-toastify';
 
 
-function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setIsFetchData }: any) {
-    const [leaveRequest, setLeaveRequest] = useState({
+function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setIsFetchData, leaveRequestId }: any) {
+    const [leaveRequest, setLeaveRequest] = useState<any>({
         leave_request_type_id: 1,
         start_date: '',
         end_date: '',
         content: ''
-    })
+    });
+    const [show, setShow] = useState(false);
 
     const handleCreateLeaveRequest = async () => {
         try {
             await LeaveRequestService.create(leaveRequest)
-            setShowModal(false)
+            setShow(false)
             setIsFetchData(!isFetchData)
             toast('Create leave request success');
         } catch (error) {
@@ -25,6 +26,23 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
             console.log(error);
         }
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchData = async () => {
+        try {
+            const leaveRequestsResponse: any = await LeaveRequestService.show({}, leaveRequestId)
+            setLeaveRequest(leaveRequestsResponse.data.data)
+            setShow(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    if (!show) return <></>
 
     return (
         <div
@@ -37,7 +55,7 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                     {/* Modal header */}
                     <div className="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-2xl font-semibold text-gray-900 dark:text-white m-0">
-                            Add leave request
+                            Details leave request
                         </h3>
                         <button
                             type="button"
@@ -77,7 +95,7 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                                 <>
                                     {
                                         leaveRequestTypes.map((value: any, index: any) => {
-                                            return <option key={index} value={value.id}>{value.title}</option>
+                                            return <option selected={value.id === leaveRequest.leave_request_type_id} key={index} value={value.id}>{value.title}</option>
                                         })
                                     }
                                 </>
@@ -89,7 +107,7 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                             >
                                 Start date
                             </label>
-                            <FormDateTime callback={(e: any) => {
+                            <FormDateTime value={leaveRequest.start_date} callback={(e: any) => {
                                 setLeaveRequest({ ...leaveRequest, start_date: convertDateTimePicker(e.target.value) })
                             }} />
                         </div>
@@ -100,7 +118,7 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                             >
                                 End date
                             </label>
-                            <FormDateTime callback={(e: any) => {
+                            <FormDateTime value={leaveRequest.end_date} callback={(e: any) => {
                                 setLeaveRequest({ ...leaveRequest, end_date: convertDateTimePicker(e.target.value) })
                             }} />
                         </div>
@@ -119,8 +137,10 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                                 onChange={(e: any) => {
                                     setLeaveRequest({ ...leaveRequest, content: e.target.value })
                                 }}
+                                value={leaveRequest.content}
                             ></textarea>
                         </div>
+
                     </div>
                     {/* Modal footer */}
                     <div className="flex items-center justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -147,4 +167,4 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
     );
 }
 
-export default CreateLeaveRequest;
+export default UpdateLeaveRequest;

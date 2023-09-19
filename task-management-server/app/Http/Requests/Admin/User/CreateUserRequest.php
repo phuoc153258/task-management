@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Requests\LeaveRequest;
+namespace App\Http\Requests\Admin\User;
 
-use App\Traits\HttpResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateLeaveRequestRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
-    use HttpResponseTrait;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,15 +23,16 @@ class CreateLeaveRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|string|min:5|max:50',
-            'leave_request_type_id' => [
+            'username' => 'required|string|min:5|max:50',
+            'fullname' => 'required|string|min:5|max:50',
+            'email' => 'required|email|min:5|max:50|unique:users',
+            'password' => 'required|string|min:5|max:50',
+            'role_id' => [
                 'required',
                 'numeric',
                 'min:1',
-                Rule::exists('leave_request_types', 'id'),
+                Rule::exists('roles', 'id'),
             ],
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
         ];
     }
 }

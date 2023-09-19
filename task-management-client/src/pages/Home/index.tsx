@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { isAuthenticate } from '../../utils';
 import { Link, useNavigate } from 'react-router-dom';
 import LeaveRequestService from '../../services/leaveRequest';
 import LeaveRequestTypeService from '../../services/leaveRequestType';
 import CreateLeaveRequest from './Modal/CreateLeaveRequest';
+import UpdateLeaveRequest from './Modal/UpdateLeaveRequest';
 
 function Home() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFetchData, setIsFetchData] = useState<any>(false);
+
     const [leaveRequests, setLeaveRequests] = useState([]);
     const [leaveRequestTypes, setLeaveRequestTypes] = useState([]);
     const [paginate, setPaginate] = useState({
@@ -15,9 +18,10 @@ function Home() {
         limit: 10,
         search: '',
     });
-    const [isLoading, setIsLoading] = useState(true);
-    const [isFetchData, setIsFetchData] = useState<any>(false);
+    const [updateLeaveRequestId, setUpdateLeaveRequestId] = useState(null);
+
     const [showModalCreate, setShowModalCreate] = useState(false);
+    const [showModalUpdate, setShowModalUpdate] = useState(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchData = async () => {
@@ -167,7 +171,7 @@ function Home() {
                                 setShowModalCreate(true);
                             }}
                         >
-                            Add new product
+                            Add leave request
                         </button>
                     </div>
                 </div>
@@ -247,21 +251,25 @@ function Home() {
                                                             </td>
                                                             <td className="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                                 {value.status ===
-                                                                0
+                                                                    0
                                                                     ? 'pending'
                                                                     : ''}
                                                                 {value.status ===
-                                                                1
+                                                                    1
                                                                     ? 'accept'
                                                                     : ''}
                                                                 {value.status ===
-                                                                2
+                                                                    2
                                                                     ? 'reject'
                                                                     : ''}
                                                             </td>
                                                             <td className="p-4 space-x-2 whitespace-nowrap">
                                                                 <button
                                                                     type="button"
+                                                                    onClick={() => {
+                                                                        setUpdateLeaveRequestId(value.id)
+                                                                        setShowModalUpdate(true)
+                                                                    }}
                                                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-indigo-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                                                 >
                                                                     <svg
@@ -352,7 +360,6 @@ function Home() {
                                     ...paginate,
                                     page: paginate.page - 1,
                                 });
-                                await fetchLeaveRequestType();
                             }
                         }}
                         className="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -378,7 +385,6 @@ function Home() {
                                     ...paginate,
                                     page: paginate.page + 1,
                                 });
-                                await fetchLeaveRequestType();
                             }
                         }}
                         className="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -409,7 +415,11 @@ function Home() {
                 </div>
             </div>
             {showModalCreate === true && (
-                <CreateLeaveRequest setShowModal={setShowModalCreate} />
+                <CreateLeaveRequest setShowModal={setShowModalCreate} leaveRequestTypes={leaveRequestTypes} isFetchData={isFetchData} setIsFetchData={setIsFetchData} />
+            )}
+
+            {showModalUpdate === true && (
+                <UpdateLeaveRequest setShowModal={setShowModalUpdate} leaveRequestTypes={leaveRequestTypes} isFetchData={isFetchData} setIsFetchData={setIsFetchData} leaveRequestId={updateLeaveRequestId} />
             )}
         </>
     );

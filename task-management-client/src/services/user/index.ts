@@ -6,6 +6,10 @@ class UserService {
         let uri = USER_ROUTER.GET_ME;
         return fetch.post(uri, params);
     }
+    static update(formData: any) {
+        let uri = USER_ROUTER.UPDATE_CURRENT_USER;
+        return fetch.postFile(uri, formData);
+    }
 }
 
 export default UserService;

@@ -8,6 +8,18 @@ class LeaveRequestService {
             `?search=${paginate.search}&page=${paginate.page}&limit=${paginate.limit}`;
         return fetch.get(uri, params);
     }
+
+    static create(params: object) {
+        let uri =
+            LEAVE_REQUEST_ROUTER.create;
+        return fetch.post(uri, params);
+    }
+
+    static show(params: object, id: any) {
+        let uri =
+            LEAVE_REQUEST_ROUTER.show + id;
+        return fetch.get(uri, params);
+    }
 }
 
 export default LeaveRequestService;

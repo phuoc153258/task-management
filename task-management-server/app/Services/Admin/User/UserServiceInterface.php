@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\Admin\User;
 
 interface UserServiceInterface
 {
@@ -11,8 +11,6 @@ interface UserServiceInterface
     public function create($userInfo);
 
     public function update($userInfo, $id, $avatar);
-
-    public function password($userInfo, $id);
 
     public function delete($id);
 }

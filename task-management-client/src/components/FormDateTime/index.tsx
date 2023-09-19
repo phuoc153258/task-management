@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Datetimepicker, Input, initTE } from 'tw-elements';
-const FormDateTime = () => {
+
+const FormDateTime = ({ callback, value }: any) => {
     useEffect(() => {
         initTE({ Datetimepicker, Input });
     }, []);
@@ -11,10 +12,13 @@ const FormDateTime = () => {
             data-te-date-timepicker-init
             data-te-input-wrapper-init
             data-te-inline="true"
+            onChange={callback}
+            data-te-default-date={value.split(' ')[0]}
+            data-te-default-time={value.split(' ')[1]}
         >
             <input
                 type="text"
-                className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-4 py-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                 id="form2"
             />
             <label

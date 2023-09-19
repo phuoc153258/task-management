@@ -66,9 +66,8 @@ export function formatPeriod(fromDate: string, toDate: string) {
     try {
         const fromDateOriginal = new Date(fromDate);
         const toDateOriginal = new Date(toDate);
-        return `${fromDateOriginal.getDate() ?? '--'}/${fromDateOriginal.getMonth() + 1 ?? '--'} - ${
-            toDateOriginal.getDate() ?? '--'
-        }/${toDateOriginal.getMonth() + 1 ?? '--'}/${toDateOriginal.getFullYear() ?? '----'}`;
+        return `${fromDateOriginal.getDate() ?? '--'}/${fromDateOriginal.getMonth() + 1 ?? '--'} - ${toDateOriginal.getDate() ?? '--'
+            }/${toDateOriginal.getMonth() + 1 ?? '--'}/${toDateOriginal.getFullYear() ?? '----'}`;
     } catch (e) {
         console.log(e);
     }
@@ -78,9 +77,8 @@ export function formatWeek(fromDate: string, toDate: string) {
     try {
         const fromDateOriginal = new Date(fromDate);
         const toDateOriginal = new Date(toDate);
-        return `${fromDateOriginal.getDate() ?? '--'} - ${toDateOriginal.getDate() ?? '--'}/${
-            toDateOriginal.getMonth() + 1 ?? '--'
-        }`;
+        return `${fromDateOriginal.getDate() ?? '--'} - ${toDateOriginal.getDate() ?? '--'}/${toDateOriginal.getMonth() + 1 ?? '--'
+            }`;
     } catch (e) {
         console.log(e);
     }
@@ -170,4 +168,29 @@ export function calculateCreatedime(timeStart: string | number | Date) {
     else if (timeSpace <= 7 && timeSpace > 0) return timeSpace + ' days ago';
     else if (timeSpace % 7 < 4) return timeSpace + ' weeks ago';
     else return timeSpace + 'month ago';
+}
+
+export function convertDateTimePicker(datetime: any) {
+
+    // Split the input string into date and time parts
+    const [datePart, timePart] = datetime.split(', ');
+
+    // Parse the date part
+    const [day, month, year] = datePart.split('/');
+    const parsedDate = `${year}-${month}-${day}`;
+
+    // Parse the time part
+    const [time, meridiem] = timePart.split(' ');
+    const [hours, minutes] = time.split(':');
+
+    // Convert hours to 24-hour format if needed
+    let parsedHours = parseInt(hours, 10);
+    if (meridiem === "PM" && parsedHours !== 12) {
+        parsedHours += 12;
+    } else if (meridiem === "AM" && parsedHours === 12) {
+        parsedHours = 0;
+    }
+
+    // Construct the final formatted date and time
+    return `${parsedDate} ${parsedHours.toString().padStart(2, '0')}:${minutes}:00`;
 }

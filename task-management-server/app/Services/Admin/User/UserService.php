@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\Admin\User;
 
-use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\Admin\User\UserRepositoryInterface;
 use App\Services\File\FileService;
-use App\Services\User\UserServiceInterface;
+use App\Services\Admin\User\UserServiceInterface;
 
 class UserService implements UserServiceInterface
 {
@@ -42,21 +42,15 @@ class UserService implements UserServiceInterface
         if (empty($user)) abort(400, trans('user.user-is-not-exist'));
 
         $infoUser = [
+            'username' => $userInfo['username'],
             'fullname' => $userInfo['fullname'],
             'email' => $userInfo['email'],
+            'password' => $userInfo['password'],
             'avatar' => $this->fileService->upload($avatar, 'avatar'),
         ];
         $this->fileService->delete($user->avatar);
         $user->update($infoUser);
-        return $user;
-    }
-
-    public function password($userInfo, $id)
-    {
-        $user = $this->userRepository->getUserById($id);
-        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
-
-        $user->update($userInfo);
+        $user->syncRoles([])->assignRole($userInfo['role_id']);
         return $user;
     }
 

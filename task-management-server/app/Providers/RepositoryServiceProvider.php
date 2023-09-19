@@ -34,6 +34,14 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Admin\LeaveRequest\LeaveRequestRepositoryInterface',
             'App\Repositories\Admin\LeaveRequest\LeaveRequestRepository'
         );
+        $this->app->bind(
+            'App\Repositories\Admin\User\UserRepositoryInterface',
+            'App\Repositories\Admin\User\UserRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Admin\Role\RoleRepositoryInterface',
+            'App\Repositories\Admin\Role\RoleRepository'
+        );
     }
 
     /**

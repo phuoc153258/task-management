@@ -4,12 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
-Route::get('/', [UserController::class, 'index']);
 
-Route::get('/{id}', [UserController::class, 'show']);
+Route::group(['middleware' => ['auth:api']], function () {
 
-Route::post('/', [UserController::class, 'create']);
+    Route::post('/', [UserController::class, 'update']);
 
-Route::post('/{id}', [UserController::class, 'update']);
-
-Route::delete('/{id}', [UserController::class, 'delete']);
+    Route::put('/password', [UserController::class, 'password']);
+});
