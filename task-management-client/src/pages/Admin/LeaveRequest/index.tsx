@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useStore } from '../../../hooks';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LeaveRequestService from '../../../services/admin/leaveRequest';
 import { toast } from 'react-toastify';
 import DetailLeaveRequest from './Modal/DetailLeaveRequest';
+import { isHaveRole } from '../../../utils';
 
 function LeaveRequest() {
     const [state, dispatch] = useStore()
+    const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState(true);
     const [isFetchData, setIsFetchData] = useState<any>(false);
@@ -65,6 +67,8 @@ function LeaveRequest() {
     };
 
     useEffect(() => {
+        const isAuth = isHaveRole(1);
+        if (!isAuth) navigate('/');
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFetchData]);

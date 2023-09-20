@@ -34,7 +34,7 @@ class AuthService implements AuthServiceInterface
     public function me()
     {
         $user = auth()->user();
-        $userInfo = User::with('role')->find($user->id);
+        $userInfo = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->find($user->id);
         return $userInfo;
     }
 

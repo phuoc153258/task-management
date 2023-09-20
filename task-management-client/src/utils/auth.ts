@@ -55,7 +55,7 @@ function isHaveRole(role: any) {
     const user: string = cookie.get('user')!;
     if (token === undefined || user === undefined) return false;
     const userJson = JSON.parse(user)
-    if (userJson.role[0].id != role) return false
+    if (userJson.role_id != role) return false
     return true;
 }
 
