@@ -6,6 +6,7 @@ import { isHaveRole } from '../../../utils';
 import UserService from '../../../services/admin/user';
 import RoleService from '../../../services/admin/role';
 import CreateUser from './Modal/CreateUser';
+import DetailUser from './Modal/DetailUser';
 
 function User() {
     const navigate = useNavigate()
@@ -62,6 +63,16 @@ function User() {
             }
         } catch (error) {
             toast('Delete user failed')
+        }
+    }
+
+    const getUser = async (id: any) => {
+        try {
+            const userResponse: any = await UserService.show({}, id)
+            setUser(userResponse.data.data)
+            setShowModalDetail(true)
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -203,9 +214,9 @@ function User() {
                                                             <td className="p-4 space-x-2 whitespace-nowrap">
                                                                 <button
                                                                     type="button"
-                                                                    // onClick={() => {
-                                                                    //     getLeaveRequest(value.id)
-                                                                    // }}
+                                                                    onClick={() => {
+                                                                        getUser(value.id)
+                                                                    }}
                                                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-indigo-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                                                 >
                                                                     <svg
@@ -354,6 +365,7 @@ function User() {
                 </div>
             </div>
             {showModalCreate === true && <CreateUser setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} roles={roles} />}
+            {showModalDetail === true && <DetailUser setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} roles={roles} user={user} />}
         </>
     );
 }

@@ -27,6 +27,12 @@ class UserService {
         return fetch.post(uri, params);
     }
 
+    static password(params: any, id: any) {
+        let uri =
+            ADMIN_USER_ROUTER.show + id + '/password';
+        return fetch.postFile(uri, params);
+    }
+
     static delete(params: any, id: any) {
         let uri =
             ADMIN_USER_ROUTER.show + id;

@@ -25,7 +25,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserById($userId)
     {
-        return User::findOrFail($userId);
+        return User::with('roles')->findOrFail($userId);
     }
 
     public function getUserByCondition($field, $value)

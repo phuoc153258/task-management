@@ -26,7 +26,6 @@ class UpdateUserRequest extends FormRequest
             'username' => 'required|string|min:5|max:50',
             'fullname' => 'required|string|min:5|max:50',
             'email' => 'required|email|min:5|max:50|unique:users',
-            'password' => 'required|string|min:5|max:50',
             'avatar' => 'required',
             'role_id' => [
                 'required',
