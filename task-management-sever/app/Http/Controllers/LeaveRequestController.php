@@ -27,12 +27,12 @@ class LeaveRequestController extends Controller
             $user = $this->getCurrentUser();
             $options = [
                 'search' => empty($request->input('search')) ? '' : $request->input('search'),
-                'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
                 'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
                 'page' => empty($request->input('page')) ? 1 : intval($request->input('page')),
                 'is_paginate' => filter_var($request->input('is_paginate', true), FILTER_VALIDATE_BOOLEAN),
                 'search_by' => 'content',
-                'sort_by' => 'created_at',
+                'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
+                'sort_by' => empty($request->input('sort_by')) ? 'id' : $request->input('sort_by'),
                 'select' => ['*']
             ];
             $leaveRequestResponse = $this->leaveRequestService->index($options, $user->id);

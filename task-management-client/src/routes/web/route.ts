@@ -6,6 +6,7 @@ const route = {
     register: '/register',
     profile: '/profile',
     password: '/password',
+    user: '/user',
 };
 
 export default route;

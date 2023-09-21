@@ -67,7 +67,7 @@ function LeaveRequest() {
     };
 
     useEffect(() => {
-        const isAuth = isHaveRole(1);
+        const isAuth = isHaveRole([1, 4]);
         if (!isAuth) navigate('/');
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps

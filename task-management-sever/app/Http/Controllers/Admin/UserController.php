@@ -24,12 +24,12 @@ class UserController extends Controller
         try {
             $options = [
                 'search' => empty($request->input('search')) ? '' : $request->input('search'),
-                'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
                 'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
                 'page' => empty($request->input('page')) ? 1 : intval($request->input('page')),
                 'is_paginate' => filter_var($request->input('is_paginate', true), FILTER_VALIDATE_BOOLEAN),
                 'search_by' => 'username',
-                'sort_by' => 'id',
+                'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
+                'sort_by' => empty($request->input('sort_by')) ? 'id' : $request->input('sort_by'),
                 'select' => ['*']
             ];
             $userResponse = $this->userService->index($options);

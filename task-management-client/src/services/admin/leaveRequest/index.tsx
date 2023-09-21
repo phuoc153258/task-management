@@ -5,7 +5,7 @@ class LeaveRequestService {
     static index(params: object, paginate: any) {
         let uri =
             ADMIN_LEAVE_REQUEST_ROUTER.index +
-            `?search=${paginate.search}&page=${paginate.page}&limit=${paginate.limit}`;
+            `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&limit=${paginate.limit}`;
         return fetch.get(uri, params);
     }
 
