@@ -12,5 +12,7 @@ interface UserServiceInterface
 
     public function update($userInfo, $id, $avatar);
 
+    public function password($id);
+
     public function delete($id);
 }

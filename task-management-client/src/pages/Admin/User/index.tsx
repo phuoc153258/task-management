@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { isHaveRole } from '../../../utils';
 import UserService from '../../../services/admin/user';
 import RoleService from '../../../services/admin/role';
+import CreateUser from './Modal/CreateUser';
 
 function User() {
     const navigate = useNavigate()
@@ -14,6 +15,7 @@ function User() {
 
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState([]);
+    const [roles, setRoles] = useState([]);
     const [paginate, setPaginate] = useState({
         page: 1,
         limit: 10,
@@ -36,7 +38,6 @@ function User() {
             );
             const rolesPromise = RoleService.index({})
             const response: any = await Promise.all([usersPromise, rolesPromise])
-
             setUsers(response[0].data.data.data);
             setPaginate({
                 ...paginate,
@@ -45,11 +46,24 @@ function User() {
                 limit: response[0].data.data.limit,
                 total: response[0].data.data.total,
             });
+            setRoles(response[1].data.data)
             setIsLoading(false);
         } catch (error) {
             console.log(error);
         }
     };
+
+    const handleDeleteUser = async (id: any) => {
+        try {
+            if (window.confirm('Delete this user ?')) {
+                await UserService.delete({}, id)
+                setIsFetchData(!isFetchData);
+                toast('Delete user success');
+            }
+        } catch (error) {
+            toast('Delete user failed')
+        }
+    }
 
     useEffect(() => {
         const isAuth = isHaveRole([1]);
@@ -212,9 +226,9 @@ function User() {
 
                                                                 <button
                                                                     type="button"
-                                                                    // onClick={() => {
-                                                                    //     handleUpdateStatus(value.id, 2)
-                                                                    // }}
+                                                                    onClick={() => {
+                                                                        handleDeleteUser(value.id)
+                                                                    }}
                                                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
                                                                 >
                                                                     <svg
@@ -339,6 +353,7 @@ function User() {
                     </span>
                 </div>
             </div>
+            {showModalCreate === true && <CreateUser setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} roles={roles} />}
         </>
     );
 }

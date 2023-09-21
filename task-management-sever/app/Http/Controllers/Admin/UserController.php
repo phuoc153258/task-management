@@ -72,6 +72,16 @@ class UserController extends Controller
         }
     }
 
+    public function password($id)
+    {
+        try {
+            $userResponse = $this->userService->password($id);
+            return $this->success($userResponse, trans('user.update-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
+        }
+    }
+
     public function delete($id)
     {
         try {

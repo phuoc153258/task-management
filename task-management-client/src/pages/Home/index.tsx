@@ -83,7 +83,7 @@ function Home() {
 
     const handleDeleteLeaveRequest = async (id: any) => {
         try {
-            if (window.confirm('Xóa mục này !')) {
+            if (window.confirm('Delete this leave request')) {
                 await LeaveRequestService.delete({}, id)
                 setIsFetchData(!isFetchData);
                 toast('Delete leave request success');

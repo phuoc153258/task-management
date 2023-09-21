@@ -54,6 +54,17 @@ class UserService implements UserServiceInterface
         return $user;
     }
 
+    public function password($id)
+    {
+        $user = $this->userRepository->getUserById($id);
+        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
+        $infoUser = [
+            'password' => '123456',
+        ];
+        $user->update($infoUser);
+        return $user;
+    }
+
     public function delete($id)
     {
         $user = $this->userRepository->getUserById($id);

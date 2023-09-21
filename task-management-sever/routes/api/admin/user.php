@@ -14,5 +14,7 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
 
     Route::post('/{id}', [UserController::class, 'update']);
 
+    Route::put('/{id}/password', [UserController::class, 'password']);
+
     Route::delete('/{id}', [UserController::class, 'delete']);
 });
