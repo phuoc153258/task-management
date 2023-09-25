@@ -14,7 +14,7 @@ const DefaultLayout = ({
             <ToastContainer />
             <Header />
 
-            <div className="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+            <div className="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900 h-screen">
                 <div className="bg-gray-100 w-full">
                     <div className="container mx-auto py-8">
                         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">

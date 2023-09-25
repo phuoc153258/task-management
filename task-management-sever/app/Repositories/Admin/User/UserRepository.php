@@ -18,7 +18,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUsers($options)
     {
-        $query =  DB::table('users');
+        $query =  User::query();
         $userResponse = $this->paginateService->paginate($options, $query);
         return $userResponse;
     }

@@ -42,6 +42,22 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Admin\Role\RoleRepositoryInterface',
             'App\Repositories\Admin\Role\RoleRepository'
         );
+        $this->app->bind(
+            'App\Repositories\Admin\Project\ProjectRepositoryInterface',
+            'App\Repositories\Admin\Project\ProjectRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Project\ProjectRepositoryInterface',
+            'App\Repositories\Project\ProjectRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\UserProject\UserProjectRepositoryInterface',
+            'App\Repositories\UserProject\UserProjectRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Task\TaskRepositoryInterface',
+            'App\Repositories\Task\TaskRepository'
+        );
     }
 
     /**

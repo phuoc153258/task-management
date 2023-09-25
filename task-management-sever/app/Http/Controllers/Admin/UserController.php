@@ -7,12 +7,12 @@ use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Repositories\Admin\User\UserRepositoryInterface;
 use App\Services\Admin\User\UserService;
-use App\Traits\HttpResponseTrait;
+use App\Traits\HttpResponsable;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    use HttpResponseTrait;
+    use HttpResponsable;
     private UserService $userService;
     public function __construct(UserRepositoryInterface $userRepository)
     {

@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\Admin\Role\RoleRepositoryInterface;
 use App\Services\Admin\Role\RoleService;
-use App\Traits\HttpResponseTrait;
+use App\Traits\HttpResponsable;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    use HttpResponseTrait;
+    use HttpResponsable;
     private RoleService $roleService;
     public function __construct(RoleRepositoryInterface $roleRepository)
     {

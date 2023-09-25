@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\User;
 
-use App\Traits\HttpResponseTrait;
+use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateUserRequest extends FormRequest
 {
-    use HttpResponseTrait;
+    use HttpResponsable;
 
     /**
      * Determine if the user is authorized to make this request.

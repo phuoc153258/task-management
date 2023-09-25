@@ -22,17 +22,20 @@ class PaginateService implements PaginateServiceInterface
             $query
                 ->orderBy($options['sort_by'], $options['sort']);
 
-        $total = $query->count();
-        $data = $query->offset(($options['page'] - 1) *  $options['limit'])
-            ->limit($options['limit']);
+        $data = $query->select($options['select'])->paginate($options['limit'], ['page' => $options['page']]);
+        return $data;
 
-        return [
-            'data' => $data->select($options['select'])->get(),
-            'total' => $total,
-            'limit' =>  $options['limit'],
-            'page' => $options['page'],
-            'sort' => $options['sort'],
-            'last_page' => ceil($total /  $options['limit'])
-        ];
+        // $total = $query->count();
+        // $data = $query->offset(($options['page'] - 1) *  $options['limit'])
+        //     ->limit($options['limit']);
+
+        // return [
+        //     'data' => $data->select($options['select'])->get(),
+        //     'total' => $total,
+        //     'limit' =>  $options['limit'],
+        //     'page' => $options['page'],
+        //     'sort' => $options['sort'],
+        //     'last_page' => ceil($total /  $options['limit'])
+        // ];
     }
 }

@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthService;
-use App\Traits\HttpResponseTrait;
+use App\Traits\HttpResponsable;
 
 class AuthController extends Controller
 {
-    use HttpResponseTrait;
+    use HttpResponsable;
 
     private AuthService $authService;
 

@@ -42,9 +42,9 @@ function User() {
             setUsers(response[0].data.data.data);
             setPaginate({
                 ...paginate,
-                page: response[0].data.data.page,
+                page: response[0].data.data.current_page,
                 last_page: response[0].data.data.last_page,
-                limit: response[0].data.data.limit,
+                limit: response[0].data.data.per_page,
                 total: response[0].data.data.total,
             });
             setRoles(response[1].data.data)

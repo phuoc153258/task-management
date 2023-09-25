@@ -19,5 +19,12 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => '$2y$10$rws9RlrlNjDHc5ebCqrlKeJua0.UdxwhTLuMBIgh70gSyxrk1cgT6',
         ])->assignRole([1]);
+
+        User::create([
+            'username' => 'user',
+            'fullname' => 'Nguyen Don Phuoc',
+            'email' => 'user@gmail.com',
+            'password' => '$2y$10$rws9RlrlNjDHc5ebCqrlKeJua0.UdxwhTLuMBIgh70gSyxrk1cgT6',
+        ])->assignRole([2]);
     }
 }

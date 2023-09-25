@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\ChangepasswordRequest;
 use Illuminate\Http\Request;
 
-use App\Traits\HttpResponseTrait;
+use App\Traits\HttpResponsable;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\User\UserService;
-use App\Traits\AuthorizationTrait;
+use App\Traits\Authorizable;
 
 class UserController extends Controller
 {
-    use HttpResponseTrait, AuthorizationTrait;
+    use HttpResponsable, Authorizable;
     private UserService $userService;
     public function __construct(UserRepositoryInterface $userRepository)
     {

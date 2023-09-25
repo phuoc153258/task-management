@@ -50,9 +50,9 @@ function Home() {
             setLeaveRequests(leaveRequestsResponse.data.data.data);
             setPaginate({
                 ...paginate,
-                page: leaveRequestsResponse.data.data.page,
+                page: leaveRequestsResponse.data.data.current_page,
                 last_page: leaveRequestsResponse.data.data.last_page,
-                limit: leaveRequestsResponse.data.data.limit,
+                limit: leaveRequestsResponse.data.data.per_page,
                 total: leaveRequestsResponse.data.data.total,
             });
             setIsLoading(false);

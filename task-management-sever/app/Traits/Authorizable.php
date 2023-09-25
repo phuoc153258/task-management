@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait AuthorizationTrait
+trait Authorizable
 {
     protected function getCurrentUser()
     {

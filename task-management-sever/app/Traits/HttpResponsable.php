@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-trait HttpResponseTrait
+trait HttpResponsable
 {
     protected function success($data = null, $message = null, $code = 200)
     {

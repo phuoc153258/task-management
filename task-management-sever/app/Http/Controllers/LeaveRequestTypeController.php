@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
 use App\Services\LeaveRequestType\LeaveRequestTypeService;
-use App\Traits\AuthorizationTrait;
-use App\Traits\HttpResponseTrait;
+use App\Traits\Authorizable;
+use App\Traits\HttpResponsable;
 use Illuminate\Http\Request;
 
 class LeaveRequestTypeController extends Controller
 {
-    use HttpResponseTrait, AuthorizationTrait;
+    use HttpResponsable, Authorizable;
     private LeaveRequestTypeService $leaveRequestType;
     public function __construct(LeaveRequestTypeRepositoryInterface $leaveRequestType)
     {

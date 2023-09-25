@@ -13,8 +13,8 @@ class LeaveRequestTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        LeaveRequestType::create(['title' => 'Nghỉ có phép']);
-        LeaveRequestType::create(['title' => 'Nghỉ không lương']);
-        LeaveRequestType::create(['title' => 'Khác']);
+        LeaveRequestType::create(['title' => 'Paid leave']);
+        LeaveRequestType::create(['title' => 'Unpaid leave']);
+        LeaveRequestType::create(['title' => 'Other']);
     }
 }

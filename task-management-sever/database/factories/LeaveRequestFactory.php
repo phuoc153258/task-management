@@ -22,8 +22,8 @@ class LeaveRequestFactory extends Factory
             'end_date' => $this->faker->dateTimeBetween('now', '+90 days'),
             'accept_by' => null,
             'status' => 0,
-            'user_id' => 1,
-            'leave_request_type_id' => 1
+            'user_id' => fake()->randomElement([1, 2]),
+            'leave_request_type_id' =>  fake()->randomElement([1, 2, 3])
         ];
     }
 }

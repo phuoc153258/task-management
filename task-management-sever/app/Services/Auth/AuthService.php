@@ -5,11 +5,11 @@ namespace App\Services\Auth;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthServiceInterface;
-use App\Traits\JwtResponseTrait;
+use App\Traits\JwtResponsable;
 
 class AuthService implements AuthServiceInterface
 {
-    use JwtResponseTrait;
+    use JwtResponsable;
     private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
@@ -34,7 +34,7 @@ class AuthService implements AuthServiceInterface
     public function me()
     {
         $user = auth()->user();
-        $userInfo = User::with('roles')->find($user->id);
+        $userInfo = $this->userRepository->getUserById($user->id);
         return $userInfo;
     }
 
