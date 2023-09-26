@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Traits\HttpResponsable;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\User\UserService;
 use App\Traits\Authorizable;
@@ -69,7 +70,7 @@ class UserController extends Controller
             $currentUser = $this->getCurrentUser();
             $avatar = $request->file('avatar');
             $userResponse = $this->userService->update($userInfo, $currentUser->id, $avatar);
-            return $this->success($userResponse, trans('user.update-user-success'), 200);
+            return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
@@ -81,7 +82,7 @@ class UserController extends Controller
             $userInfo = $request->validated();
             $currentUser = $this->getCurrentUser();
             $userResponse = $this->userService->password($userInfo, $currentUser->id);
-            return $this->success($userResponse, trans('user.update-user-success'), 200);
+            return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }

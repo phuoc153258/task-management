@@ -5,11 +5,9 @@ namespace App\Services\Auth;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthServiceInterface;
-use App\Traits\JwtResponsable;
 
 class AuthService implements AuthServiceInterface
 {
-    use JwtResponsable;
     private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
@@ -22,7 +20,7 @@ class AuthService implements AuthServiceInterface
         if (!$token = auth()->attempt($userDetails))
             abort(401, trans('auth.login-failed'));
 
-        return $this->respondWithToken($token);
+        return ['token' => $token];
     }
 
     public function register($userInfo)
@@ -45,6 +43,6 @@ class AuthService implements AuthServiceInterface
 
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return ['token' => auth()->refresh()];
     }
 }

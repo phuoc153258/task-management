@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaginateResource;
+use App\Http\Resources\TaskResource;
 use App\Repositories\Task\TaskRepositoryInterface;
 use App\Services\Task\TaskService;
 use App\Traits\Authorizable;
@@ -21,6 +23,7 @@ class TaskController extends Controller
     public function index(Request $request, $project_id)
     {
         try {
+            $user = $this->getCurrentUser();
             $options = [
                 'search' => empty($request->input('search')) ? '' : $request->input('search'),
                 'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
@@ -31,8 +34,8 @@ class TaskController extends Controller
                 'sort_by' => empty($request->input('sort_by')) ? 'id' : $request->input('sort_by'),
                 'select' => ['*']
             ];
-            $projectResponse = $this->taskService->index($options, $project_id);
-            return $this->success($projectResponse, trans('base.base-success'));
+            $taskResponse = $this->taskService->index($options, $project_id, $user->id);
+            return $this->success(new PaginateResource($taskResponse, TaskResource::collection($taskResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }
@@ -41,8 +44,9 @@ class TaskController extends Controller
     public function show($id, $project_id)
     {
         try {
-            $projectResponse = $this->taskService->show($id, $project_id);
-            return $this->success($projectResponse, trans('base.base-success'), 200);
+            $user = $this->getCurrentUser();
+            $projectResponse = $this->taskService->show($id, $project_id, $user->id);
+            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }

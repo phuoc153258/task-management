@@ -15,15 +15,15 @@ class TaskRepository implements TaskRepositoryInterface
         $this->paginateService = $paginateService;
     }
 
-    public function getList($options, $project_id)
+    public function getList($options, $project_id, $user_id)
     {
-        $query = Task::query()->ofProject($project_id);
+        $query = Task::query()->ofProject($project_id)->ofUser($user_id);
         $task = $this->paginateService->paginate($options, $query);
         return $task;
     }
 
-    public function getById(int $id, $project_id)
+    public function getById(int $id, $project_id, $user_id)
     {
-        return Task::ofProject($project_id)->find($id);
+        return Task::ofProject($project_id)->ofUser($user_id)->find($id);
     }
 }

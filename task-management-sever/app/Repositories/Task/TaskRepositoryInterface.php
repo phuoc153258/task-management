@@ -4,7 +4,7 @@ namespace App\Repositories\Task;
 
 interface TaskRepositoryInterface
 {
-    public function getList($options, $project_id);
+    public function getList($options, $project_id, $user_id);
 
-    public function getById(int $id, $project_id);
+    public function getById(int $id, $project_id, $user_id);
 }

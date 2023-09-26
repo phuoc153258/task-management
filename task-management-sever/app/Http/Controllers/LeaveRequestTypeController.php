@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LeaveRequestTypeResource;
 use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
 use App\Services\LeaveRequestType\LeaveRequestTypeService;
 use App\Traits\Authorizable;
@@ -22,7 +23,7 @@ class LeaveRequestTypeController extends Controller
     {
         try {
             $leaveRequestResponse = $this->leaveRequestType->index();
-            return $this->success($leaveRequestResponse, trans('base.base-success'));
+            return $this->success(LeaveRequestTypeResource::collection($leaveRequestResponse), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LeaveRequest\UpdateLeaveRequestRequest;
-use App\Repositories\Admin\LeaveRequest\LeaveRequestRepositoryInterface;
-use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
+use App\Http\Resources\LeaveRequestResource;
+use App\Http\Resources\PaginateResource;
 use App\Services\Admin\LeaveRequest\LeaveRequestService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
@@ -35,7 +35,7 @@ class LeaveRequestController extends Controller
                 'select' => ['*']
             ];
             $leaveRequestResponse = $this->leaveRequestService->index($options);
-            return $this->success($leaveRequestResponse, trans('base.base-success'));
+            return $this->success(new PaginateResource($leaveRequestResponse, LeaveRequestResource::collection($leaveRequestResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }
@@ -45,7 +45,7 @@ class LeaveRequestController extends Controller
     {
         try {
             $leaveRequestResponse = $this->leaveRequestService->show($id);
-            return $this->success($leaveRequestResponse, trans('base.base-success'), 200);
+            return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }
@@ -55,7 +55,7 @@ class LeaveRequestController extends Controller
     {
         try {
             $leaveRequestResponse = $this->leaveRequestService->update($request->validated(), $id);
-            return $this->success($leaveRequestResponse->fresh(), trans('base.base-success'), 200);
+            return $this->success(new LeaveRequestResource($leaveRequestResponse->fresh()), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }

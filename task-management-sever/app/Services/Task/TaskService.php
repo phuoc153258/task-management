@@ -12,15 +12,15 @@ class TaskService implements TaskServiceInterface
         $this->taskRepository = $taskRepository;
     }
 
-    public function index($options, $project_id)
+    public function index($options, $project_id, $user_id)
     {
-        $taskResponse = $this->taskRepository->getList($options, $project_id);
+        $taskResponse = $this->taskRepository->getList($options, $project_id, $user_id);
         return $taskResponse;
     }
 
-    public function show($id, $project_id)
+    public function show($id, $project_id, $user_id)
     {
-        $taskResponse = $this->taskRepository->getById($id, $project_id);
+        $taskResponse = $this->taskRepository->getById($id, $project_id, $user_id);
         if (empty($taskResponse))
             abort(400, trans('base.base-failed'));
 

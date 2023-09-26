@@ -18,11 +18,6 @@ class Project extends Model
         'created_by',
     ];
 
-    public function userProject()
-    {
-        return $this->hasMany(UserProject::class, 'project_id');
-    }
-
     public function userProjects()
     {
         return $this->hasMany(UserProject::class);

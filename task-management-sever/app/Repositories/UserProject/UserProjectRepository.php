@@ -29,6 +29,6 @@ class UserProjectRepository implements UserProjectRepositoryInterface
 
     public function getUserHasJoined($project_id, $user_id)
     {
-        return UserProject::where('project_id', $project_id)->where('user_id', $user_id)->first();
+        return UserProject::ofProject($project_id)->ofUser($user_id)->first();
     }
 }

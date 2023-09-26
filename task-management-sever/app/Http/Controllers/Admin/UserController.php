@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
+use App\Http\Resources\PaginateResource;
+use App\Http\Resources\Admin\UserResource;
 use App\Repositories\Admin\User\UserRepositoryInterface;
 use App\Services\Admin\User\UserService;
 use App\Traits\HttpResponsable;
@@ -33,9 +35,10 @@ class UserController extends Controller
                 'select' => ['*']
             ];
             $userResponse = $this->userService->index($options);
-            return $this->success($userResponse, trans('user.get-list-user-success'), 200);
+            return $this->success(new PaginateResource($userResponse,  UserResource::collection($userResponse->items())), trans('user.get-list-user-success'), 200);
+            // return $this->success($userResponse, trans('user.get-list-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error(null, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -43,7 +46,7 @@ class UserController extends Controller
     {
         try {
             $userResponse = $this->userService->show($id);
-            return $this->success($userResponse, trans('user.get-user-success'), 200);
+            return $this->success(new UserResource($userResponse), trans('user.get-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('user.get-user-failed'), 400);
         }
@@ -54,7 +57,7 @@ class UserController extends Controller
         try {
             $userInfo = $request->validated();
             $userResponse = $this->userService->create($userInfo);
-            return $this->success($userResponse, trans('user.create-user-success'), 200);
+            return $this->success(new UserResource($userResponse), trans('user.create-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }
@@ -66,7 +69,7 @@ class UserController extends Controller
             $userInfo = $request->validated();
             $avatar = $request->file('avatar');
             $userResponse = $this->userService->update($userInfo, $id, $avatar);
-            return $this->success($userResponse, trans('user.update-user-success'), 200);
+            return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
@@ -76,7 +79,7 @@ class UserController extends Controller
     {
         try {
             $userResponse = $this->userService->password($id);
-            return $this->success($userResponse, trans('user.update-user-success'), 200);
+            return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
@@ -86,7 +89,7 @@ class UserController extends Controller
     {
         try {
             $userResponse = $this->userService->delete($id);
-            return $this->success($userResponse, trans('user.delete-user-success'), 200);
+            return $this->success(new UserResource($userResponse), trans('user.delete-user-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }

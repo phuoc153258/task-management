@@ -7,6 +7,7 @@ const route = {
     profile: '/profile',
     password: '/password',
     user: '/user',
+    task: '/task',
 };
 
 export default route;

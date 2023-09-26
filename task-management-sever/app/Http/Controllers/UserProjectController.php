@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaginateResource;
+use App\Http\Resources\UserProjectResource;
 use App\Repositories\UserProject\UserProjectRepositoryInterface;
 use App\Services\UserProject\UserProjectService;
 use App\Traits\Authorizable;
@@ -32,8 +34,8 @@ class UserProjectController extends Controller
                 'sort_by' => empty($request->input('sort_by')) ? 'id' : $request->input('sort_by'),
                 'select' => ['*']
             ];
-            $projectResponse = $this->userProjectService->index($options, $project_id, $user->id);
-            return $this->success($projectResponse, trans('base.base-success'));
+            $userProjectResponse = $this->userProjectService->index($options, $project_id, $user->id);
+            return $this->success(new PaginateResource($userProjectResponse, UserProjectResource::collection($userProjectResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }
@@ -43,8 +45,8 @@ class UserProjectController extends Controller
     {
         try {
             $user = $this->getCurrentUser();
-            $projectResponse = $this->userProjectService->show($id, $project_id, $user->id);
-            return $this->success($projectResponse, trans('base.base-success'), 200);
+            $userProjectResponse = $this->userProjectService->show($id, $project_id, $user->id);
+            return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }

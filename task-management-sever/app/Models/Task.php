@@ -26,4 +26,9 @@ class Task extends Model
     {
         $query->where('project_id', $id);
     }
+
+    public function scopeOfUser(Builder $query, $id): void
+    {
+        $query->where('user_id', $id);
+    }
 }

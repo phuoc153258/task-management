@@ -25,12 +25,12 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
 
     public function getLeaveRequest(int $id, int $user_id)
     {
-        return LeaveRequest::ofUser($user_id)->find($id);
+        return LeaveRequest::with('leaveRequestType')->ofUser($user_id)->find($id);
     }
 
     public function createLeaveRequest(array $leaveRequestDetails)
     {
-        return LeaveRequest::create($leaveRequestDetails);
+        return LeaveRequest::with('leaveRequestType')->create($leaveRequestDetails);
     }
 
     public function updateLeaveRequest($leaveRequest, array $leaveRequestDetails)

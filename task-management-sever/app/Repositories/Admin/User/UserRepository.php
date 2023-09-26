@@ -18,7 +18,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUsers($options)
     {
-        $query =  User::query();
+        $query =  User::with('roles');
         $userResponse = $this->paginateService->paginate($options, $query);
         return $userResponse;
     }
@@ -30,17 +30,17 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserByCondition($field, $value)
     {
-        return User::where($field, $value)->first();
+        return User::with('roles')->where($field, $value)->first();
     }
 
     public function deleteUser($userId)
     {
-        User::destroy($userId);
+        User::with('roles')->destroy($userId);
     }
 
     public function createUser(array $userDetails)
     {
-        return User::firstOrCreate(
+        return User::with('roles')->firstOrCreate(
             ['email' => $userDetails['email']],
             [
                 'username' => $userDetails['username'],
@@ -52,6 +52,6 @@ class UserRepository implements UserRepositoryInterface
 
     public function updateUser($orderId, array $newDetails)
     {
-        return User::whereId($orderId)->update($newDetails);
+        return User::with('roles')->whereId($orderId)->update($newDetails);
     }
 }

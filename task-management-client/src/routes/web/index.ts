@@ -9,6 +9,7 @@ import Profile from '../../pages/Profile';
 import Password from '../../pages/Password';
 import LeaveRequest from '../../pages/Admin/LeaveRequest';
 import User from '../../pages/Admin/User';
+import Task from '../../pages/Task';
 
 const publicRoutes: any = [
     { path: route.home, component: Home, layout: DefaultLayout },
@@ -19,6 +20,7 @@ const publicRoutes: any = [
     { path: route.password, component: Password, layout: ProfileLayout },
     { path: route.acceptLeaveRequest, component: LeaveRequest, layout: DefaultLayout },
     { path: route.user, component: User, layout: DefaultLayout },
+    { path: route.task, component: Task, layout: DefaultLayout },
 ];
 
 const privateRoutes: any = [];

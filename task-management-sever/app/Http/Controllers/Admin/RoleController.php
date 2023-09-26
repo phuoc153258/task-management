@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\RoleResource;
 use App\Repositories\Admin\Role\RoleRepositoryInterface;
 use App\Services\Admin\Role\RoleService;
 use App\Traits\HttpResponsable;
@@ -21,7 +22,7 @@ class RoleController extends Controller
     {
         try {
             $roleResponse = $this->roleService->index();
-            return $this->success($roleResponse, trans('base.base-success'));
+            return $this->success(RoleResource::collection($roleResponse), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }

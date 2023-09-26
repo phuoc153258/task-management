@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Resources\TokenResource;
 use App\Services\Auth\AuthService;
 use App\Traits\HttpResponsable;
 
@@ -23,7 +24,7 @@ class AuthController extends Controller
         try {
             $credentials = request(['username', 'password']);
             $token = $this->authService->login($credentials);
-            return $this->success($token, trans('auth.login-success'), 200);
+            return $this->success(new TokenResource($token), trans('auth.login-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('auth.login-failed'), 401);
         }
@@ -65,7 +66,7 @@ class AuthController extends Controller
     {
         try {
             $token = $this->authService->refresh();
-            return $this->success($token, trans('base.base-success'));
+            return $this->success(new TokenResource($token), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error(null, trans('base.base-failed'));
         }
