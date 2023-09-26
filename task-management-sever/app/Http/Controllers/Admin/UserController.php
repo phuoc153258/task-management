@@ -14,9 +14,9 @@ class UserController extends Controller
 {
     use HttpResponsable;
     private UserService $userService;
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserService $userService)
     {
-        $this->userService = new UserService($userRepository);
+        $this->userService = $userService;
     }
 
     public function index(Request $request)

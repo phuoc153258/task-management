@@ -13,9 +13,9 @@ class UserProjectController extends Controller
     use HttpResponsable, Authorizable;
     private UserProjectService $userProjectService;
 
-    public function __construct(UserProjectRepositoryInterface $userProjectRepository)
+    public function __construct(UserProjectService $userProjectService)
     {
-        $this->userProjectService = new UserProjectService($userProjectRepository);
+        $this->userProjectService = $userProjectService;
     }
 
     public function index(Request $request, $project_id)

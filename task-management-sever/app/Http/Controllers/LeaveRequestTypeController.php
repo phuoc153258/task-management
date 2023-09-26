@@ -12,9 +12,10 @@ class LeaveRequestTypeController extends Controller
 {
     use HttpResponsable, Authorizable;
     private LeaveRequestTypeService $leaveRequestType;
-    public function __construct(LeaveRequestTypeRepositoryInterface $leaveRequestType)
+
+    public function __construct(LeaveRequestTypeService $leaveRequestType)
     {
-        $this->leaveRequestType = new LeaveRequestTypeService($leaveRequestType);
+        $this->leaveRequestType = $leaveRequestType;
     }
 
     public function index()

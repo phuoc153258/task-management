@@ -10,9 +10,9 @@ class TaskRepository implements TaskRepositoryInterface
 {
     private PaginateService $paginateService;
 
-    public function __construct()
+    public function __construct(PaginateService $paginateService)
     {
-        $this->paginateService = new PaginateService();
+        $this->paginateService = $paginateService;
     }
 
     public function getList($options, $project_id)

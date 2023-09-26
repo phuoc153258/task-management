@@ -16,9 +16,9 @@ class LeaveRequestController extends Controller
     use Authorizable, HttpResponsable;
 
     private LeaveRequestService $leaveRequestService;
-    public function __construct(LeaveRequestRepositoryInterface $leaveRequestRepository, LeaveRequestTypeRepositoryInterface $leaveRequestTypeRepository)
+    public function __construct(LeaveRequestService $leaveRequestService)
     {
-        $this->leaveRequestService = new LeaveRequestService($leaveRequestRepository, $leaveRequestTypeRepository);
+        $this->leaveRequestService = $leaveRequestService;
     }
 
     public function index(Request $request)

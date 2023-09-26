@@ -12,9 +12,9 @@ class RoleController extends Controller
 {
     use HttpResponsable;
     private RoleService $roleService;
-    public function __construct(RoleRepositoryInterface $roleRepository)
+    public function __construct(RoleService $roleService)
     {
-        $this->roleService = new RoleService($roleRepository);
+        $this->roleService = $roleService;
     }
 
     public function index()

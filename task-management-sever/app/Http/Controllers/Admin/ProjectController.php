@@ -15,9 +15,9 @@ class ProjectController extends Controller
 
     private ProjectService $projectService;
 
-    public function __construct(ProjectRepositoryInterface $projectRepository)
+    public function __construct(ProjectService $projectService)
     {
-        $this->projectService = new ProjectService($projectRepository);
+        $this->projectService = $projectService;
     }
 
     public function index(Request $request)

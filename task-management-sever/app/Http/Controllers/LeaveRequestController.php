@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LeaveRequest\CreateLeaveRequestRequest;
 use App\Http\Requests\LeaveRequest\UpdateLeaveRequestRequest;
-use App\Repositories\LeaveRequest\LeaveRequestRepositoryInterface;
-use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
 use App\Services\LeaveRequest\LeaveRequestService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
@@ -16,9 +14,9 @@ class LeaveRequestController extends Controller
     use HttpResponsable, Authorizable;
 
     private LeaveRequestService $leaveRequestService;
-    public function __construct(LeaveRequestRepositoryInterface $leaveRequestRepository, LeaveRequestTypeRepositoryInterface $leaveRequestTypeRepository)
+    public function __construct(LeaveRequestService $leaveRequestService)
     {
-        $this->leaveRequestService = new LeaveRequestService($leaveRequestRepository, $leaveRequestTypeRepository);
+        $this->leaveRequestService = $leaveRequestService;
     }
 
     public function index(Request $request)

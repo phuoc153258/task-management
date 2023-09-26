@@ -11,9 +11,9 @@ class UserRepository implements UserRepositoryInterface
 {
     private PaginateService $paginateService;
 
-    public function __construct()
+    public function __construct(PaginateService $paginateService)
     {
-        $this->paginateService = new PaginateService();
+        $this->paginateService = $paginateService;
     }
 
     public function getUsers($options)

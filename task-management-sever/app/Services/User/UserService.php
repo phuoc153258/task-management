@@ -12,10 +12,10 @@ class UserService implements UserServiceInterface
     private UserRepositoryInterface $userRepository;
     private FileService $fileService;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository, FileService $fileService)
     {
         $this->userRepository = $userRepository;
-        $this->fileService = new FileService();
+        $this->fileService = $fileService;
     }
 
     public function index($options)

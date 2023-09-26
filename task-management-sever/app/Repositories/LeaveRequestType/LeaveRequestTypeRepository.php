@@ -11,9 +11,9 @@ class LeaveRequestTypeRepository implements LeaveRequestTypeRepositoryInterface
 {
     private PaginateService $paginateService;
 
-    public function __construct()
+    public function __construct(PaginateService $paginateService)
     {
-        $this->paginateService = new PaginateService();
+        $this->paginateService = $paginateService;
     }
 
     public function getAll()
