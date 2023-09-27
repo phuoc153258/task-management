@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\CreateTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\TaskResource;
 use App\Repositories\Task\TaskRepositoryInterface;
@@ -46,6 +48,38 @@ class TaskController extends Controller
         try {
             $user = $this->getCurrentUser();
             $projectResponse = $this->taskService->show($id, $project_id, $user->id);
+            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function create(CreateTaskRequest $request)
+    {
+        try {
+            $user = $this->getCurrentUser();
+            $taskDetails = [...$request->validated(), 'created_by' => $user->id, 'status' => 0];
+            $projectResponse = $this->taskService->create($taskDetails);
+            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function update(UpdateTaskRequest $request, $id)
+    {
+        try {
+            $projectResponse = $this->taskService->update($request->validated(), $id);
+            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $projectResponse = $this->taskService->delete($id);
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));

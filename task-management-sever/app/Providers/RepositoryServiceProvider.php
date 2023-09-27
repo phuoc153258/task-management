@@ -47,6 +47,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Admin\Project\ProjectRepository'
         );
         $this->app->bind(
+            'App\Repositories\Admin\Task\TaskRepositoryInterface',
+            'App\Repositories\Admin\Task\TaskRepository'
+        );
+        $this->app->bind(
             'App\Repositories\Project\ProjectRepositoryInterface',
             'App\Repositories\Project\ProjectRepository'
         );

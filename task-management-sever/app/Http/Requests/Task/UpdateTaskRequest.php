@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin\User;
+namespace App\Http\Requests\Task;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+class UpdateTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,16 +23,23 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|min:5|max:50',
-            'fullname' => 'required|string|min:5|max:50',
-            'email' => 'required|email|min:5|max:50',
-            'avatar' => 'required',
-            'role_id' => [
+            'user_id' => [
                 'required',
                 'numeric',
                 'min:1',
-                Rule::exists('roles', 'id'),
+                Rule::exists('users', 'id'),
             ],
+            'project_id' => [
+                'required',
+                'numeric',
+                'min:1',
+                Rule::exists('projects', 'id'),
+            ],
+            'title' => 'required|string|min:5|max:50',
+            'description' => 'required|string|min:5|max:50',
+            'hours' => 'required|integer',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ];
     }
 }

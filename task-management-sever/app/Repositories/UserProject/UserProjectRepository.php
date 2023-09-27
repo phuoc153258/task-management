@@ -31,4 +31,12 @@ class UserProjectRepository implements UserProjectRepositoryInterface
     {
         return UserProject::ofProject($project_id)->ofUser($user_id)->first();
     }
+
+    public function create($project_id, $user_id)
+    {
+        $userProject = UserProject::firstOrCreate(
+            ['project_id' =>  $project_id, 'user_id' => $user_id],
+        );
+        return $userProject;
+    }
 }

@@ -26,4 +26,26 @@ class TaskRepository implements TaskRepositoryInterface
     {
         return Task::ofProject($project_id)->ofUser($user_id)->find($id);
     }
+
+    public function create($taskDetails)
+    {
+        $taskResponse = Task::firstOrCreate(
+            $taskDetails
+        );
+        return $taskResponse;
+    }
+
+    public function update($taskDetails, $id)
+    {
+        $taskResponse = Task::find(intval($id));
+        $taskResponse->update($taskDetails);
+        return $taskResponse;
+    }
+
+    public function delete($id)
+    {
+        $taskResponse = Task::find(intval($id));
+        $taskResponse->delete();
+        return $taskResponse;
+    }
 }

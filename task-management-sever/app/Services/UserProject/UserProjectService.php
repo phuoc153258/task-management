@@ -30,4 +30,18 @@ class UserProjectService implements UserProjectServiceInterface
 
         return $userProjectResponse;
     }
+
+    public function create($project_id, $user_id)
+    {
+        $userProjectResponse = $this->userProjectRepository->create($project_id, $user_id);
+        return $userProjectResponse;
+    }
+
+    public function delete($project_id, $user_id)
+    {
+        $userProject = $this->userProjectRepository->getUserHasJoined($project_id, $user_id);
+        if (!$userProject) abort(400, trans('base.base-failed'));
+        $userProject->delete();
+        return $userProject;
+    }
 }

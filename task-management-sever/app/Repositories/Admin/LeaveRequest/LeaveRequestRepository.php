@@ -5,7 +5,6 @@ namespace App\Repositories\Admin\LeaveRequest;
 use App\Models\LeaveRequest;
 use App\Repositories\Admin\LeaveRequest\LeaveRequestRepositoryInterface;
 use App\Services\Paginate\PaginateService;
-use Illuminate\Support\Facades\DB;
 
 class LeaveRequestRepository implements LeaveRequestRepositoryInterface
 {
@@ -36,5 +35,14 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
     public function updateLeaveRequest($leaveRequest, array $leaveRequestDetails)
     {
         return $leaveRequest->update($leaveRequestDetails);
+    }
+
+    public function deleteMany($user_id)
+    {
+        LeaveRequest::where('user_id', $user_id)->chunk(100, function ($records) {
+            foreach ($records as $record) {
+                $record->delete();
+            }
+        });
     }
 }

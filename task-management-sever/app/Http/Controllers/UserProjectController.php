@@ -51,4 +51,24 @@ class UserProjectController extends Controller
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
+
+    public function create($project_id, $user_id)
+    {
+        try {
+            $userProjectResponse = $this->userProjectService->create($project_id, $user_id);
+            return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function delete($project_id, $user_id)
+    {
+        try {
+            $userProjectResponse = $this->userProjectService->delete($project_id, $user_id);
+            return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
 }

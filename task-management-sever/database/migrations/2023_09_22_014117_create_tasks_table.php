@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('created_by');
             $table->string('title');
             $table->string('description');
-            $table->integer('status'); // range 0 - 100
+            $table->integer('status')->default(0); // range 0 - 100
             $table->integer('hours');
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();

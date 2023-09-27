@@ -2,12 +2,10 @@
 
 namespace App\Providers;
 
-use App\Services\Admin\LeaveRequest\LeaveRequestService;
-use App\Services\Admin\LeaveRequest\LeaveRequestServiceInterface;
-use App\Services\Auth\AuthService;
-use App\Services\Auth\AuthServiceInterface;
-use App\Services\File\FileService;
-use App\Services\File\FileServiceInterface;
+use App\Models\User;
+use App\Models\UserProject;
+use App\Observers\UserObserver;
+use App\Observers\UserProjectObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,18 +19,6 @@ class AppServiceProvider extends ServiceProvider
             PaginateServiceInterface::class,
             PaginateService::class,
         );
-        $this->app->bind(
-            FileServiceInterface::class,
-            FileService::class
-        );
-        $this->app->bind(
-            AuthServiceInterface::class,
-            AuthService::class
-        );
-        $this->app->bind(
-            LeaveRequestServiceInterface::class,
-            LeaveRequestService::class
-        );
     }
 
     /**
@@ -40,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        User::observe(UserObserver::class);
+        UserProject::observe(UserProjectObserver::class);
     }
 }

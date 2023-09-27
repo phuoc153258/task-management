@@ -40,14 +40,17 @@ class UserRepository implements UserRepositoryInterface
 
     public function createUser(array $userDetails)
     {
-        return User::with('roles')->firstOrCreate(
-            ['email' => $userDetails['email']],
-            [
-                'username' => $userDetails['username'],
-                'fullname' => $userDetails['fullname'],
-                'password' => $userDetails['password']
-            ]
-        )->assignRole($userDetails['role_id']);
+        $user = User::withoutEvents(function () use ($userDetails) {
+            return User::with('roles')->firstOrCreate(
+                ['email' => $userDetails['email']],
+                [
+                    'username' => $userDetails['username'],
+                    'fullname' => $userDetails['fullname'],
+                    'password' => $userDetails['password']
+                ]
+            )->assignRole($userDetails['role_id']);
+        });
+        return $user;
     }
 
     public function updateUser($orderId, array $newDetails)
