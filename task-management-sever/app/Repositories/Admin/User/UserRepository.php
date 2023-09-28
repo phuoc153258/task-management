@@ -5,7 +5,6 @@ namespace App\Repositories\Admin\User;
 use App\Models\User;
 use App\Repositories\Admin\User\UserRepositoryInterface;
 use App\Services\Paginate\PaginateService;
-use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -16,31 +15,32 @@ class UserRepository implements UserRepositoryInterface
         $this->paginateService = $paginateService;
     }
 
-    public function getUsers($options)
+    public function list($options)
     {
         $query =  User::with('roles');
         $userResponse = $this->paginateService->paginate($options, $query);
+
         return $userResponse;
     }
 
-    public function getUserById($userId)
+    public function getById($userId)
     {
         return User::with('roles')->findOrFail($userId);
     }
 
-    public function getUserByCondition($field, $value)
+    public function getByCondition($field, $value)
     {
         return User::with('roles')->where($field, $value)->first();
     }
 
-    public function deleteUser($userId)
+    public function delete($userId)
     {
         User::with('roles')->destroy($userId);
     }
 
-    public function createUser(array $userDetails)
+    public function create(array $userDetails)
     {
-        $user = User::withoutEvents(function () use ($userDetails) {
+        $userResponse = User::withoutEvents(function () use ($userDetails) {
             return User::with('roles')->firstOrCreate(
                 ['email' => $userDetails['email']],
                 [
@@ -50,10 +50,11 @@ class UserRepository implements UserRepositoryInterface
                 ]
             )->assignRole($userDetails['role_id']);
         });
-        return $user;
+
+        return $userResponse;
     }
 
-    public function updateUser($orderId, array $newDetails)
+    public function update($orderId, array $newDetails)
     {
         return User::with('roles')->whereId($orderId)->update($newDetails);
     }

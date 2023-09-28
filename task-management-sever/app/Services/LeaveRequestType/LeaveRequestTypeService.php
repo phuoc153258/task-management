@@ -7,11 +7,8 @@ use App\Services\LeaveRequestType\LeaveRequestTypeServiceInterface;
 
 class LeaveRequestTypeService implements LeaveRequestTypeServiceInterface
 {
-    private LeaveRequestTypeRepositoryInterface $leaveRequestType;
-
-    public function __construct(LeaveRequestTypeRepositoryInterface $leaveRequestType)
+    public function __construct(private LeaveRequestTypeRepositoryInterface $leaveRequestType)
     {
-        $this->leaveRequestType = $leaveRequestType;
     }
 
     public function index()

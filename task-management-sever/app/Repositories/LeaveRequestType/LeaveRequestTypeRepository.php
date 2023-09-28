@@ -5,7 +5,6 @@ namespace App\Repositories\LeaveRequestType;
 use App\Models\LeaveRequestType;
 use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
 use App\Services\Paginate\PaginateService;
-use Illuminate\Support\Facades\DB;
 
 class LeaveRequestTypeRepository implements LeaveRequestTypeRepositoryInterface
 {

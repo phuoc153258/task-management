@@ -18,6 +18,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         $query = Project::query();
         $projectResponse = $this->paginateService->paginate($options, $query);
+
         return $projectResponse;
     }
 

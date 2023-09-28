@@ -4,8 +4,8 @@ namespace App\Repositories\LeaveRequest;
 
 interface LeaveRequestRepositoryInterface
 {
-    public function getLeaveRequests($options, int $id);
-    public function getLeaveRequest(int $id, int $user_id);
-    public function createLeaveRequest(array $leaveRequestDetails);
-    public function updateLeaveRequest($leaveRequest, array $leaveRequestDetails);
+    public function list($options, int $id);
+    public function show(int $id, int $user_id);
+    public function create(array $leaveRequestDetails);
+    public function update($leaveRequest, array $leaveRequestDetails);
 }

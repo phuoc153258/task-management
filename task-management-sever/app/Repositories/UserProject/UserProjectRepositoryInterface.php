@@ -4,7 +4,7 @@ namespace App\Repositories\UserProject;
 
 interface UserProjectRepositoryInterface
 {
-    public function getList($options, $project_id);
+    public function list($options, $project_id);
 
     public function getById(int $id, $project_id);
 

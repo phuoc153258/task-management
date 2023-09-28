@@ -2,17 +2,13 @@
 
 namespace App\Services\Auth;
 
-use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthServiceInterface;
 
 class AuthService implements AuthServiceInterface
 {
-    private UserRepositoryInterface $userRepository;
-
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(private UserRepositoryInterface $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     public function login($userDetails)
@@ -25,14 +21,14 @@ class AuthService implements AuthServiceInterface
 
     public function register($userInfo)
     {
-        $user = $this->userRepository->createUser($userInfo);
-        return $user;
+        return $this->userRepository->create($userInfo);
     }
 
     public function me()
     {
         $user = auth()->user();
-        $userInfo = $this->userRepository->getUserById($user->id);
+        $userInfo = $this->userRepository->getById($user->id);
+
         return $userInfo;
     }
 

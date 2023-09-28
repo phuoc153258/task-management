@@ -15,11 +15,12 @@ class UserProjectRepository implements UserProjectRepositoryInterface
         $this->paginateService = $paginateService;
     }
 
-    public function getList($options, $project_id)
+    public function list($options, $project_id)
     {
         $query = UserProject::query()->ofProject($project_id);
-        $userProject = $this->paginateService->paginate($options, $query);
-        return $userProject;
+        $userProjectResponse = $this->paginateService->paginate($options, $query);
+
+        return $userProjectResponse;
     }
 
     public function getById(int $id, $project_id)
@@ -27,16 +28,17 @@ class UserProjectRepository implements UserProjectRepositoryInterface
         return UserProject::ofProject($project_id)->find($id);
     }
 
-    public function getUserHasJoined($project_id, $user_id)
+    public function isJoined($project_id, $user_id)
     {
         return UserProject::ofProject($project_id)->ofUser($user_id)->first();
     }
 
     public function create($project_id, $user_id)
     {
-        $userProject = UserProject::firstOrCreate(
+        $userProjectResponse = UserProject::firstOrCreate(
             ['project_id' =>  $project_id, 'user_id' => $user_id],
         );
-        return $userProject;
+
+        return $userProjectResponse;
     }
 }

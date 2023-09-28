@@ -5,7 +5,6 @@ namespace App\Repositories\User;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Paginate\PaginateService;
-use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -16,29 +15,30 @@ class UserRepository implements UserRepositoryInterface
         $this->paginateService = $paginateService;
     }
 
-    public function getUsers($options)
+    public function list($options)
     {
         $query =  User::query();
         $userResponse = $this->paginateService->paginate($options, $query);
+
         return $userResponse;
     }
 
-    public function getUserById($userId)
+    public function getById($userId)
     {
         return User::with('roles')->findOrFail($userId);
     }
 
-    public function getUserByCondition($field, $value)
+    public function getByCondition($field, $value)
     {
         return User::where($field, $value)->first();
     }
 
-    public function deleteUser($userId)
+    public function delete($userId)
     {
         User::destroy($userId);
     }
 
-    public function createUser(array $userDetails)
+    public function create(array $userDetails)
     {
         return User::firstOrCreate(
             ['email' => $userDetails['email']],
@@ -50,7 +50,7 @@ class UserRepository implements UserRepositoryInterface
         );
     }
 
-    public function updateUser($orderId, array $newDetails)
+    public function update($orderId, array $newDetails)
     {
         return User::whereId($orderId)->update($newDetails);
     }

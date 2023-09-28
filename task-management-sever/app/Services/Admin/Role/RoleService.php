@@ -6,11 +6,8 @@ use App\Repositories\Admin\Role\RoleRepositoryInterface;
 
 class RoleService
 {
-    private $roleRepository;
-
-    public function __construct(RoleRepositoryInterface $roleRepository)
+    public function __construct(private RoleRepositoryInterface $roleRepository)
     {
-        $this->roleRepository = $roleRepository;
     }
 
     public function index()

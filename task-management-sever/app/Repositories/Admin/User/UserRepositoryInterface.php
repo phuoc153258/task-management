@@ -4,10 +4,10 @@ namespace App\Repositories\Admin\User;
 
 interface UserRepositoryInterface
 {
-    public function getUsers($options);
-    public function getUserById($userId);
-    public function getUserByCondition($field, $value);
-    public function deleteUser($userId);
-    public function createUser(array $userDetails);
-    public function updateUser($userId, array $userDetails);
+    public function list($options);
+    public function getById($userId);
+    public function getByCondition($field, $value);
+    public function delete($userId);
+    public function create(array $userDetails);
+    public function update($userId, array $userDetails);
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\ProjectResource;
-use App\Repositories\Project\ProjectRepositoryInterface;
 use App\Services\Project\ProjectService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
@@ -13,11 +12,9 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
     use HttpResponsable, Authorizable;
-    private ProjectService $projectService;
 
-    public function __construct(ProjectService $projectService)
+    public function __construct(private ProjectService $projectService)
     {
-        $this->projectService = $projectService;
     }
 
     public function index(Request $request)
@@ -35,9 +32,10 @@ class ProjectController extends Controller
                 'select' => ['*']
             ];
             $projectResponse = $this->projectService->index($options, $user->id);
+
             return $this->success(new PaginateResource($projectResponse, ProjectResource::collection($projectResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -46,9 +44,10 @@ class ProjectController extends Controller
         try {
             $user = $this->getCurrentUser();
             $projectResponse = $this->projectService->show($id, $user->id);
+
             return $this->success(new ProjectResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 }

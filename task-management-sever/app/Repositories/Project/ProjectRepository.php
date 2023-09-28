@@ -18,8 +18,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function getList($options, $user_id)
     {
         $query = Project::query()->joinedByUser($user_id);
-        $project = $this->paginateService->paginate($options, $query);
-        return $project;
+        $projectResponse = $this->paginateService->paginate($options, $query);
+        return $projectResponse;
     }
 
     public function getById(int $id, $user_id)

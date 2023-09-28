@@ -6,23 +6,21 @@ use App\Repositories\UserProject\UserProjectRepositoryInterface;
 
 class UserProjectService implements UserProjectServiceInterface
 {
-    private UserProjectRepositoryInterface $userProjectRepository;
-    public function __construct(UserProjectRepositoryInterface $UserProjectRepository)
+    public function __construct(private UserProjectRepositoryInterface $userProjectRepository)
     {
-        $this->userProjectRepository = $UserProjectRepository;
     }
 
     public function index($options, $project_id, $user_id)
     {
-        if (empty($this->userProjectRepository->getUserHasJoined($project_id, $user_id))) abort(400, trans('base.base-failed'));
+        if (empty($this->userProjectRepository->isJoined($project_id, $user_id))) abort(400, trans('base.base-failed'));
+        $userProjectResponse = $this->userProjectRepository->list($options, $project_id, $user_id);
 
-        $userProjectResponse = $this->userProjectRepository->getList($options, $project_id, $user_id);
         return $userProjectResponse;
     }
 
     public function show($id, $project_id, $user_id)
     {
-        if (!$this->userProjectRepository->getUserHasJoined($project_id, $user_id)) abort(400, trans('base.base-failed'));
+        if (!$this->userProjectRepository->isJoined($project_id, $user_id)) abort(400, trans('base.base-failed'));
 
         $userProjectResponse = $this->userProjectRepository->getById($id, $project_id);
         if (empty($userProjectResponse))
@@ -33,15 +31,15 @@ class UserProjectService implements UserProjectServiceInterface
 
     public function create($project_id, $user_id)
     {
-        $userProjectResponse = $this->userProjectRepository->create($project_id, $user_id);
-        return $userProjectResponse;
+        return $this->userProjectRepository->create($project_id, $user_id);
     }
 
     public function delete($project_id, $user_id)
     {
-        $userProject = $this->userProjectRepository->getUserHasJoined($project_id, $user_id);
+        $userProject = $this->userProjectRepository->isJoined($project_id, $user_id);
         if (!$userProject) abort(400, trans('base.base-failed'));
         $userProject->delete();
+
         return $userProject;
     }
 }

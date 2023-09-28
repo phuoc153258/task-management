@@ -3,30 +3,22 @@
 namespace App\Services\LeaveRequest;
 
 use App\Repositories\LeaveRequest\LeaveRequestRepositoryInterface;
-use App\Repositories\LeaveRequestType\LeaveRequestTypeRepository;
-use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
 use App\Services\LeaveRequest\LeaveRequestServiceInterface;
 
 class LeaveRequestService implements LeaveRequestServiceInterface
 {
-    private LeaveRequestRepositoryInterface $leaveRequest;
-    private LeaveRequestTypeRepositoryInterface $leaveRequestType;
-
-    public function __construct(LeaveRequestRepositoryInterface $leaveRequest, LeaveRequestTypeRepository $leaveRequestType)
+    public function __construct(private LeaveRequestRepositoryInterface $leaveRequest)
     {
-        $this->leaveRequest = $leaveRequest;
-        $this->leaveRequestType = $leaveRequestType;
     }
 
     public function index($options, $user_id)
     {
-        $leaveRequest = $this->leaveRequest->getLeaveRequests($options, $user_id);
-        return $leaveRequest;
+        return $this->leaveRequest->list($options, $user_id);
     }
 
     public function show($id, $user_id)
     {
-        $leaveRequest = $this->leaveRequest->getLeaveRequest($id, $user_id);
+        $leaveRequest = $this->leaveRequest->show($id, $user_id);
         if (empty($leaveRequest))
             abort(400, trans('base.base-failed'));
 
@@ -35,23 +27,24 @@ class LeaveRequestService implements LeaveRequestServiceInterface
 
     public function create($leaveRequestDetails)
     {
-        $leaveRequest = $this->leaveRequest->createLeaveRequest($leaveRequestDetails);
-        return $leaveRequest;
+        return $this->leaveRequest->create($leaveRequestDetails);
     }
 
     public function update($leaveRequestDetails, $id, $user_id)
     {
-        $leaveRequest = $this->leaveRequest->getLeaveRequest($id, $user_id);
+        $leaveRequest = $this->leaveRequest->show($id, $user_id);
         if (empty($leaveRequest)) abort(400, trans('base.base-failed'));
-        $this->leaveRequest->updateLeaveRequest($leaveRequest, $leaveRequestDetails);
+        $this->leaveRequest->update($leaveRequest, $leaveRequestDetails);
+
         return $leaveRequest;
     }
 
     public function delete($id, $user_id)
     {
-        $leaveRequest = $this->leaveRequest->getLeaveRequest($id, $user_id);
+        $leaveRequest = $this->leaveRequest->show($id, $user_id);
         if (empty($leaveRequest)) abort(400, trans('base.base-failed'));
         $leaveRequest->delete();
+
         return $leaveRequest;
     }
 }

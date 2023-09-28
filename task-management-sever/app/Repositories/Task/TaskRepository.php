@@ -15,11 +15,12 @@ class TaskRepository implements TaskRepositoryInterface
         $this->paginateService = $paginateService;
     }
 
-    public function getList($options, $project_id, $user_id)
+    public function list($options, $project_id, $user_id)
     {
         $query = Task::query()->ofProject($project_id)->ofUser($user_id);
-        $task = $this->paginateService->paginate($options, $query);
-        return $task;
+        $taskResponse = $this->paginateService->paginate($options, $query);
+
+        return $taskResponse;
     }
 
     public function getById(int $id, $project_id, $user_id)
@@ -32,6 +33,7 @@ class TaskRepository implements TaskRepositoryInterface
         $taskResponse = Task::firstOrCreate(
             $taskDetails
         );
+
         return $taskResponse;
     }
 
@@ -39,6 +41,7 @@ class TaskRepository implements TaskRepositoryInterface
     {
         $taskResponse = Task::find(intval($id));
         $taskResponse->update($taskDetails);
+
         return $taskResponse;
     }
 
@@ -46,6 +49,7 @@ class TaskRepository implements TaskRepositoryInterface
     {
         $taskResponse = Task::find(intval($id));
         $taskResponse->delete();
+
         return $taskResponse;
     }
 }

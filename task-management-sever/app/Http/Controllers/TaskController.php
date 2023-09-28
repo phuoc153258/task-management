@@ -6,7 +6,6 @@ use App\Http\Requests\Task\CreateTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\TaskResource;
-use App\Repositories\Task\TaskRepositoryInterface;
 use App\Services\Task\TaskService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
@@ -15,11 +14,9 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
     use HttpResponsable, Authorizable;
-    private TaskService $taskService;
 
-    public function __construct(TaskRepositoryInterface $taskRepository)
+    public function __construct(private TaskService $taskService)
     {
-        $this->taskService =  new TaskService($taskRepository);
     }
 
     public function index(Request $request, $project_id)
@@ -37,9 +34,10 @@ class TaskController extends Controller
                 'select' => ['*']
             ];
             $taskResponse = $this->taskService->index($options, $project_id, $user->id);
+
             return $this->success(new PaginateResource($taskResponse, TaskResource::collection($taskResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -48,9 +46,10 @@ class TaskController extends Controller
         try {
             $user = $this->getCurrentUser();
             $projectResponse = $this->taskService->show($id, $project_id, $user->id);
+
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -60,9 +59,10 @@ class TaskController extends Controller
             $user = $this->getCurrentUser();
             $taskDetails = [...$request->validated(), 'created_by' => $user->id, 'status' => 0];
             $projectResponse = $this->taskService->create($taskDetails);
+
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -70,9 +70,10 @@ class TaskController extends Controller
     {
         try {
             $projectResponse = $this->taskService->update($request->validated(), $id);
+
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -80,9 +81,10 @@ class TaskController extends Controller
     {
         try {
             $projectResponse = $this->taskService->delete($id);
+
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 }

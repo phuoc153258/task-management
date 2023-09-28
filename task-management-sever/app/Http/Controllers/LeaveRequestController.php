@@ -15,10 +15,8 @@ class LeaveRequestController extends Controller
 {
     use HttpResponsable, Authorizable;
 
-    private LeaveRequestService $leaveRequestService;
-    public function __construct(LeaveRequestService $leaveRequestService)
+    public function __construct(private LeaveRequestService $leaveRequestService)
     {
-        $this->leaveRequestService = $leaveRequestService;
     }
 
     public function index(Request $request)
@@ -36,9 +34,10 @@ class LeaveRequestController extends Controller
                 'select' => ['*']
             ];
             $leaveRequestResponse = $this->leaveRequestService->index($options, $user->id);
+
             return $this->success(new PaginateResource($leaveRequestResponse, LeaveRequestResource::collection($leaveRequestResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -47,9 +46,10 @@ class LeaveRequestController extends Controller
         try {
             $user = $this->getCurrentUser();
             $leaveRequestResponse = $this->leaveRequestService->show($id, $user->id);
+
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -59,9 +59,10 @@ class LeaveRequestController extends Controller
             $currentUser = $this->getCurrentUser();
             $leaveRequestDetails = [...$request->all(), 'user_id' => $currentUser->id];
             $leaveRequestResponse = $this->leaveRequestService->create($leaveRequestDetails);
+
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -70,9 +71,10 @@ class LeaveRequestController extends Controller
         try {
             $currentUser = $this->getCurrentUser();
             $leaveRequestResponse = $this->leaveRequestService->update($request->validated(), $id, $currentUser->id);
+
             return $this->success(new LeaveRequestResource($leaveRequestResponse->fresh()), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
+            return $this->error($th, trans('base.base-failed'), 400);
         }
     }
 
@@ -81,9 +83,10 @@ class LeaveRequestController extends Controller
         try {
             $currentUser = $this->getCurrentUser();
             $leaveRequestResponse = $this->leaveRequestService->delete($id, $currentUser->id);
+
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 }

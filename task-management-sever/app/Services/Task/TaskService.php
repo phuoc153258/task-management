@@ -6,16 +6,13 @@ use App\Repositories\Task\TaskRepositoryInterface;
 
 class TaskService implements TaskServiceInterface
 {
-    private TaskRepositoryInterface $taskRepository;
-    public function __construct(TaskRepositoryInterface $taskRepository)
+    public function __construct(private TaskRepositoryInterface $taskRepository)
     {
-        $this->taskRepository = $taskRepository;
     }
 
     public function index($options, $project_id, $user_id)
     {
-        $taskResponse = $this->taskRepository->getList($options, $project_id, $user_id);
-        return $taskResponse;
+        return  $this->taskRepository->list($options, $project_id, $user_id);
     }
 
     public function show($id, $project_id, $user_id)
@@ -29,19 +26,16 @@ class TaskService implements TaskServiceInterface
 
     public function create($taskDetails)
     {
-        $taskResponse = $this->taskRepository->create($taskDetails);
-        return $taskResponse;
+        return $this->taskRepository->create($taskDetails);
     }
 
     public function update($taskDetails, $id)
     {
-        $taskResponse = $this->taskRepository->update($taskDetails, $id);
-        return $taskResponse;
+        return  $this->taskRepository->update($taskDetails, $id);
     }
 
     public function delete($id)
     {
-        $taskResponse = $this->taskRepository->delete($id);
-        return $taskResponse;
+        return $this->taskRepository->delete($id);
     }
 }

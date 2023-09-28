@@ -6,11 +6,8 @@ use App\Repositories\Admin\Project\ProjectRepositoryInterface;
 
 class ProjectService implements ProjectServiceInterface
 {
-    private $projectRepository;
-
-    public function __construct(ProjectRepositoryInterface $projectRepository)
+    public function __construct(private ProjectRepositoryInterface $projectRepository)
     {
-        $this->projectRepository = $projectRepository;
     }
 
     public function index($options)

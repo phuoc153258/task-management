@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Admin\Project\ProjectRepositoryInterface;
 use App\Services\Admin\Project\ProjectService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
@@ -13,11 +12,8 @@ class ProjectController extends Controller
 {
     use Authorizable, HttpResponsable;
 
-    private ProjectService $projectService;
-
-    public function __construct(ProjectService $projectService)
+    public function __construct(private ProjectService $projectService)
     {
-        $this->projectService = $projectService;
     }
 
     public function index(Request $request)
@@ -34,9 +30,10 @@ class ProjectController extends Controller
                 'select' => ['*']
             ];
             $projectResponse = $this->projectService->index($options);
+
             return $this->success($projectResponse, trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -44,9 +41,10 @@ class ProjectController extends Controller
     {
         try {
             $projectResponse = $this->projectService->show($id);
+
             return $this->success($projectResponse, trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 }

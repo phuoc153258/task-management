@@ -34,7 +34,7 @@ trait HttpResponsable
         throw new HttpResponseException(response()->json(
             [
                 'status' => false,
-                'message' => 'Invalid infomation',
+                'message' => trans('base.invalid-information'),
                 'data' => $errors,
             ],
             JsonResponse::HTTP_UNPROCESSABLE_ENTITY

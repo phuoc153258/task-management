@@ -15,10 +15,8 @@ class LeaveRequestController extends Controller
 {
     use Authorizable, HttpResponsable;
 
-    private LeaveRequestService $leaveRequestService;
-    public function __construct(LeaveRequestService $leaveRequestService)
+    public function __construct(private LeaveRequestService $leaveRequestService)
     {
-        $this->leaveRequestService = $leaveRequestService;
     }
 
     public function index(Request $request)
@@ -35,9 +33,10 @@ class LeaveRequestController extends Controller
                 'select' => ['*']
             ];
             $leaveRequestResponse = $this->leaveRequestService->index($options);
+
             return $this->success(new PaginateResource($leaveRequestResponse, LeaveRequestResource::collection($leaveRequestResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -45,9 +44,10 @@ class LeaveRequestController extends Controller
     {
         try {
             $leaveRequestResponse = $this->leaveRequestService->show($id);
+
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -55,9 +55,10 @@ class LeaveRequestController extends Controller
     {
         try {
             $leaveRequestResponse = $this->leaveRequestService->update($request->validated(), $id);
+
             return $this->success(new LeaveRequestResource($leaveRequestResponse->fresh()), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
+            return $this->error($th, trans('base.base-failed'), 400);
         }
     }
 }

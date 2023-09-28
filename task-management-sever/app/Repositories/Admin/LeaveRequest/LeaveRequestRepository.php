@@ -15,24 +15,25 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
         $this->paginateService = $paginateService;
     }
 
-    public function getLeaveRequests($options)
+    public function list($options)
     {
         $query = LeaveRequest::with('leaveRequestType')->status();
         $leaveRequestResponse = $this->paginateService->paginate($options, $query);
+
         return $leaveRequestResponse;
     }
 
-    public function getLeaveRequest(int $id)
+    public function show(int $id)
     {
         return LeaveRequest::status()->find($id);
     }
 
-    public function createLeaveRequest(array $leaveRequestDetails)
+    public function create(array $leaveRequestDetails)
     {
         return LeaveRequest::create($leaveRequestDetails);
     }
 
-    public function updateLeaveRequest($leaveRequest, array $leaveRequestDetails)
+    public function update($leaveRequest, array $leaveRequestDetails)
     {
         return $leaveRequest->update($leaveRequestDetails);
     }

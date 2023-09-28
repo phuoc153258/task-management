@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\UserProjectResource;
-use App\Repositories\UserProject\UserProjectRepositoryInterface;
 use App\Services\UserProject\UserProjectService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
@@ -13,11 +12,9 @@ use Illuminate\Http\Request;
 class UserProjectController extends Controller
 {
     use HttpResponsable, Authorizable;
-    private UserProjectService $userProjectService;
 
-    public function __construct(UserProjectService $userProjectService)
+    public function __construct(private UserProjectService $userProjectService)
     {
-        $this->userProjectService = $userProjectService;
     }
 
     public function index(Request $request, $project_id)
@@ -35,9 +32,10 @@ class UserProjectController extends Controller
                 'select' => ['*']
             ];
             $userProjectResponse = $this->userProjectService->index($options, $project_id, $user->id);
+
             return $this->success(new PaginateResource($userProjectResponse, UserProjectResource::collection($userProjectResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -46,9 +44,10 @@ class UserProjectController extends Controller
         try {
             $user = $this->getCurrentUser();
             $userProjectResponse = $this->userProjectService->show($id, $project_id, $user->id);
+
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -56,9 +55,10 @@ class UserProjectController extends Controller
     {
         try {
             $userProjectResponse = $this->userProjectService->create($project_id, $user_id);
+
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 
@@ -66,9 +66,10 @@ class UserProjectController extends Controller
     {
         try {
             $userProjectResponse = $this->userProjectService->delete($project_id, $user_id);
+
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 }

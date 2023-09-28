@@ -9,37 +9,32 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService implements UserServiceInterface
 {
-    private UserRepositoryInterface $userRepository;
-    private FileService $fileService;
 
-    public function __construct(UserRepositoryInterface $userRepository, FileService $fileService)
+    public function __construct(private UserRepositoryInterface $userRepository, private FileService $fileService)
     {
-        $this->userRepository = $userRepository;
-        $this->fileService = $fileService;
     }
 
     public function index($options)
     {
-        $usersResponse = $this->userRepository->getUsers($options);
-        return $usersResponse;
+        return $this->userRepository->list($options);
     }
 
     public function show($id)
     {
-        $userResponse =  $this->userRepository->getUserById($id);
+        $userResponse =  $this->userRepository->getById($id);
         if (!$userResponse) abort(400, trans('base.base-failed'));
+
         return $userResponse;
     }
 
     public function create($userInfo)
     {
-        $userResponse = $this->userRepository->createUser($userInfo);
-        return $userResponse;
+        return $this->userRepository->create($userInfo);
     }
 
     public function update($userInfo, $id, $avatar)
     {
-        $user = $this->userRepository->getUserById($id);
+        $user = $this->userRepository->getById($id);
         if (empty($user)) abort(400, trans('user.user-is-not-exist'));
 
         $infoUser = [
@@ -49,22 +44,24 @@ class UserService implements UserServiceInterface
         ];
         $this->fileService->delete($user->avatar);
         $user->update($infoUser);
+
         return $user;
     }
 
     public function password($userInfo, $id)
     {
-        $user = $this->userRepository->getUserById($id);
+        $user = $this->userRepository->getById($id);
         if (empty($user)) abort(400, trans('user.user-is-not-exist'));
 
         if (!Hash::check($userInfo['old_password'], $user->password)) abort(400, 'Old password is not correct');
         $user->update($userInfo);
+
         return $user;
     }
 
     public function delete($id)
     {
-        $user = $this->userRepository->getUserById($id);
+        $user = $this->userRepository->getById($id);
         if (empty($user)) abort(400, trans('user.user-is-not-exist'));
 
         $user->delete();
