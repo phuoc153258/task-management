@@ -8,16 +8,16 @@ use App\Services\Paginate\PaginateService;
 
 class LeaveRequestRepository implements LeaveRequestRepositoryInterface
 {
-
-    public function __construct(
-        private PaginateService $paginateService
-    ) {
-    }
-
     public function list($options, int $id)
     {
-        $query = LeaveRequest::with('leaveRequestType')->ofUser($id);
-        $leaveRequestResponse = $this->paginateService->paginate($options, $query);
+        $leaveRequestResponse = LeaveRequest::with('leaveRequestType')
+            ->ofUser($id)
+            ->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'")
+            ->when($options['sort'] !== '', function ($query)  use ($options) {
+                return $query->orderBy($options['sort_by'], $options['sort']);
+            })
+            ->select(config('paginate.leave_request.select'))
+            ->paginate($options['per_page'], ['page' => $options['page']]);
 
         return $leaveRequestResponse;
     }

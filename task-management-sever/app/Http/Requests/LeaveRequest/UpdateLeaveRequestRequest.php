@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests\LeaveRequest;
 
+use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateLeaveRequestRequest extends FormRequest
 {
+    use HttpResponsable;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,15 +26,15 @@ class UpdateLeaveRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|string|min:5|max:50',
+            'content' => 'nullable|string|min:5|max:50',
             'leave_request_type_id' => [
-                'required',
+                'nullable',
                 'numeric',
                 'min:1',
                 Rule::exists('leave_request_types', 'id'),
             ],
-            'start_date' => 'date|required',
-            'end_date' => 'date|required',
+            'start_date' => 'nullable|date|after:today',
+            'end_date' => 'nullable|date|after:start_date',
         ];
     }
 }
