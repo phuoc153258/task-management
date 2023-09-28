@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LeaveRequestStatus;
 use App\Http\Requests\LeaveRequest\CreateLeaveRequestRequest;
 use App\Http\Requests\LeaveRequest\ListLeaveRequestRequest;
 use App\Http\Requests\LeaveRequest\UpdateLeaveRequestRequest;
