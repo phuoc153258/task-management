@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class LeaveRequestType extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'title',
     ];
