@@ -12,17 +12,11 @@ class ProjectService implements ProjectServiceInterface
 
     public function index($options, $user_id)
     {
-        $projectResponse = $this->projectRepository->getList($options, $user_id);
-
-        return $projectResponse;
+        return $this->projectRepository->list($options, $user_id);
     }
 
     public function show($id, $user_id)
     {
-        $projectResponse = $this->projectRepository->getById($id, $user_id);
-        if (empty($projectResponse))
-            abort(400, trans('base.base-failed'));
-
-        return $projectResponse;
+        return $this->projectRepository->getById($id, $user_id);
     }
 }

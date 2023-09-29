@@ -2,8 +2,14 @@
 
 return [
     'status' => [
-        'pending' => 'Pending',
-        'accept' => 'Accept',
-        'reject' => 'Reject',
-    ]
+        'leave-request' => [
+            'pending' => 'Pending',
+            'accept' => 'Accept',
+            'reject' => 'Reject',
+        ],
+        'project' => [
+            'open' => 'Open',
+            'close' => 'Close',
+        ],
+    ],
 ];

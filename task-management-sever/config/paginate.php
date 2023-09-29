@@ -17,4 +17,9 @@ return [
         'sort_by' => 'start_date',
         'select' => ['*'],
     ],
+    'project' => [
+        'search_by' => 'title',
+        'sort_by' => 'description',
+        'select' => ['*'],
+    ],
 ];

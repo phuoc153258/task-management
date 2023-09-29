@@ -19,9 +19,11 @@ class ProjectResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
+            'status_name' => $this->status_name,
             'created_by' => $this->created_by,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'user' => $this->user,
         ];
     }
 }

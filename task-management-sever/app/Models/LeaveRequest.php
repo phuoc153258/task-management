@@ -30,7 +30,7 @@ class LeaveRequest extends Model
 
     function getStatusNameAttribute()
     {
-        return trans('message.status.' . strtolower(LeaveRequestStatus::tryFrom($this->status)?->name))  ?? "";
+        return trans('message.status.leave-request.' . strtolower(LeaveRequestStatus::tryFrom($this->status)?->name))  ?? "";
     }
 
     public function scopeOfUser(Builder $query, $id): void
