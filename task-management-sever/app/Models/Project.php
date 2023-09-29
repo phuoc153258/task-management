@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Enums\ProjectStatus;
+use App\Traits\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, Fillable;
 
     protected $fillable = [
         'title',
@@ -22,11 +23,6 @@ class Project extends Model
     function getStatusNameAttribute()
     {
         return trans('message.status.project.' . strtolower(ProjectStatus::tryFrom($this->status)?->name))  ?? "";
-    }
-
-    public static function getFields()
-    {
-        return (new static)->getFillable();
     }
 
     public function user()

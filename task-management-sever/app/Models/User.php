@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Fillable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, Fillable;
 
     /**
      * The attributes that are mass assignable.
@@ -65,10 +66,5 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public static function getFields()
-    {
-        return (new static)->getFillable();
     }
 }

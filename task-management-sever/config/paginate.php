@@ -22,4 +22,9 @@ return [
         'sort_by' => 'description',
         'select' => ['*'],
     ],
+    'user_project' => [
+        'search_by' => 'user_id',
+        'sort_by' => 'user_id',
+        'select' => ['*'],
+    ],
 ];

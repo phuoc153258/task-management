@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserProjectController;
+use App\Http\Controllers\Admin\UserProjectController;
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     Route::get('/project/{project_id}', [UserProjectController::class, 'index']);
 
     Route::post('/project/{project_id}/user/{user_id}', [UserProjectController::class, 'create'])->middleware('role:leader|admin');

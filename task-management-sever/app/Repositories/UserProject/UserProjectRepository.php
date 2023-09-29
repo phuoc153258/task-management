@@ -4,21 +4,22 @@ namespace App\Repositories\UserProject;
 
 use App\Models\UserProject;
 use App\Repositories\UserProject\UserProjectRepositoryInterface;
-use App\Services\Paginate\PaginateService;
 
 class UserProjectRepository implements UserProjectRepositoryInterface
 {
-    private PaginateService $paginateService;
-
-    public function __construct(PaginateService $paginateService)
-    {
-        $this->paginateService = $paginateService;
-    }
-
     public function list($options, $project_id)
     {
-        $query = UserProject::query()->ofProject($project_id);
-        $userProjectResponse = $this->paginateService->paginate($options, $query);
+        $userProjectResponse = UserProject::query()
+            ->with(['user', 'project'])
+            ->ofProject($project_id)
+            ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
+                return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
+            })
+            ->when($options['sort'] !== '' && isset($options['sort_by']), function ($query)  use ($options) {
+                return $query->orderBy($options['sort_by'], $options['sort']);
+            })
+            ->select(config('paginate.user_project.select'))
+            ->paginate($options['per_page'], ['page' => $options['page']]);
 
         return $userProjectResponse;
     }
@@ -35,10 +36,8 @@ class UserProjectRepository implements UserProjectRepositoryInterface
 
     public function create($project_id, $user_id)
     {
-        $userProjectResponse = UserProject::firstOrCreate(
+        return UserProject::firstOrCreate(
             ['project_id' =>  $project_id, 'user_id' => $user_id],
         );
-
-        return $userProjectResponse;
     }
 }

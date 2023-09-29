@@ -2,18 +2,29 @@
 
 namespace App\Models;
 
+use App\Traits\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserProject extends Model
 {
-    use HasFactory;
+    use HasFactory, Fillable;
 
     protected $fillable = [
         'user_id',
         'project_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id', 'id');
+    }
 
     public function scopeOfProject(Builder $query, $id): void
     {

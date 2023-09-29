@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LeaveRequestStatus;
+use App\Traits\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LeaveRequest extends Model
 {
-    use HasFactory;
+    use HasFactory, Fillable;
     protected $fillable = [
         'content',
         'start_date',
@@ -22,11 +23,6 @@ class LeaveRequest extends Model
     ];
 
     protected $appends = ['status_name'];
-
-    public static function getFields()
-    {
-        return (new static)->getFillable();
-    }
 
     function getStatusNameAttribute()
     {

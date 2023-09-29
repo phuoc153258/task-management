@@ -20,6 +20,8 @@ class UserProjectResource extends JsonResource
             'project_id' => $this->project_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'user' => $this->user,
+            'project' => $this->project,
         ];
     }
 }

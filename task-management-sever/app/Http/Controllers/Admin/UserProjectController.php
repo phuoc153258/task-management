@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProject\ListUserProjectRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\UserProjectResource;
-use App\Services\UserProject\UserProjectService;
+use App\Services\Admin\UserProject\UserProjectService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 
@@ -31,8 +32,7 @@ class UserProjectController extends Controller
     public function create($project_id, $user_id)
     {
         try {
-            $user = $this->getCurrentUser();
-            $userProjectResponse = $this->userProjectService->create($project_id, $user_id, $user->id);
+            $userProjectResponse = $this->userProjectService->create($project_id, $user_id);
 
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
@@ -43,8 +43,7 @@ class UserProjectController extends Controller
     public function delete($project_id, $user_id)
     {
         try {
-            $user = $this->getCurrentUser();
-            $userProjectResponse = $this->userProjectService->delete($project_id, $user_id, $user->id);
+            $userProjectResponse = $this->userProjectService->delete($project_id, $user_id);
 
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
