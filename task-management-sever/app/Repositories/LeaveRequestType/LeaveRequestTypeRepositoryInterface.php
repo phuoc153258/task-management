@@ -4,6 +4,6 @@ namespace App\Repositories\LeaveRequestType;
 
 interface LeaveRequestTypeRepositoryInterface
 {
-    public function getAll();
+    public function list();
     public function getById(int $id);
 }

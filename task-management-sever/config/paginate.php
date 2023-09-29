@@ -7,10 +7,14 @@ return [
         'search' => '',
         'sort' => '',
     ],
+    'user' => [
+        'search_by' => 'username',
+        'sort_by' => 'fullname',
+        'select' => ['*'],
+    ],
     'leave_request' => [
         'search_by' => 'content',
-        'sort_by' => 'id',
-        'fields' => ['id', 'content', 'start_date', 'end_date'],
+        'sort_by' => 'start_date',
         'select' => ['*'],
-    ]
+    ],
 ];

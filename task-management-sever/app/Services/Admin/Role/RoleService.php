@@ -12,7 +12,7 @@ class RoleService
 
     public function index()
     {
-        $usersResponse = $this->roleRepository->getAll();
+        $usersResponse = $this->roleRepository->list();
         return $usersResponse;
     }
 }

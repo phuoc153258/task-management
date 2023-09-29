@@ -6,6 +6,7 @@ use App\Http\Requests\User\ChangepasswordRequest;
 
 use App\Traits\HttpResponsable;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\UploadAvatarUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\User\UserService;
 use App\Traits\Authorizable;
@@ -23,8 +24,19 @@ class UserController extends Controller
         try {
             $userInfo = $request->validated();
             $currentUser = $this->getCurrentUser();
-            $avatar = $request->file('avatar');
-            $userResponse = $this->userService->update($userInfo, $currentUser->id, $avatar);
+            $userResponse = $this->userService->update($userInfo, $currentUser->id);
+
+            return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th, trans('user.update-user-failed'), 400);
+        }
+    }
+
+    public function avatar(UploadAvatarUserRequest $request)
+    {
+        try {
+            $currentUser = $this->getCurrentUser();
+            $userResponse = $this->userService->avatar($request->file('avatar'), $currentUser->id);
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {

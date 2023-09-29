@@ -14,36 +14,22 @@ class UserService implements UserServiceInterface
     {
     }
 
-    public function index($options)
-    {
-        return $this->userRepository->list($options);
-    }
-
-    public function show($id)
-    {
-        $userResponse =  $this->userRepository->getById($id);
-        if (!$userResponse) abort(400, trans('base.base-failed'));
-
-        return $userResponse;
-    }
-
-    public function create($userInfo)
-    {
-        return $this->userRepository->create($userInfo);
-    }
-
-    public function update($userInfo, $id, $avatar)
+    public function update($userInfo, $id)
     {
         $user = $this->userRepository->getById($id);
-        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
+        $user->update($userInfo);
 
-        $infoUser = [
-            'fullname' => $userInfo['fullname'],
-            'email' => $userInfo['email'],
-            'avatar' => $this->fileService->upload($avatar, 'avatar'),
-        ];
+        return $user;
+    }
+
+    public function avatar($avatar, $id)
+    {
+        $user = $this->userRepository->getById($id);
+
+        $avatar_name = $this->fileService->upload($avatar, 'avatar');
         $this->fileService->delete($user->avatar);
-        $user->update($infoUser);
+
+        $user->update(['avatar' => $avatar_name]);
 
         return $user;
     }
@@ -51,19 +37,10 @@ class UserService implements UserServiceInterface
     public function password($userInfo, $id)
     {
         $user = $this->userRepository->getById($id);
-        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
 
         if (!Hash::check($userInfo['old_password'], $user->password)) abort(400, 'Old password is not correct');
         $user->update($userInfo);
 
         return $user;
-    }
-
-    public function delete($id)
-    {
-        $user = $this->userRepository->getById($id);
-        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
-
-        $user->delete();
     }
 }

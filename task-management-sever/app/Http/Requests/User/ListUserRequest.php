@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\LeaveRequest;
+namespace App\Http\Requests\User;
 
-use App\Models\LeaveRequest;
+use App\Models\User;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ListLeaveRequestRequest extends FormRequest
+class ListUserRequest extends FormRequest
 {
     use HttpResponsable;
 
@@ -26,8 +26,8 @@ class ListLeaveRequestRequest extends FormRequest
             'per_page' => $this->input('per_page') === null ? config('paginate.default.per_page') : (int) $this->input('per_page'),
             'search' => $this->input('search') === null ? config('paginate.default.search') : $this->input('search'),
             'sort' => $this->input('sort') === null ? config('paginate.default.sort') : $this->input('sort'),
-            'search_by' =>  $this->input('search_by') === null ? config('paginate.leave_request.search_by') : $this->input('search_by'),
-            'sort_by' =>  $this->input('sort_by') === null ? config('paginate.leave_request.sort_by') : $this->input('sort_by'),
+            'search_by' =>  $this->input('search_by') === null ? config('paginate.user.search_by') : $this->input('search_by'),
+            'sort_by' =>  $this->input('sort_by') === null ? config('paginate.user.sort_by') : $this->input('sort_by'),
         ]);
     }
 
@@ -46,12 +46,12 @@ class ListLeaveRequestRequest extends FormRequest
             'search_by' => [
                 'nullable',
                 'string',
-                Rule::in(LeaveRequest::getFields()),
+                Rule::in(User::getFields()),
             ],
             'sort_by' => [
                 'nullable',
                 'string',
-                Rule::in(LeaveRequest::getFields()),
+                Rule::in(User::getFields()),
             ],
         ];
     }

@@ -4,21 +4,20 @@ namespace App\Repositories\Admin\User;
 
 use App\Models\User;
 use App\Repositories\Admin\User\UserRepositoryInterface;
-use App\Services\Paginate\PaginateService;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private PaginateService $paginateService;
-
-    public function __construct(PaginateService $paginateService)
-    {
-        $this->paginateService = $paginateService;
-    }
-
     public function list($options)
     {
-        $query =  User::with('roles');
-        $userResponse = $this->paginateService->paginate($options, $query);
+        $userResponse = User::with('roles')
+            ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
+                return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
+            })
+            ->when($options['sort'] !== '' && isset($options['sort_by']), function ($query)  use ($options) {
+                return $query->orderBy($options['sort_by'], $options['sort']);
+            })
+            ->select(config('paginate.user.select'))
+            ->paginate($options['per_page'], ['page' => $options['page']]);
 
         return $userResponse;
     }
@@ -35,7 +34,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function delete($userId)
     {
-        User::with('roles')->destroy($userId);
+        return User::with('roles')->destroy($userId);
     }
 
     public function create(array $userDetails)

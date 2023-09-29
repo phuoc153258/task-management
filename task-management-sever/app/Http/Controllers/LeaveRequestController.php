@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\LeaveRequestStatus;
 use App\Http\Requests\LeaveRequest\CreateLeaveRequestRequest;
 use App\Http\Requests\LeaveRequest\ListLeaveRequestRequest;
 use App\Http\Requests\LeaveRequest\UpdateLeaveRequestRequest;
@@ -11,7 +10,6 @@ use App\Http\Resources\PaginateResource;
 use App\Services\LeaveRequest\LeaveRequestService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
-use Illuminate\Http\Request;
 
 class LeaveRequestController extends Controller
 {

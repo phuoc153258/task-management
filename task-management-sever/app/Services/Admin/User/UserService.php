@@ -21,10 +21,7 @@ class UserService implements UserServiceInterface
 
     public function show($id)
     {
-        $userResponse =  $this->userRepository->getById($id);
-        if (!$userResponse) abort(400, trans('base.base-failed'));
-
-        return $userResponse;
+        return $this->userRepository->getById($id);
     }
 
     public function create($userInfo)
@@ -32,20 +29,23 @@ class UserService implements UserServiceInterface
         return $this->userRepository->create($userInfo);
     }
 
-    public function update($userInfo, $id, $avatar)
+    public function update($userInfo, $id)
     {
         $user = $this->userRepository->getById($id);
-        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
 
-        $infoUser = [
-            'username' => $userInfo['username'],
-            'fullname' => $userInfo['fullname'],
-            'email' => $userInfo['email'],
-            'avatar' => $this->fileService->upload($avatar, 'avatar'),
-        ];
-        $this->fileService->delete($user->avatar);
-        $user->update($infoUser);
+        $user->update($userInfo);
         $user->syncRoles([])->assignRole($userInfo['role_id']);
+
+        return $user;
+    }
+
+    public function avatar($avatar, $id)
+    {
+        $user = $this->userRepository->getById($id);
+
+        $userInfo = ['avatar' => $this->fileService->upload($avatar, 'avatar')];
+        $this->fileService->delete($user->avatar);
+        $user->update($userInfo);
 
         return $user;
     }
@@ -53,12 +53,9 @@ class UserService implements UserServiceInterface
     public function password($id)
     {
         $user = $this->userRepository->getById($id);
-        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
-
-        $infoUser = [
-            'password' => '123456',
-        ];
-        $user->update($infoUser);
+        $user->update([
+            'password' => config('user.password_default'),
+        ]);
 
         return $user;
     }

@@ -10,7 +10,9 @@ interface UserServiceInterface
 
     public function create($userInfo);
 
-    public function update($userInfo, $id, $avatar);
+    public function update($userInfo, $id);
+
+    public function avatar($avatar, $id);
 
     public function password($id);
 

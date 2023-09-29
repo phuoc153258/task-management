@@ -23,9 +23,14 @@ class LeaveRequest extends Model
 
     protected $appends = ['status_name'];
 
+    public static function getFields()
+    {
+        return (new static)->getFillable();
+    }
+
     function getStatusNameAttribute()
     {
-        return LeaveRequestStatus::tryFrom($this->status)->name;
+        return trans('message.status.' . strtolower(LeaveRequestStatus::tryFrom($this->status)?->name))  ?? "";
     }
 
     public function scopeOfUser(Builder $query, $id): void

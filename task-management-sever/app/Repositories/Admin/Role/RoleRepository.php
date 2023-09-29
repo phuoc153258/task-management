@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleRepository implements RoleRepositoryInterface
 {
-    public function getAll()
+    public function list()
     {
         return Role::get();
     }
