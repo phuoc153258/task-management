@@ -3,27 +3,32 @@
 namespace App\Repositories\Admin\Project;
 
 use App\Models\Project;
-use App\Services\Paginate\PaginateService;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
-    private PaginateService $paginateService;
-
-    public function __construct(PaginateService $paginateService)
+    public function list($options)
     {
-        $this->paginateService = $paginateService;
-    }
-
-    public function index($options)
-    {
-        $query = Project::query();
-        $projectResponse = $this->paginateService->paginate($options, $query);
+        $projectResponse = Project::query()
+            ->with('user')
+            ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
+                return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
+            })
+            ->when($options['sort'] !== '' && isset($options['sort_by']), function ($query)  use ($options) {
+                return $query->orderBy($options['sort_by'], $options['sort']);
+            })
+            ->select(config('paginate.project.select'))
+            ->paginate($options['per_page'], ['page' => $options['page']]);
 
         return $projectResponse;
     }
 
     public function show($id)
     {
-        return Project::find($id);
+        return Project::findOrFail($id);
+    }
+
+    public function create($projectDetails)
+    {
+        return Project::with('user')->firstOrCreate($projectDetails);
     }
 }

@@ -12,15 +12,34 @@ class ProjectService implements ProjectServiceInterface
 
     public function index($options)
     {
-        return $this->projectRepository->index($options);
+        return $this->projectRepository->list($options);
     }
 
     public function show($id)
     {
-        $projectResponse = $this->projectRepository->show($id);
-        if (empty($projectResponse))
-            abort(400, trans('base.base-failed'));
+        return $this->projectRepository->show($id);
+    }
 
-        return $projectResponse;
+    public function create($projectDetails)
+    {
+        return $this->projectRepository->create($projectDetails);
+    }
+
+    public function update($projectDetails, $id)
+    {
+        $project = $this->projectRepository->show($id);
+
+        $project->update($projectDetails);
+
+        return $project;
+    }
+
+    public function delete($id)
+    {
+        $project = $this->projectRepository->show($id);
+
+        $project->delete();
+
+        return $project;
     }
 }

@@ -4,7 +4,9 @@ namespace App\Repositories\Admin\Project;
 
 interface ProjectRepositoryInterface
 {
-    public function index($options);
+    public function list($options);
 
     public function show($id);
+
+    public function create($projectDetails);
 }
