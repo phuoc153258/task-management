@@ -20,6 +20,7 @@ class LeaveRequestResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'status' => $this->status,
+            'status_name' => $this->status_name,
             'accept_by' => $this->accept_by,
             'user_id' => $this->user_id,
             'leave_request_type_id' => $this->leave_request_type_id,

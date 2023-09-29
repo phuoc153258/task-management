@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest
+class UploadAvatarUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +22,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|min:5|max:50',
-            'fullname' => 'required|string|min:5|max:50',
-            'email' => 'required|email|min:5|max:50',
-            'role_id' => [
-                'required',
-                'numeric',
-                'min:1',
-                Rule::exists('roles', 'id'),
-            ],
+            'avatar' => 'required|max:2000|mimes:jpeg,png,jpg'
         ];
     }
 }

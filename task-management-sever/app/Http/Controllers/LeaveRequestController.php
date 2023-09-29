@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LeaveRequest\CreateLeaveRequestRequest;
+use App\Http\Requests\LeaveRequest\ListLeaveRequestRequest;
 use App\Http\Requests\LeaveRequest\UpdateLeaveRequestRequest;
 use App\Http\Resources\LeaveRequestResource;
 use App\Http\Resources\PaginateResource;
 use App\Services\LeaveRequest\LeaveRequestService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
-use Illuminate\Http\Request;
 
 class LeaveRequestController extends Controller
 {
@@ -19,21 +19,11 @@ class LeaveRequestController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index(ListLeaveRequestRequest $request)
     {
         try {
             $user = $this->getCurrentUser();
-            $options = [
-                'search' => empty($request->input('search')) ? '' : $request->input('search'),
-                'limit' => empty($request->input('limit')) ? 5 : intval($request->input('limit')),
-                'page' => empty($request->input('page')) ? 1 : intval($request->input('page')),
-                'is_paginate' => filter_var($request->input('is_paginate', true), FILTER_VALIDATE_BOOLEAN),
-                'search_by' => 'content',
-                'sort' =>  in_array($request->input('sort'), ['asc', 'desc']) ? $request->input('sort') : '',
-                'sort_by' => empty($request->input('sort_by')) ? 'id' : $request->input('sort_by'),
-                'select' => ['*']
-            ];
-            $leaveRequestResponse = $this->leaveRequestService->index($options, $user->id);
+            $leaveRequestResponse = $this->leaveRequestService->index($request->validated(), $user->id);
 
             return $this->success(new PaginateResource($leaveRequestResponse, LeaveRequestResource::collection($leaveRequestResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {

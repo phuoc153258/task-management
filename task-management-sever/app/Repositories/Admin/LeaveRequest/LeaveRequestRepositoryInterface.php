@@ -10,7 +10,5 @@ interface LeaveRequestRepositoryInterface
 
     public function create(array $leaveRequestDetails);
 
-    public function update($leaveRequest, array $leaveRequestDetails);
-
     public function deleteMany($user_id);
 }

@@ -68,4 +68,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public static function getFields()
+    {
+        return (new static)->getFillable();
+    }
 }

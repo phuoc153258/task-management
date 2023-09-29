@@ -18,11 +18,7 @@ class LeaveRequestService implements LeaveRequestServiceInterface
 
     public function show($id, $user_id)
     {
-        $leaveRequest = $this->leaveRequest->show($id, $user_id);
-        if (empty($leaveRequest))
-            abort(400, trans('base.base-failed'));
-
-        return $leaveRequest;
+        return $this->leaveRequest->show($id, $user_id);
     }
 
     public function create($leaveRequestDetails)
@@ -33,7 +29,6 @@ class LeaveRequestService implements LeaveRequestServiceInterface
     public function update($leaveRequestDetails, $id, $user_id)
     {
         $leaveRequest = $this->leaveRequest->show($id, $user_id);
-        if (empty($leaveRequest)) abort(400, trans('base.base-failed'));
         $this->leaveRequest->update($leaveRequest, $leaveRequestDetails);
 
         return $leaveRequest;

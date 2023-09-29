@@ -13,6 +13,6 @@ class LeaveRequestTypeService implements LeaveRequestTypeServiceInterface
 
     public function index()
     {
-        return $this->leaveRequestType->getAll();
+        return $this->leaveRequestType->list();
     }
 }

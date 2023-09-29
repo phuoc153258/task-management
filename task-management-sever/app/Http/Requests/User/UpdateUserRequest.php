@@ -27,7 +27,6 @@ class UpdateUserRequest extends FormRequest
         return [
             'fullname' => 'required|string|min:5|max:50',
             'email' => 'required|email|min:5|max:50',
-            'avatar' => 'required',
         ];
     }
 }

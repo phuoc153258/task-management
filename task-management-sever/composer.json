@@ -33,8 +33,7 @@
         },
         "files": [
             "app/Helpers/uuid.php",
-            "app/Helpers/file.php",
-            "app/Constants/file.php"
+            "app/Helpers/file.php"
         ]
     },
     "autoload-dev": {

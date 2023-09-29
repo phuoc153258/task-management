@@ -15,7 +15,7 @@ class LeaveRequestTypeRepository implements LeaveRequestTypeRepositoryInterface
         $this->paginateService = $paginateService;
     }
 
-    public function getAll()
+    public function list()
     {
         return LeaveRequestType::get();
     }

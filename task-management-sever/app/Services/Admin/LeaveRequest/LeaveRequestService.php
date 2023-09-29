@@ -14,26 +14,20 @@ class LeaveRequestService implements LeaveRequestServiceInterface
 
     public function index($options)
     {
-        $leaveRequestResponse = $this->leaveRequestRepository->list($options);
-        return $leaveRequestResponse;
+        return $this->leaveRequestRepository->list($options);
     }
 
     public function show($id)
     {
-        $leaveRequestResponse = $this->leaveRequestRepository->show($id);
-        if (empty($leaveRequestResponse))
-            abort(400, trans('base.base-failed'));
-
-        return $leaveRequestResponse;
+        return $this->leaveRequestRepository->show($id);
     }
 
     public function update($leaveRequestDetails, $id)
     {
         $leaveRequestResponse = $this->leaveRequestRepository->show($id);
-        if (empty($leaveRequestResponse)) abort(400, trans('base.base-failed'));
 
         $leaveRequestDetails = [...$leaveRequestDetails, 'accept_by' => auth()->id()];
-        $this->leaveRequestRepository->update($leaveRequestResponse, $leaveRequestDetails);
+        $leaveRequestResponse->update($leaveRequestDetails);
 
         return $leaveRequestResponse;
     }
