@@ -3,26 +3,19 @@
 namespace App\Http\Requests\Task;
 
 use App\Traits\Authorizable;
+use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class CreateTaskRequest extends FormRequest
 {
-    use Authorizable;
+    use HttpResponsable, Authorizable;
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
         return true;
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'created_by' => $this->getCurrentUser()->id,
-            'status' => 0
-        ]);
     }
 
     /**

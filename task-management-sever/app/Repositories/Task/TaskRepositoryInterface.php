@@ -8,6 +8,8 @@ interface TaskRepositoryInterface
 
     public function show(int $id, $user_id);
 
+    public function getById($id);
+
     public function create($taskDetails);
 
     public function update($taskDetails, $id);

@@ -30,6 +30,20 @@ class RepositoryServiceProvider extends ServiceProvider
             LeaveRequestTypeRepositoryInterface::class,
             LeaveRequestTypeRepository::class,
         );
+
+        $this->app->bind(
+            'App\Repositories\Project\ProjectRepositoryInterface',
+            'App\Repositories\Project\ProjectRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\UserProject\UserProjectRepositoryInterface',
+            'App\Repositories\UserProject\UserProjectRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Task\TaskRepositoryInterface',
+            'App\Repositories\Task\TaskRepository'
+        );
+
         $this->app->bind(
             'App\Repositories\Admin\LeaveRequest\LeaveRequestRepositoryInterface',
             'App\Repositories\Admin\LeaveRequest\LeaveRequestRepository'
@@ -53,18 +67,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Repositories\Admin\UserProject\UserProjectRepositoryInterface',
             'App\Repositories\Admin\UserProject\UserProjectRepository'
-        );
-        $this->app->bind(
-            'App\Repositories\Project\ProjectRepositoryInterface',
-            'App\Repositories\Project\ProjectRepository'
-        );
-        $this->app->bind(
-            'App\Repositories\UserProject\UserProjectRepositoryInterface',
-            'App\Repositories\UserProject\UserProjectRepository'
-        );
-        $this->app->bind(
-            'App\Repositories\Task\TaskRepositoryInterface',
-            'App\Repositories\Task\TaskRepository'
         );
     }
 

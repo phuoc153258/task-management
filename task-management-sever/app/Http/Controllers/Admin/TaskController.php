@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\CreateTaskRequest;
 use App\Http\Requests\Task\ListTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\TaskResource;
-use App\Services\Task\TaskService;
+use App\Services\Admin\Task\TaskService;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 
@@ -22,8 +23,7 @@ class TaskController extends Controller
     public function index(ListTaskRequest $request, $project_id)
     {
         try {
-            $user = $this->getCurrentUser();
-            $taskResponse = $this->taskService->index($request->validated(), $project_id, $user->id);
+            $taskResponse = $this->taskService->index($request->validated(), $project_id);
 
             return $this->success(new PaginateResource($taskResponse, TaskResource::collection($taskResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
@@ -34,8 +34,7 @@ class TaskController extends Controller
     public function show($id)
     {
         try {
-            $user = $this->getCurrentUser();
-            $projectResponse = $this->taskService->show($id, $user->id);
+            $projectResponse = $this->taskService->show($id);
 
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
@@ -46,9 +45,7 @@ class TaskController extends Controller
     public function create(CreateTaskRequest $request)
     {
         try {
-            $user = $this->getCurrentUser();
-            $taskDetails = [...$request->validated(), 'created_by' => $user->id, 'status' => 0];
-            $projectResponse = $this->taskService->create($taskDetails);
+            $projectResponse = $this->taskService->create($request->validated());
 
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {

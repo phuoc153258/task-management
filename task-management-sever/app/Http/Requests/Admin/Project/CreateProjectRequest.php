@@ -18,14 +18,6 @@ class CreateProjectRequest extends FormRequest
         return true;
     }
 
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'created_by' => $this->getCurrentUser()->id,
-        ]);
-    }
-
-
     /**
      * Get the validation rules that apply to the request.
      *

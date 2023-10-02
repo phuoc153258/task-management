@@ -46,7 +46,9 @@ class LeaveRequestController extends Controller
     public function create(CreateLeaveRequestRequest $request)
     {
         try {
-            $leaveRequestResponse = $this->leaveRequestService->create($request);
+            $user = $this->getCurrentUser();
+            $leaveRequestDetails = [...$request->validated(), 'user_id' => $user->id];
+            $leaveRequestResponse = $this->leaveRequestService->create($leaveRequestDetails);
 
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'));
         } catch (\Throwable $th) {
