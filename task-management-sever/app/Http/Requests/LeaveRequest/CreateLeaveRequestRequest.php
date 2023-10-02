@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\LeaveRequest;
 
+use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class CreateLeaveRequestRequest extends FormRequest
 {
-    use HttpResponsable;
+    use HttpResponsable, Authorizable;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -17,6 +18,14 @@ class CreateLeaveRequestRequest extends FormRequest
     {
         return true;
     }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => $this->getCurrentUser()->id,
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.

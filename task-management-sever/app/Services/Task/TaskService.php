@@ -15,13 +15,9 @@ class TaskService implements TaskServiceInterface
         return  $this->taskRepository->list($options, $project_id, $user_id);
     }
 
-    public function show($id, $project_id, $user_id)
+    public function show($id, $user_id)
     {
-        $taskResponse = $this->taskRepository->getById($id, $project_id, $user_id);
-        if (empty($taskResponse))
-            abort(400, trans('base.base-failed'));
-
-        return $taskResponse;
+        return $this->taskRepository->show($id, $user_id);
     }
 
     public function create($taskDetails)
@@ -31,7 +27,7 @@ class TaskService implements TaskServiceInterface
 
     public function update($taskDetails, $id)
     {
-        return  $this->taskRepository->update($taskDetails, $id);
+        return $this->taskRepository->update($taskDetails, $id);
     }
 
     public function delete($id)

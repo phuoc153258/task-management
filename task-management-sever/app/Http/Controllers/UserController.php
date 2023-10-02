@@ -22,9 +22,8 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         try {
-            $userInfo = $request->validated();
             $currentUser = $this->getCurrentUser();
-            $userResponse = $this->userService->update($userInfo, $currentUser->id);
+            $userResponse = $this->userService->update($request->validated(), $currentUser->id);
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
@@ -47,9 +46,8 @@ class UserController extends Controller
     public function password(ChangepasswordRequest $request)
     {
         try {
-            $userInfo = $request->validated();
             $currentUser = $this->getCurrentUser();
-            $userResponse = $this->userService->password($userInfo, $currentUser->id);
+            $userResponse = $this->userService->password($request->validated(), $currentUser->id);
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {

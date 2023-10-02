@@ -27,4 +27,9 @@ return [
         'sort_by' => 'user_id',
         'select' => ['*'],
     ],
+    'task' => [
+        'search_by' => 'title',
+        'sort_by' => 'title',
+        'select' => ['*'],
+    ],
 ];

@@ -2,10 +2,14 @@
 
 namespace App\Http\Requests\Admin\Project;
 
+use App\Traits\Authorizable;
+use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateProjectRequest extends FormRequest
 {
+    use HttpResponsable, Authorizable;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -13,6 +17,14 @@ class CreateProjectRequest extends FormRequest
     {
         return true;
     }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'created_by' => $this->getCurrentUser()->id,
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.

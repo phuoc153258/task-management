@@ -4,17 +4,9 @@ namespace App\Repositories\Project;
 
 use App\Models\Project;
 use App\Repositories\Project\ProjectRepositoryInterface;
-use App\Services\Paginate\PaginateService;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
-    private PaginateService $paginateService;
-
-    public function __construct(PaginateService $paginateService)
-    {
-        $this->paginateService = $paginateService;
-    }
-
     public function list($options, $user_id)
     {
         $projectResponse = Project::query()->with('user')

@@ -45,8 +45,7 @@ class ProjectController extends Controller
     public function create(CreateProjectRequest $request)
     {
         try {
-            $projectInfo = [...$request->validated(), 'created_by' => $this->getCurrentUser()->id];
-            $projectResponse = $this->projectService->create($projectInfo);
+            $projectResponse = $this->projectService->create($request);
 
             return $this->success(new ProjectResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {

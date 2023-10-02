@@ -18,15 +18,18 @@ class TaskResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'project_id' => $this->project_id,
-            'created_by' => $this->created_by,
+            'created_by_id' => $this->created_by,
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
+            'status_name' => $this->status_name,
             'hours' => $this->hours,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'user' => $this->user,
+            'created_by' => $this->createdBy,
         ];
     }
 }

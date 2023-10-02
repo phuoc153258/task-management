@@ -20,7 +20,8 @@ class UserProjectController extends Controller
     public function index(ListUserProjectRequest $request, $project_id)
     {
         try {
-            $userProjectResponse = $this->userProjectService->index($request->validated(), $project_id);
+            $user = $this->getCurrentUser();
+            $userProjectResponse = $this->userProjectService->index($request->validated(), $project_id, $user->id);
 
             return $this->success(new PaginateResource($userProjectResponse, UserProjectResource::collection($userProjectResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {

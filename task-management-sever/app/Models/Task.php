@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use App\Traits\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,13 @@ class Task extends Model
         'end_date',
     ];
 
+    protected $appends = ['status_name'];
+
+    function getStatusNameAttribute()
+    {
+        return trans('message.status.task.' . strtolower(TaskStatus::tryFrom($this->status)?->name))  ?? "";
+    }
+
     public function scopeOfProject(Builder $query, $id): void
     {
         $query->where('project_id', $id);
@@ -31,5 +39,15 @@ class Task extends Model
     public function scopeOfUser(Builder $query, $id): void
     {
         $query->where('user_id', $id);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

@@ -4,42 +4,48 @@ namespace App\Repositories\Task;
 
 use App\Models\Task;
 use App\Repositories\Task\TaskRepositoryInterface;
-use App\Services\Paginate\PaginateService;
 
 class TaskRepository implements TaskRepositoryInterface
 {
-    private PaginateService $paginateService;
-
-    public function __construct(PaginateService $paginateService)
-    {
-        $this->paginateService = $paginateService;
-    }
 
     public function list($options, $project_id, $user_id)
     {
-        $query = Task::query()->ofProject($project_id)->ofUser($user_id);
-        $taskResponse = $this->paginateService->paginate($options, $query);
+        $taskResponse = Task::query()
+            ->with(['user', 'createdBy'])
+            ->ofProject($project_id)
+            ->ofUser($user_id)
+            ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
+                return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
+            })
+            ->when($options['sort'] !== '' && isset($options['sort_by']), function ($query)  use ($options) {
+                return $query->orderBy($options['sort_by'], $options['sort']);
+            })
+            ->select(config('paginate.task.select'))
+            ->paginate($options['per_page'], ['page' => $options['page']]);
 
         return $taskResponse;
     }
 
-    public function getById(int $id, $project_id, $user_id)
+    public function show(int $id, $user_id)
     {
-        return Task::ofProject($project_id)->ofUser($user_id)->find($id);
+        return Task::with(['user', 'createdBy'])->ofUser($user_id)->findOrFail($id);
+    }
+
+    public function getById($id)
+    {
+        return Task::with(['user', 'createdBy'])->findOrFail($id);
     }
 
     public function create($taskDetails)
     {
-        $taskResponse = Task::firstOrCreate(
+        return Task::with(['user', 'createdBy'])->firstOrCreate(
             $taskDetails
         );
-
-        return $taskResponse;
     }
 
     public function update($taskDetails, $id)
     {
-        $taskResponse = Task::find(intval($id));
+        $taskResponse = $this->getById($id);
         $taskResponse->update($taskDetails);
 
         return $taskResponse;
@@ -47,7 +53,7 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function delete($id)
     {
-        $taskResponse = Task::find(intval($id));
+        $taskResponse = $this->getById($id);
         $taskResponse->delete();
 
         return $taskResponse;

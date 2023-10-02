@@ -11,5 +11,10 @@ return [
             'open' => 'Mở',
             'close' => 'Đóng'
         ],
+        'task' => [
+            'pending' => 'Pending',
+            'testing' => 'Testing',
+            'done' => 'Done',
+        ],
     ],
 ];
