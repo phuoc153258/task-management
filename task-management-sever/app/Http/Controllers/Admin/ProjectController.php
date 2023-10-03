@@ -45,8 +45,7 @@ class ProjectController extends Controller
     public function create(CreateProjectRequest $request)
     {
         try {
-            $projectInfo = [...$request->validated(), 'created_by' => $this->getCurrentUser()->id];
-            $projectResponse = $this->projectService->create($projectInfo);
+            $projectResponse = $this->projectService->create($request->validated());
 
             return $this->success(new ProjectResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
@@ -73,6 +72,28 @@ class ProjectController extends Controller
             return $this->success(new ProjectResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th, trans('base.base-failed'), 400);
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            $projectResponse = $this->projectService->restore($id);
+
+            return $this->success(new ProjectResource($projectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function force($id)
+    {
+        try {
+            $projectResponse = $this->projectService->force($id);
+
+            return $this->success(new ProjectResource($projectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th, trans('base.base-failed'));
         }
     }
 }

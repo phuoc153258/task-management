@@ -42,4 +42,20 @@ class ProjectService implements ProjectServiceInterface
 
         return $project;
     }
+
+    public function restore($id)
+    {
+        $project = $this->projectRepository->show($id);
+        $project->restore();
+
+        return $project;
+    }
+
+    public function force($id)
+    {
+        $project = $this->projectRepository->show($id);
+        $project->forceDelete();
+
+        return $project;
+    }
 }

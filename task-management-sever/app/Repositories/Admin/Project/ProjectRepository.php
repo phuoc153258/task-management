@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin\Project;
 
+use App\Enums\SoftDeleteStatus;
 use App\Models\Project;
 
 class ProjectRepository implements ProjectRepositoryInterface
@@ -10,6 +11,12 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         $projectResponse = Project::query()
             ->with('user')
+            ->when($options['soft_delete'] == SoftDeleteStatus::OnlySoftDelete->value, function ($query) {
+                return $query->onlyTrashed();
+            })
+            ->when($options['soft_delete'] == SoftDeleteStatus::Both->value, function ($query) {
+                return $query->withTrashed();
+            })
             ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
                 return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
             })
@@ -24,7 +31,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function show($id)
     {
-        return Project::findOrFail($id);
+        return Project::withTrashed()->findOrFail($id);
     }
 
     public function create($projectDetails)
