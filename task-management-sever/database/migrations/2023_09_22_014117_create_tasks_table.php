@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('hours');
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,5 +33,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('tasks');
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

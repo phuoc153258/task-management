@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LeaveRequest extends Model
 {
-    use HasFactory, Fillable;
+    use HasFactory, Fillable, SoftDeletes;
+
     protected $fillable = [
         'content',
         'start_date',
@@ -34,9 +36,14 @@ class LeaveRequest extends Model
         $query->where('user_id', $id);
     }
 
-    public function scopeStatus(Builder $query): void
+    public function scopePendingStatus(Builder $query): void
     {
         $query->where('status', 0)->where('accept_by', null);
+    }
+
+    public function scopeNotPendingStatus(Builder $query): void
+    {
+        $query->where('status', '<>', 0)->where('accept_by', '<>', null);
     }
 
     public function leaveRequestType(): BelongsTo

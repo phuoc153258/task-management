@@ -44,6 +44,12 @@ class CreateLeaveRequestRequest extends FormRequest
             ],
             'start_date' => 'required|date|after:today',
             'end_date' => 'required|date|after:start_date',
+            'user_id' => [
+                'nullable',
+                'numeric',
+                'min:1',
+                Rule::exists('users', 'id'),
+            ]
         ];
     }
 }

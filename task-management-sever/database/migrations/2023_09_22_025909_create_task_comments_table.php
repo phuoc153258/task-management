@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('content');
             $table->integer('user_id');
             $table->integer('task_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,5 +27,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('task_comments');
+        Schema::table('task_comments', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("description");
             $table->integer('status')->default(1); // Status of the project: 1 open | 2 close
             $table->integer('created_by');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,5 +28,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('projects');
+        Schema::table('projects', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

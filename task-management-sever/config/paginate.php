@@ -6,6 +6,7 @@ return [
         'per_page' => 10,
         'search' => '',
         'sort' => '',
+        'soft_delete' => 1
     ],
     'user' => [
         'search_by' => 'username',
@@ -16,6 +17,7 @@ return [
         'search_by' => 'content',
         'sort_by' => 'start_date',
         'select' => ['*'],
+        'status' => 0
     ],
     'project' => [
         'search_by' => 'title',

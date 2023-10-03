@@ -2,11 +2,15 @@
 
 namespace App\Http\Requests\Admin\LeaveRequest;
 
+use App\Traits\Authorizable;
+use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateLeaveRequestRequest extends FormRequest
+class CreateLeaveRequestRequest extends FormRequest
 {
+    use HttpResponsable, Authorizable;
+
     /**
      * Determine if the user is authorized to make this request.
      */

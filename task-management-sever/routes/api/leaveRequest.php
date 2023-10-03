@@ -13,4 +13,8 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/{id}', [LeaveRequestController::class, 'update']);
 
     Route::delete('/{id}', [LeaveRequestController::class, 'delete']);
+
+    // Route::patch('/{id}/restore', [LeaveRequestController::class, 'restore']);
+
+    // Route::delete('/{id}/force', [LeaveRequestController::class, 'force']);
 });

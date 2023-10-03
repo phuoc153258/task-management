@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('accept_by')->nullable();
             $table->integer('user_id');
             $table->integer('leave_request_type_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,5 +31,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('leave_requests');
+        Schema::table('leave_requests', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

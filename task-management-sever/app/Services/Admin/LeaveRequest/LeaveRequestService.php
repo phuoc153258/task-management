@@ -25,9 +25,36 @@ class LeaveRequestService implements LeaveRequestServiceInterface
     public function update($leaveRequestDetails, $id)
     {
         $leaveRequestResponse = $this->leaveRequestRepository->show($id);
-
-        $leaveRequestDetails = [...$leaveRequestDetails, 'accept_by' => auth()->id()];
         $leaveRequestResponse->update($leaveRequestDetails);
+
+        return $leaveRequestResponse;
+    }
+
+    public function create($leaveRequestDetails)
+    {
+        return $this->leaveRequestRepository->create($leaveRequestDetails);
+    }
+
+    public function delete($id)
+    {
+        $leaveRequestResponse = $this->leaveRequestRepository->show($id);
+        $leaveRequestResponse->delete();
+
+        return $leaveRequestResponse;
+    }
+
+    public function restore($id)
+    {
+        $leaveRequestResponse = $this->leaveRequestRepository->show($id);
+        $leaveRequestResponse->restore();
+
+        return $leaveRequestResponse;
+    }
+
+    public function force($id)
+    {
+        $leaveRequestResponse = $this->leaveRequestRepository->show($id);
+        $leaveRequestResponse->forceDelete();
 
         return $leaveRequestResponse;
     }

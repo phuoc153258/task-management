@@ -7,10 +7,11 @@ use App\Traits\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
-    use HasFactory, Fillable;
+    use HasFactory, Fillable, SoftDeletes;
 
     protected $fillable = [
         'user_id',

@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Requests\LeaveRequest;
+namespace App\Http\Requests\Admin\LeaveRequest;
 
+use App\Enums\LeaveRequestStatus;
 use App\Enums\SoftDeleteStatus;
 use App\Models\LeaveRequest;
+use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class ListLeaveRequestRequest extends FormRequest
 {
-    use HttpResponsable;
+    use HttpResponsable, Authorizable;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -29,6 +31,8 @@ class ListLeaveRequestRequest extends FormRequest
             'sort' => $this->input('sort') === null ? config('paginate.default.sort') : $this->input('sort'),
             'search_by' =>  $this->input('search_by') === null ? config('paginate.leave_request.search_by') : $this->input('search_by'),
             'sort_by' =>  $this->input('sort_by') === null ? config('paginate.leave_request.sort_by') : $this->input('sort_by'),
+            'soft_delete' =>  $this->input('soft_delete') === null ? config('paginate.default.soft_delete') : (int) $this->input('soft_delete'),
+            'leave_request_status' =>  $this->input('leave_request_status') === null ? config('paginate.leave_request.status') : (int) $this->input('leave_request_status'),
         ]);
     }
 
@@ -44,6 +48,11 @@ class ListLeaveRequestRequest extends FormRequest
             'per_page' => 'nullable|numeric|min:1',
             'search' => 'nullable|string',
             'sort' => 'in:"","asc","desc"',
+            'soft_delete' => [
+                'nullable',
+                'numeric',
+                Rule::in(SoftDeleteStatus::cases()),
+            ],
             'search_by' => [
                 'nullable',
                 'string',
@@ -53,6 +62,12 @@ class ListLeaveRequestRequest extends FormRequest
                 'nullable',
                 'string',
                 Rule::in(LeaveRequest::getFields()),
+            ],
+            'leave_request_status' => [
+                'nullable',
+                'numeric',
+                'min:0',
+                Rule::in(LeaveRequestStatus::cases()),
             ],
         ];
     }
