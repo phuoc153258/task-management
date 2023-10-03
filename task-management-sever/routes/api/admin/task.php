@@ -13,4 +13,8 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     Route::put('/{id}', [TaskController::class, 'update']);
 
     Route::delete('/{id}', [TaskController::class, 'delete']);
+
+    Route::patch('/{id}/restore', [TaskController::class, 'restore']);
+
+    Route::delete('/{id}/force', [TaskController::class, 'force']);
 });

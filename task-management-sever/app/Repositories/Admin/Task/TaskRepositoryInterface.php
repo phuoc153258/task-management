@@ -14,5 +14,9 @@ interface TaskRepositoryInterface
 
     public function delete($id);
 
+    public function restore($id);
+
+    public function force($id);
+
     public function deleteMany($user_id);
 }

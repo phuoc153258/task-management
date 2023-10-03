@@ -34,9 +34,9 @@ class TaskController extends Controller
     public function show($id)
     {
         try {
-            $projectResponse = $this->taskService->show($id);
+            $taskResponse = $this->taskService->show($id);
 
-            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
+            return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th, trans('base.base-failed'));
         }
@@ -45,9 +45,9 @@ class TaskController extends Controller
     public function create(CreateTaskRequest $request)
     {
         try {
-            $projectResponse = $this->taskService->create($request->validated());
+            $taskResponse = $this->taskService->create($request->validated());
 
-            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
+            return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th, trans('base.base-failed'));
         }
@@ -56,9 +56,9 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, $id)
     {
         try {
-            $projectResponse = $this->taskService->update($request->validated(), $id);
+            $taskResponse = $this->taskService->update($request->validated(), $id);
 
-            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
+            return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th, trans('base.base-failed'));
         }
@@ -67,9 +67,31 @@ class TaskController extends Controller
     public function delete($id)
     {
         try {
-            $projectResponse = $this->taskService->delete($id);
+            $taskResponse = $this->taskService->delete($id);
 
-            return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
+            return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th, trans('base.base-failed'));
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            $taskResponse = $this->taskService->restore($id);
+
+            return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function force($id)
+    {
+        try {
+            $taskResponse = $this->taskService->force($id);
+
+            return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th, trans('base.base-failed'));
         }

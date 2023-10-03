@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Enums\SoftDeleteStatus;
 use App\Models\User;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,6 +29,7 @@ class ListUserRequest extends FormRequest
             'sort' => $this->input('sort') === null ? config('paginate.default.sort') : $this->input('sort'),
             'search_by' =>  $this->input('search_by') === null ? config('paginate.user.search_by') : $this->input('search_by'),
             'sort_by' =>  $this->input('sort_by') === null ? config('paginate.user.sort_by') : $this->input('sort_by'),
+            'soft_delete' =>  $this->input('soft_delete') === null ? config('paginate.default.soft_delete') : (int) $this->input('soft_delete'),
         ]);
     }
 
@@ -52,6 +54,11 @@ class ListUserRequest extends FormRequest
                 'nullable',
                 'string',
                 Rule::in(User::getFields()),
+            ],
+            'soft_delete' => [
+                'nullable',
+                'numeric',
+                Rule::in(SoftDeleteStatus::cases()),
             ],
         ];
     }

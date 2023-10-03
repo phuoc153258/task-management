@@ -26,9 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('task_comments');
         Schema::table('task_comments', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
+        Schema::dropIfExists('task_comments');
     }
 };

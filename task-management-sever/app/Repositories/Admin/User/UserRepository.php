@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin\User;
 
+use App\Enums\SoftDeleteStatus;
 use App\Models\User;
 use App\Repositories\Admin\User\UserRepositoryInterface;
 
@@ -10,6 +11,12 @@ class UserRepository implements UserRepositoryInterface
     public function list($options)
     {
         $userResponse = User::with('roles')
+            ->when($options['soft_delete'] == SoftDeleteStatus::OnlySoftDelete->value, function ($query) {
+                return $query->onlyTrashed();
+            })
+            ->when($options['soft_delete'] == SoftDeleteStatus::Both->value, function ($query) {
+                return $query->withTrashed();
+            })
             ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
                 return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
             })
@@ -24,12 +31,12 @@ class UserRepository implements UserRepositoryInterface
 
     public function getById($userId)
     {
-        return User::with('roles')->findOrFail($userId);
+        return User::withTrashed()->with('roles')->findOrFail($userId);
     }
 
     public function getByCondition($field, $value)
     {
-        return User::with('roles')->where($field, $value)->first();
+        return User::withTrashed()->with('roles')->where($field, $value)->first();
     }
 
     public function delete($userId)

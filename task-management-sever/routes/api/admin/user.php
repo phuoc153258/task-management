@@ -18,4 +18,8 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     Route::put('/{id}/password', [UserController::class, 'password']);
 
     Route::delete('/{id}', [UserController::class, 'delete']);
+
+    Route::patch('/{id}/restore', [UserController::class, 'restore']);
+
+    Route::delete('/{id}/force', [UserController::class, 'force']);
 });

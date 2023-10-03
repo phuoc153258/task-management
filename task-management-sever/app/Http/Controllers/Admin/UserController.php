@@ -97,4 +97,26 @@ class UserController extends Controller
             return $this->error($th, trans('base.base-failed'), 400);
         }
     }
+
+    public function restore($id)
+    {
+        try {
+            $userResponse = $this->userService->restore($id);
+
+            return $this->success(new UserResource($userResponse), trans('user.delete-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th, trans('base.base-failed'), 400);
+        }
+    }
+
+    public function force($id)
+    {
+        try {
+            $userResponse = $this->userService->force($id);
+
+            return $this->success(new UserResource($userResponse), trans('user.delete-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th, trans('base.base-failed'), 400);
+        }
+    }
 }

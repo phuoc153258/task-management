@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin\Task;
 
+use App\Enums\SoftDeleteStatus;
 use App\Models\Task;
 
 class TaskRepository implements TaskRepositoryInterface
@@ -11,6 +12,12 @@ class TaskRepository implements TaskRepositoryInterface
         $taskResponse = Task::query()
             ->with(['user', 'createdBy'])
             ->ofProject($project_id)
+            ->when($options['soft_delete'] == SoftDeleteStatus::OnlySoftDelete->value, function ($query) {
+                return $query->onlyTrashed();
+            })
+            ->when($options['soft_delete'] == SoftDeleteStatus::Both->value, function ($query) {
+                return $query->withTrashed();
+            })
             ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
                 return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
             })
@@ -25,7 +32,7 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function getById($id)
     {
-        return Task::with(['user', 'createdBy'])->findOrFail($id);
+        return Task::withTrashed()->with(['user', 'createdBy'])->findOrFail($id);
     }
 
     public function create($taskDetails)
@@ -47,6 +54,22 @@ class TaskRepository implements TaskRepositoryInterface
     {
         $taskResponse = $this->getById($id);
         $taskResponse->delete();
+
+        return $taskResponse;
+    }
+
+    public function restore($id)
+    {
+        $taskResponse = $this->getById($id);
+        $taskResponse->restore();
+
+        return $taskResponse;
+    }
+
+    public function force($id)
+    {
+        $taskResponse = $this->getById($id);
+        $taskResponse->forceDelete();
 
         return $taskResponse;
     }

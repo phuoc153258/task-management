@@ -30,9 +30,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leave_requests');
         Schema::table('leave_requests', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
+        Schema::dropIfExists('leave_requests');
     }
 };

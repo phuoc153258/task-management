@@ -63,9 +63,23 @@ class UserService implements UserServiceInterface
     public function delete($id)
     {
         $user = $this->userRepository->getById($id);
-        if (empty($user)) abort(400, trans('user.user-is-not-exist'));
-
         $user->delete();
+
+        return $user;
+    }
+
+    public function restore($id)
+    {
+        $user = $this->userRepository->getById($id);
+        $user->restore();
+
+        return $user;
+    }
+
+    public function force($id)
+    {
+        $user = $this->userRepository->getById($id);
+        $user->forceDelete();
 
         return $user;
     }
