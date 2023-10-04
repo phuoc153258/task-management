@@ -33,5 +33,12 @@ return [
         'search_by' => 'title',
         'sort_by' => 'title',
         'select' => ['*'],
+        'status' => 0,
+    ],
+    'task_report' => [
+        'search_by' => 'title',
+        'sort_by' => 'title',
+        'select' => ['*'],
+        'task_id' => null,
     ],
 ];

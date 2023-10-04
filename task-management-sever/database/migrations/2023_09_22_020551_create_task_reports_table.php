@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('task_reports', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
             $table->integer('task_id');
             $table->string('title');
             $table->string('description');

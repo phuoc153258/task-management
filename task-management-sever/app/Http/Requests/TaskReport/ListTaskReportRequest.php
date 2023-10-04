@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Requests\LeaveRequest;
+namespace App\Http\Requests\TaskReport;
 
-use App\Models\LeaveRequest;
-use App\Traits\Authorizable;
+use App\Models\TaskReport;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ListLeaveRequestRequest extends FormRequest
+class ListTaskReportRequest extends FormRequest
 {
-    use Authorizable, HttpResponsable;
+    use HttpResponsable;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +26,9 @@ class ListLeaveRequestRequest extends FormRequest
             'per_page' => $this->input('per_page') === null ? config('paginate.default.per_page') : (int) $this->input('per_page'),
             'search' => $this->input('search') === null ? config('paginate.default.search') : $this->input('search'),
             'sort' => $this->input('sort') === null ? config('paginate.default.sort') : $this->input('sort'),
-            'search_by' =>  $this->input('search_by') === null ? config('paginate.leave_request.search_by') : $this->input('search_by'),
-            'sort_by' =>  $this->input('sort_by') === null ? config('paginate.leave_request.sort_by') : $this->input('sort_by'),
+            'search_by' =>  $this->input('search_by') === null ? config('paginate.task_report.search_by') : $this->input('search_by'),
+            'sort_by' =>  $this->input('sort_by') === null ? config('paginate.task_report.sort_by') : $this->input('sort_by'),
+            'task_id' =>  $this->input('task_id') === null ? config('paginate.task_report.task_id') : (int) $this->input('task_id'),
         ]);
     }
 
@@ -47,12 +47,18 @@ class ListLeaveRequestRequest extends FormRequest
             'search_by' => [
                 'nullable',
                 'string',
-                Rule::in(LeaveRequest::getFields()),
+                Rule::in(TaskReport::getFields()),
             ],
             'sort_by' => [
                 'nullable',
                 'string',
-                Rule::in(LeaveRequest::getFields()),
+                Rule::in(TaskReport::getFields()),
+            ],
+            'task_id' => [
+                'nullable',
+                'numeric',
+                'min:1',
+                Rule::exists('tasks', 'id'),
             ],
         ];
     }

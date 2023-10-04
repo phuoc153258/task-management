@@ -45,6 +45,7 @@ class RouteServiceProvider extends ServiceProvider
                     Route::prefix('project')->group(base_path('routes/api/project.php'));
                     Route::prefix('user-project')->group(base_path('routes/api/userProject.php'));
                     Route::prefix('task')->group(base_path('routes/api/task.php'));
+                    Route::prefix('task-report')->group(base_path('routes/api/taskReport.php'));
 
                     Route::prefix('admin')->group(function () {
                         Route::prefix('leave-request')->group(base_path('routes/api/admin/leaveRequest.php'));
@@ -53,6 +54,7 @@ class RouteServiceProvider extends ServiceProvider
                         Route::prefix('project')->group(base_path('routes/api/admin/project.php'));
                         Route::prefix('user-project')->group(base_path('routes/api/admin/userProject.php'));
                         Route::prefix('task')->group(base_path('routes/api/admin/task.php'));
+                        Route::prefix('task-report')->group(base_path('routes/api/admin/taskReport.php'));
                     });
                 }
             );

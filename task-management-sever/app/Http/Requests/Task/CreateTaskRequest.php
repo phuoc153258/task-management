@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Task;
 
+use App\Enums\TaskStatus;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,6 +18,15 @@ class CreateTaskRequest extends FormRequest
     {
         return true;
     }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'created_by' => $this->getCurrentUser()->id,
+            'status' => config('paginate.task.status')
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -43,6 +53,17 @@ class CreateTaskRequest extends FormRequest
             'hours' => 'required|integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
+            'created_by' => [
+                'required',
+                'numeric',
+                'min:1',
+                Rule::exists('users', 'id'),
+            ],
+            'status' => [
+                'required',
+                'numeric',
+                Rule::in(TaskStatus::cases())
+            ],
         ];
     }
 }

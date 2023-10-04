@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Admin\User;
 
+use App\Traits\Authorizable;
+use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UploadAvatarUserRequest extends FormRequest
 {
+    use Authorizable, HttpResponsable;
     /**
      * Determine if the user is authorized to make this request.
      */

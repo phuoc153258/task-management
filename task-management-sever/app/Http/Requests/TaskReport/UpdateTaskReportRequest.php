@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Admin\Project;
+namespace App\Http\Requests\TaskReport;
 
+use App\Enums\TaskStatus;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateProjectUser extends FormRequest
+class UpdateTaskReportRequest extends FormRequest
 {
-    use Authorizable, HttpResponsable;
+    use HttpResponsable, Authorizable;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,7 +29,6 @@ class UpdateProjectUser extends FormRequest
         return [
             'title' => 'required|string|min:5|max:50',
             'description' => 'required|string|min:5|max:50',
-            'status' => 'required|in:1,2',
         ];
     }
 }

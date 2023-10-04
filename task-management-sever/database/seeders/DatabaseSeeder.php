@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Project::factory(5)->create();
         $this->call(UserProjectSeeder::class);
         \App\Models\Task::factory(20)->create();
+        \App\Models\TaskReport::factory(20)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

@@ -46,9 +46,7 @@ class TaskController extends Controller
     public function create(CreateTaskRequest $request)
     {
         try {
-            $user = $this->getCurrentUser();
-            $taskDetails = [...$request->validated(), 'created_by' => $user->id, 'status' => 0];
-            $projectResponse = $this->taskService->create($taskDetails);
+            $projectResponse = $this->taskService->create($request->validated());
 
             return $this->success(new TaskResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {

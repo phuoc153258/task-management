@@ -43,6 +43,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Task\TaskRepositoryInterface',
             'App\Repositories\Task\TaskRepository'
         );
+        $this->app->bind(
+            'App\Repositories\TaskReport\TaskReportRepositoryInterface',
+            'App\Repositories\TaskReport\TaskReportRepository'
+        );
 
         $this->app->bind(
             'App\Repositories\Admin\LeaveRequest\LeaveRequestRepositoryInterface',
