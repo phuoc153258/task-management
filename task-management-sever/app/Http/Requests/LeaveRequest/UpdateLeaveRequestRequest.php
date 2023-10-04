@@ -34,8 +34,7 @@ class UpdateLeaveRequestRequest extends FormRequest
                 'min:1',
                 Rule::exists('leave_request_types', 'id'),
             ],
-            'start_date' => 'nullable|date|after:today',
-            'end_date' => 'nullable|date|after:start_date',
+            'leave_registration_date' => 'nullable|date|after:today',
         ];
     }
 }

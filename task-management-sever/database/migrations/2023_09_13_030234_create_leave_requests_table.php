@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
             $table->string('content');
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('end_date')->nullable();
+            $table->date('leave_registration_date')->nullable();
             $table->integer('status')->default(0); // Status of the request: 0 pending | 1 accept | 2 reject
             $table->integer('accept_by')->nullable();
             $table->integer('user_id');

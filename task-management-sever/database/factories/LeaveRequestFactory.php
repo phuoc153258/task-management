@@ -18,8 +18,7 @@ class LeaveRequestFactory extends Factory
     {
         return [
             'content' => fake()->text(15),
-            'start_date' => $this->faker->dateTimeBetween('-30 days', '+30 days'),
-            'end_date' => $this->faker->dateTimeBetween('now', '+90 days'),
+            'leave_registration_date' => $this->faker->dateTimeBetween('-30 days', '+30 days'),
             'accept_by' => null,
             'status' => 0,
             'user_id' => fake()->randomElement([1, 2]),

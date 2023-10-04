@@ -15,7 +15,7 @@ return [
     ],
     'leave_request' => [
         'search_by' => 'content',
-        'sort_by' => 'start_date',
+        'sort_by' => 'leave_registration_date',
         'select' => ['*'],
         'status' => 0
     ],

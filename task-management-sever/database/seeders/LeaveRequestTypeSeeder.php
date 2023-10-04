@@ -13,8 +13,18 @@ class LeaveRequestTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        LeaveRequestType::create(['title' => 'Paid leave']);
-        LeaveRequestType::create(['title' => 'Unpaid leave']);
+        LeaveRequestType::create(['title' => 'Paid leave (8h - 10h)']);
+        LeaveRequestType::create(['title' => 'Paid leave (9h - 11h)']);
+        LeaveRequestType::create(['title' => 'Paid leave (10h - 12h)']);
+        LeaveRequestType::create(['title' => 'Paid leave (13h - 15h)']);
+        LeaveRequestType::create(['title' => 'Paid leave (14h - 16h)']);
+        LeaveRequestType::create(['title' => 'Paid leave (15h - 17h)']);
+        LeaveRequestType::create(['title' => 'Unpaid leave (8h - 10h)']);
+        LeaveRequestType::create(['title' => 'Unpaid leave (9h - 11h)']);
+        LeaveRequestType::create(['title' => 'Unpaid leave (10h - 12h)']);
+        LeaveRequestType::create(['title' => 'Unpaid leave (13h - 15h)']);
+        LeaveRequestType::create(['title' => 'Unpaid leave (14h - 16h)']);
+        LeaveRequestType::create(['title' => 'Unpaid leave (15h - 17h)']);
         LeaveRequestType::create(['title' => 'Other']);
     }
 }

@@ -33,8 +33,7 @@ class UpdateLeaveRequestRequest extends FormRequest
                 'min:1',
                 Rule::exists('leave_request_types', 'id'),
             ],
-            'start_date' => 'required|date|after:today',
-            'end_date' => 'required|date|after:start_date',
+            'leave_registration_date' => 'required|date|after:today',
             'user_id' => [
                 'required',
                 'numeric',
