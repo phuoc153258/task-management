@@ -4,10 +4,11 @@ namespace App\Observers;
 
 use App\Models\TaskReport;
 use App\Repositories\Task\TaskRepository;
+use App\Repositories\TaskReport\TaskReportRepositoryInterface;
 
 class TaskReportObserver
 {
-    public function __construct(private TaskRepository $taskRepository)
+    public function __construct(private TaskRepository $taskRepository, private TaskReportRepositoryInterface $taskReportRepository)
     {
     }
 
@@ -24,6 +25,7 @@ class TaskReportObserver
      */
     public function updated(TaskReport $taskReport): void
     {
+        $this->taskRepository->update(['status' => $taskReport->status], $taskReport->task_id);
     }
 
     /**
@@ -31,7 +33,8 @@ class TaskReportObserver
      */
     public function deleted(TaskReport $taskReport): void
     {
-        //
+        $taskReportLasted = $this->taskReportRepository->getLasted($taskReport->task_id);
+        $this->taskRepository->update(['status' => $taskReportLasted->status], $taskReportLasted->task_id);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Services\TaskReport;
 
 interface TaskReportServiceInterface
 {
-    public function index($options, $user_id);
+    public function index($options, $task_id, $user_id);
 
     public function show($id, $user_id);
 

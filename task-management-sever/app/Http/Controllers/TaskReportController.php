@@ -19,11 +19,11 @@ class TaskReportController extends Controller
     {
     }
 
-    public function index(ListTaskReportRequest $request)
+    public function index(ListTaskReportRequest $request, $id)
     {
         try {
             $user = $this->getCurrentUser();
-            $taskReportResponse = $this->taskReportService->index($request->validated(), $user->id);
+            $taskReportResponse = $this->taskReportService->index($request->validated(), $id, $user->id);
             return $this->success(new PaginateResource($taskReportResponse, TaskReportResource::collection($taskReportResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th, trans('base.base-failed'));
@@ -59,6 +59,18 @@ class TaskReportController extends Controller
         try {
             $user = $this->getCurrentUser();
             $taskReportResponse = $this->taskReportService->update($request->validated(), $id, $user->id);
+
+            return $this->success(new TaskReportResource($taskReportResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th, trans('base.base-failed'));
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $user = $this->getCurrentUser();
+            $taskReportResponse = $this->taskReportService->delete($id, $user->id);
 
             return $this->success(new TaskReportResource($taskReportResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {

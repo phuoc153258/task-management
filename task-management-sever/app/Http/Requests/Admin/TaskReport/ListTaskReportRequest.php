@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Requests\TaskReport;
+namespace App\Http\Requests\Admin\TaskReport;
 
+use App\Enums\SoftDeleteStatus;
 use App\Models\TaskReport;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,6 +29,7 @@ class ListTaskReportRequest extends FormRequest
             'sort' => $this->input('sort') === null ? config('paginate.default.sort') : $this->input('sort'),
             'search_by' =>  $this->input('search_by') === null ? config('paginate.task_report.search_by') : $this->input('search_by'),
             'sort_by' =>  $this->input('sort_by') === null ? config('paginate.task_report.sort_by') : $this->input('sort_by'),
+            'soft_delete' =>  $this->input('soft_delete') === null ? config('paginate.default.soft_delete') : (int) $this->input('soft_delete'),
         ]);
     }
 
@@ -52,6 +54,11 @@ class ListTaskReportRequest extends FormRequest
                 'nullable',
                 'string',
                 Rule::in(TaskReport::getFields()),
+            ],
+            'soft_delete' => [
+                'nullable',
+                'numeric',
+                Rule::in(SoftDeleteStatus::cases()),
             ],
         ];
     }

@@ -7,14 +7,12 @@ use App\Repositories\TaskReport\TaskReportRepositoryInterface;
 
 class TaskReportRepository implements TaskReportRepositoryInterface
 {
-    public function list($options, $user_id)
+    public function list($options, $task_id, $user_id)
     {
-        $taskResponse = TaskReport::query()
+        return TaskReport::query()
             ->with(['task'])
             ->ofUser($user_id)
-            ->when(isset($options['task_id']), function ($query) use ($options) {
-                return $query->ofTask($options['task_id']);
-            })
+            ->ofTask($task_id)
             ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
                 return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
             })
@@ -23,8 +21,6 @@ class TaskReportRepository implements TaskReportRepositoryInterface
             })
             ->select(config('paginate.task.select'))
             ->paginate($options['per_page'], ['page' => $options['page']]);
-
-        return $taskResponse;
     }
 
     public function show($id, $user_id)
@@ -35,5 +31,10 @@ class TaskReportRepository implements TaskReportRepositoryInterface
     public function create($taskReportDetails, $user_id)
     {
         return TaskReport::with('task')->firstOrCreate($taskReportDetails);
+    }
+
+    public function getLasted($id)
+    {
+        return TaskReport::latest('updated_at')->where('task_id', $id)->first();
     }
 }

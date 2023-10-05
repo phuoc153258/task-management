@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\TaskReport;
+namespace App\Http\Requests\Admin\TaskReport;
 
 use App\Enums\TaskStatus;
 use App\Traits\Authorizable;
@@ -8,7 +8,7 @@ use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateTaskReportRequest extends FormRequest
+class CreateTaskReportRequest extends FormRequest
 {
     use HttpResponsable, Authorizable;
     /**
@@ -27,6 +27,12 @@ class UpdateTaskReportRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'task_id' => [
+                'required',
+                'numeric',
+                'min:1',
+                Rule::exists('tasks', 'id'),
+            ],
             'title' => 'required|string|min:5|max:50',
             'description' => 'required|string|min:5|max:50',
             'status' => [

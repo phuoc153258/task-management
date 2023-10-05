@@ -72,6 +72,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Admin\UserProject\UserProjectRepositoryInterface',
             'App\Repositories\Admin\UserProject\UserProjectRepository'
         );
+        $this->app->bind(
+            'App\Repositories\Admin\TaskReport\TaskReportRepositoryInterface',
+            'App\Repositories\Admin\TaskReport\TaskReportRepository'
+        );
     }
 
     /**

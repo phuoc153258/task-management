@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\TaskReport;
+namespace App\Http\Requests\Admin\TaskReport;
 
 use App\Enums\TaskStatus;
 use App\Traits\Authorizable;
