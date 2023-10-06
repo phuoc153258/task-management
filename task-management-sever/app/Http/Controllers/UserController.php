@@ -27,7 +27,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('user.update-user-failed'), 400);
+            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
     }
 
@@ -39,7 +39,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('user.update-user-failed'), 400);
+            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
     }
 
@@ -51,7 +51,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('user.update-user-failed'), 400);
+            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
     }
 }

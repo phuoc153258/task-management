@@ -25,7 +25,7 @@ class UserProjectController extends Controller
 
             return $this->success(new PaginateResource($userProjectResponse, UserProjectResource::collection($userProjectResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -36,7 +36,7 @@ class UserProjectController extends Controller
 
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -47,7 +47,29 @@ class UserProjectController extends Controller
 
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function restore($project_id, $user_id)
+    {
+        try {
+            $userProjectResponse = $this->userProjectService->restore($project_id, $user_id);
+
+            return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
+    public function force($project_id, $user_id)
+    {
+        try {
+            $userProjectResponse = $this->userProjectService->force($project_id, $user_id);
+
+            return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 }

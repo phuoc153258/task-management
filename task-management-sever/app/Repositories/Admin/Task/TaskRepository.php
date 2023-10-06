@@ -4,6 +4,7 @@ namespace App\Repositories\Admin\Task;
 
 use App\Enums\SoftDeleteStatus;
 use App\Models\Task;
+use App\Models\TaskReport;
 
 class TaskRepository implements TaskRepositoryInterface
 {
@@ -76,13 +77,51 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function deleteMany($user_id, $project_id = null)
     {
-        $query = Task::ofUser($user_id);
-
+        $query = Task::ofUser($user_id)->withTrashed();
         if ($project_id != null) $query->ofProject($project_id);
 
-        $query->chunk(100, function ($records) {
-            foreach ($records as $record) {
-                $record->delete();
+        $query->orderBy('updated_at')->chunk(100, function ($tasks) {
+            foreach ($tasks as $task) {
+                TaskReport::where('task_id', $task->id)->orderBy('updated_at')->chunk(100, function ($taskReports) {
+                    foreach ($taskReports as $taskReport) {
+                        $taskReport->deleteQuietly();
+                    }
+                });
+                $task->deleteQuietly();
+            }
+        });
+    }
+
+    public function restoreMany($user_id, $project_id = null)
+    {
+        $query = Task::ofUser($user_id)->withTrashed();
+        if ($project_id != null) $query->ofProject($project_id);
+
+        $query->chunk(100, function ($tasks) {
+            foreach ($tasks as $task) {
+                TaskReport::where('task_id', $task->id)->chunk(100, function ($taskReports) {
+                    foreach ($taskReports as $taskReport) {
+                        $taskReport->restoreQuietly();
+                    }
+                });
+                $task->restoreQuietly();
+            }
+        });
+    }
+
+    public function forceMany($user_id, $project_id = null)
+    {
+        $query = Task::ofUser($user_id)->withTrashed();
+        if ($project_id != null) $query->ofProject($project_id);
+
+        $query->chunk(100, function ($tasks) {
+            foreach ($tasks as $task) {
+                TaskReport::where('task_id', $task->id)->chunk(100, function ($taskReports) {
+                    foreach ($taskReports as $taskReport) {
+                        $taskReport->forceDeleteQuietly();
+                    }
+                });
+                $task->forceDeleteQuietly();
             }
         });
     }

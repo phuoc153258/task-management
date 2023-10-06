@@ -5,19 +5,17 @@ namespace App\Observers;
 use App\Models\User;
 use App\Repositories\Admin\LeaveRequest\LeaveRequestRepository;
 use App\Repositories\Admin\Task\TaskRepository;
+use App\Repositories\Admin\TaskReport\TaskReportRepository;
 use App\Repositories\Admin\UserProject\UserProjectRepository;
 
 class UserObserver
 {
-    private LeaveRequestRepository $leaveRequestRepository;
-    private UserProjectRepository $userProjectRepository;
-    private TaskRepository $taskRepository;
-
-    public function __construct(LeaveRequestRepository $leaveRequestRepository, UserProjectRepository $userProjectRepository, TaskRepository $taskRepository)
-    {
-        $this->leaveRequestRepository = $leaveRequestRepository;
-        $this->userProjectRepository = $userProjectRepository;
-        $this->taskRepository = $taskRepository;
+    public function __construct(
+        private LeaveRequestRepository $leaveRequestRepository,
+        private UserProjectRepository $userProjectRepository,
+        private TaskRepository $taskRepository,
+        private TaskReportRepository $taskReportRepository,
+    ) {
     }
 
     /**

@@ -18,5 +18,5 @@ interface TaskReportRepositoryInterface
 
     public function force($id);
 
-    public function deleteMany($user_id);
+    public function deleteMany($task_id);
 }

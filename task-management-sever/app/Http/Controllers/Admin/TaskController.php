@@ -27,7 +27,7 @@ class TaskController extends Controller
 
             return $this->success(new PaginateResource($taskResponse, TaskResource::collection($taskResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -38,7 +38,7 @@ class TaskController extends Controller
 
             return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -49,7 +49,7 @@ class TaskController extends Controller
 
             return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -60,7 +60,7 @@ class TaskController extends Controller
 
             return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -71,7 +71,7 @@ class TaskController extends Controller
 
             return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -93,7 +93,7 @@ class TaskController extends Controller
 
             return $this->success(new TaskResource($taskResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 }

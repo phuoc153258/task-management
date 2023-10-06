@@ -22,7 +22,7 @@ class RoleController extends Controller
 
             return $this->success(RoleResource::collection($roleResponse), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 }

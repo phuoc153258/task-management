@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Task;
 use App\Models\TaskReport;
 use App\Models\User;
 use App\Models\UserProject;
+use App\Observers\TaskObserver;
 use App\Observers\TaskReportObserver;
 use App\Observers\UserObserver;
 use App\Observers\UserProjectObserver;
@@ -31,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         UserProject::observe(UserProjectObserver::class);
         TaskReport::observe(TaskReportObserver::class);
+        Task::observe(TaskObserver::class);
     }
 }

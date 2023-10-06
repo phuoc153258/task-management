@@ -42,7 +42,7 @@ class UserProjectObserver
      */
     public function restored(UserProject $userProject): void
     {
-        //
+        $this->taskRepository->restoreMany($userProject->user_id, $userProject->project_id);
     }
 
     /**
@@ -50,6 +50,6 @@ class UserProjectObserver
      */
     public function forceDeleted(UserProject $userProject): void
     {
-        //
+        $this->taskRepository->forceMany($userProject->user_id, $userProject->project_id);
     }
 }

@@ -27,7 +27,7 @@ class UserController extends Controller
 
             return $this->success(new PaginateResource($userResponse,  UserResource::collection($userResponse->items())), trans('user.get-list-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -38,7 +38,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.get-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('user.get-user-failed'), 400);
+            return $this->error($th->getMessage(), trans('user.get-user-failed'), 400);
         }
     }
 
@@ -49,7 +49,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.create-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -61,7 +61,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('user.update-user-failed'), 400);
+            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
     }
 
@@ -72,7 +72,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('user.update-user-failed'), 400);
+            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
     }
 
@@ -83,7 +83,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('user.update-user-failed'), 400);
+            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
         }
     }
 
@@ -94,7 +94,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.delete-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'), 400);
+            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }
     }
 
@@ -105,7 +105,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.delete-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'), 400);
+            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }
     }
 
@@ -116,7 +116,7 @@ class UserController extends Controller
 
             return $this->success(new UserResource($userResponse), trans('user.delete-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'), 400);
+            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }
     }
 }

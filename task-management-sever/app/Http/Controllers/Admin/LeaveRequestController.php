@@ -29,7 +29,7 @@ class LeaveRequestController extends Controller
 
             return $this->success(new PaginateResource($leaveRequestResponse, LeaveRequestResource::collection($leaveRequestResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -51,7 +51,7 @@ class LeaveRequestController extends Controller
 
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -62,7 +62,7 @@ class LeaveRequestController extends Controller
 
             return $this->success(new LeaveRequestResource($leaveRequestResponse->fresh()), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'), 400);
+            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }
     }
 
@@ -73,7 +73,7 @@ class LeaveRequestController extends Controller
 
             return $this->success(new LeaveRequestResource($leaveRequestResponse->fresh()), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'), 400);
+            return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }
     }
 
@@ -84,7 +84,7 @@ class LeaveRequestController extends Controller
 
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -106,7 +106,7 @@ class LeaveRequestController extends Controller
 
             return $this->success(new LeaveRequestResource($leaveRequestResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 }

@@ -24,7 +24,7 @@ class AuthController extends Controller
 
             return $this->success(new TokenResource($token), trans('auth.login-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('auth.login-failed'), 401);
+            return $this->error($th->getMessage(), trans('auth.login-failed'), 401);
         }
     }
 
@@ -36,7 +36,7 @@ class AuthController extends Controller
 
             return $this->success($userResponse, trans('message.create-user-success'), 200);
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
 
             return $this->success($userResponse, trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -58,7 +58,7 @@ class AuthController extends Controller
 
             return $this->success('Successfully logged out', trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 
@@ -69,7 +69,7 @@ class AuthController extends Controller
 
             return $this->success(new TokenResource($token), trans('base.base-success'));
         } catch (\Throwable $th) {
-            return $this->error($th, trans('base.base-failed'));
+            return $this->error($th->getMessage(), trans('base.base-failed'));
         }
     }
 }
