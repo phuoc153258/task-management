@@ -56,4 +56,20 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
             }
         });
     }
+    public function restoreMany($user_id)
+    {
+        LeaveRequest::withTrashed()->where('user_id', $user_id)->chunk(100, function ($records) {
+            foreach ($records as $record) {
+                $record->restore();
+            }
+        });
+    }
+    public function forceMany($user_id)
+    {
+        LeaveRequest::withTrashed()->where('user_id', $user_id)->chunk(100, function ($records) {
+            foreach ($records as $record) {
+                $record->forceDelete();
+            }
+        });
+    }
 }

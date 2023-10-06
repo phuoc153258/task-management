@@ -39,11 +39,6 @@ class UserRepository implements UserRepositoryInterface
         return User::withTrashed()->with('roles')->where($field, $value)->first();
     }
 
-    public function delete($userId)
-    {
-        return User::with('roles')->destroy($userId);
-    }
-
     public function create(array $userDetails)
     {
         $userResponse = User::withoutEvents(function () use ($userDetails) {
@@ -58,10 +53,5 @@ class UserRepository implements UserRepositoryInterface
         });
 
         return $userResponse;
-    }
-
-    public function update($orderId, array $newDetails)
-    {
-        return User::with('roles')->whereId($orderId)->update($newDetails);
     }
 }

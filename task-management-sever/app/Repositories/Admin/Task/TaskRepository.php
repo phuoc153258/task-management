@@ -99,7 +99,7 @@ class TaskRepository implements TaskRepositoryInterface
 
         $query->chunk(100, function ($tasks) {
             foreach ($tasks as $task) {
-                TaskReport::where('task_id', $task->id)->chunk(100, function ($taskReports) {
+                TaskReport::where('task_id', $task->id)->withTrashed()->chunk(100, function ($taskReports) {
                     foreach ($taskReports as $taskReport) {
                         $taskReport->restoreQuietly();
                     }
@@ -116,7 +116,7 @@ class TaskRepository implements TaskRepositoryInterface
 
         $query->chunk(100, function ($tasks) {
             foreach ($tasks as $task) {
-                TaskReport::where('task_id', $task->id)->chunk(100, function ($taskReports) {
+                TaskReport::where('task_id', $task->id)->withTrashed()->chunk(100, function ($taskReports) {
                     foreach ($taskReports as $taskReport) {
                         $taskReport->forceDeleteQuietly();
                     }
