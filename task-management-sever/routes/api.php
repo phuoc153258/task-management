@@ -1,6 +1,9 @@
 <?php
 
+use App\Jobs\WelcomeMail;
+use App\Mail\Welcome;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,13 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+Route::get('/mail', function (Request $request) {
+    $welcomeMailJob = new WelcomeMail();
+    dispatch($welcomeMailJob);
+    return response()->json([
+        'status' => false,
+        'message' => "Welcome",
+        'data' => "welcome"
+    ], 200);
+});
