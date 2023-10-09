@@ -42,7 +42,8 @@ class TaskReportObserver
      */
     public function restored(TaskReport $taskReport): void
     {
-        //
+        $taskReportLasted = $this->taskReportRepository->getLasted($taskReport->task_id);
+        $this->taskRepository->update(['status' => $taskReportLasted->status], $taskReportLasted->task_id);
     }
 
     /**

@@ -41,7 +41,7 @@ class UserObserver
     {
         $this->leaveRequestRepository->deleteMany($user->id);
         $this->userProjectRepository->deleteMany($user->id);
-        $this->taskRepository->deleteMany($user->id);
+        // $this->taskRepository->deleteMany($user->id);
     }
 
     /**
@@ -51,7 +51,7 @@ class UserObserver
     {
         $this->leaveRequestRepository->restoreMany($user->id);
         $this->userProjectRepository->restoreMany($user->id);
-        $this->taskRepository->restoreMany($user->id);
+        // $this->taskRepository->restoreMany($user->id);
     }
 
     /**
@@ -61,6 +61,6 @@ class UserObserver
     {
         $this->leaveRequestRepository->forceMany($user->id);
         $this->userProjectRepository->forceMany($user->id);
-        $this->taskRepository->forceMany($user->id);
+        // $this->taskRepository->forceMany($user->id);
     }
 }

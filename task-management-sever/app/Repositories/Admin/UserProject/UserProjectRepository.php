@@ -43,31 +43,16 @@ class UserProjectRepository implements UserProjectRepositoryInterface
 
     public function deleteMany($user_id)
     {
-        UserProject::where('user_id', $user_id)
-            ->chunk(100, function ($records) {
-                foreach ($records as $record) {
-                    $record->delete();
-                }
-            });
+        UserProject::where('user_id', $user_id)->delete();
     }
 
     public function restoreMany($user_id)
     {
-        UserProject::where('user_id', $user_id)->withTrashed()
-            ->chunk(100, function ($records) {
-                foreach ($records as $record) {
-                    $record->restore();
-                }
-            });
+        UserProject::where('user_id', $user_id)->withTrashed()->restore();
     }
 
     public function forceMany($user_id)
     {
-        UserProject::where('user_id', $user_id)->withTrashed()
-            ->chunk(100, function ($records) {
-                foreach ($records as $record) {
-                    $record->forceDelete();
-                }
-            });
+        UserProject::where('user_id', $user_id)->withTrashed()->forceDelete();
     }
 }

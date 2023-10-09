@@ -74,33 +74,16 @@ class TaskReportRepository implements TaskReportRepositoryInterface
 
     public function deleteMany($task_id)
     {
-        $query = TaskReport::ofTask($task_id)->withTrashed();
-
-        $query->chunk(100, function ($records) {
-            foreach ($records as $record) {
-                $record->deleteQuietly();
-            }
-        });
+        $query = TaskReport::ofTask($task_id)->delete();
     }
 
     public function restoreMany($task_id)
     {
-        $query = TaskReport::ofTask($task_id)->withTrashed();
-        $query->chunk(100, function ($records) {
-            foreach ($records as $record) {
-                $record->restoreQuietly();
-            }
-        });
+        $query = TaskReport::ofTask($task_id)->withTrashed()->restore();
     }
 
     public function forceMany($task_id)
     {
-        $query = TaskReport::ofTask($task_id)->withTrashed();
-
-        $query->chunk(100, function ($records) {
-            foreach ($records as $record) {
-                $record->forceDeleteQuietly();
-            }
-        });
+        $query = TaskReport::ofTask($task_id)->withTrashed()->forceDelete();
     }
 }

@@ -77,52 +77,46 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function deleteMany($user_id, $project_id = null)
     {
-        $query = Task::ofUser($user_id)->withTrashed();
-        if ($project_id != null) $query->ofProject($project_id);
+        $tasks = Task::ofUser($user_id)->when($project_id !== null, function ($query) use ($project_id) {
+            return $query->ofProject($project_id);
+        })->get();
 
-        $query->orderBy('updated_at')->chunk(100, function ($tasks) {
-            foreach ($tasks as $task) {
-                TaskReport::where('task_id', $task->id)->orderBy('updated_at')->chunk(100, function ($taskReports) {
-                    foreach ($taskReports as $taskReport) {
-                        $taskReport->deleteQuietly();
-                    }
-                });
-                $task->deleteQuietly();
-            }
-        });
+        foreach ($tasks as $task) {
+            TaskReport::ofTask($task->id)->delete();
+        }
+
+        Task::ofUser($user_id)->when($project_id !== null, function ($query) use ($project_id) {
+            return $query->ofProject($project_id);
+        })->delete();
     }
 
     public function restoreMany($user_id, $project_id = null)
     {
-        $query = Task::ofUser($user_id)->withTrashed();
-        if ($project_id != null) $query->ofProject($project_id);
+        $tasks = Task::ofUser($user_id)->when($project_id !== null, function ($query) use ($project_id) {
+            return $query->ofProject($project_id);
+        })->get();
 
-        $query->chunk(100, function ($tasks) {
-            foreach ($tasks as $task) {
-                TaskReport::where('task_id', $task->id)->withTrashed()->chunk(100, function ($taskReports) {
-                    foreach ($taskReports as $taskReport) {
-                        $taskReport->restoreQuietly();
-                    }
-                });
-                $task->restoreQuietly();
-            }
-        });
+        foreach ($tasks as $task) {
+            TaskReport::ofTask($task->id)->restore();
+        }
+
+        Task::ofUser($user_id)->when($project_id !== null, function ($query) use ($project_id) {
+            return $query->ofProject($project_id);
+        })->restore();
     }
 
     public function forceMany($user_id, $project_id = null)
     {
-        $query = Task::ofUser($user_id)->withTrashed();
-        if ($project_id != null) $query->ofProject($project_id);
+        $tasks = Task::ofUser($user_id)->when($project_id !== null, function ($query) use ($project_id) {
+            return $query->ofProject($project_id);
+        })->get();
 
-        $query->chunk(100, function ($tasks) {
-            foreach ($tasks as $task) {
-                TaskReport::where('task_id', $task->id)->withTrashed()->chunk(100, function ($taskReports) {
-                    foreach ($taskReports as $taskReport) {
-                        $taskReport->forceDeleteQuietly();
-                    }
-                });
-                $task->forceDeleteQuietly();
-            }
-        });
+        foreach ($tasks as $task) {
+            TaskReport::ofTask($task->id)->forceDelete();
+        }
+
+        Task::ofUser($user_id)->when($project_id !== null, function ($query) use ($project_id) {
+            return $query->ofProject($project_id);
+        })->forceDelete();
     }
 }
