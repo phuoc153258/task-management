@@ -4,7 +4,7 @@ namespace App\Repositories\Admin\LeaveRequest;
 
 use App\Enums\LeaveRequestStatus;
 use App\Enums\SoftDeleteStatus;
-use App\Models\LeaveRequest;
+use App\Models\LeaveRequest\LeaveRequest;
 use App\Repositories\Admin\LeaveRequest\LeaveRequestRepositoryInterface;
 
 class LeaveRequestRepository implements LeaveRequestRepositoryInterface

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin\LeaveRequest;
 
 use App\Enums\LeaveRequestStatus;
 use App\Enums\SoftDeleteStatus;
-use App\Models\LeaveRequest;
+use App\Models\LeaveRequest\LeaveRequest;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;

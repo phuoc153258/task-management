@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         \App\Models\User::factory(10)->create();
         $this->call(LeaveRequestTypeSeeder::class);
-        \App\Models\LeaveRequest::factory(20)->create();
+        \App\Models\LeaveRequest\LeaveRequest::factory(20)->create();
         \App\Models\Project::factory(5)->create();
         $this->call(UserProjectSeeder::class);
         \App\Models\Task::factory(20)->create();

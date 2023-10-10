@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\LeaveRequestType;
+use App\Models\LeaveRequestType\LeaveRequestType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

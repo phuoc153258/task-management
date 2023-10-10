@@ -2,7 +2,7 @@
 
 namespace App\Repositories\LeaveRequestType;
 
-use App\Models\LeaveRequestType;
+use App\Models\LeaveRequestType\LeaveRequestType;
 use App\Repositories\LeaveRequestType\LeaveRequestTypeRepositoryInterface;
 
 class LeaveRequestTypeRepository implements LeaveRequestTypeRepositoryInterface

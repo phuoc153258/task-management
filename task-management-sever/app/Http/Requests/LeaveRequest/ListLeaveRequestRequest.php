@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\LeaveRequest;
 
-use App\Models\LeaveRequest;
+use App\Models\LeaveRequest\LeaveRequest;
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
