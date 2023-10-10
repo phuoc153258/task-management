@@ -37,7 +37,7 @@ return [
     ],
     'task_report' => [
         'search_by' => 'title',
-        'sort_by' => 'updated_at',
+        'sort_by' => 'title',
         'select' => ['*'],
         'task_id' => null,
     ],

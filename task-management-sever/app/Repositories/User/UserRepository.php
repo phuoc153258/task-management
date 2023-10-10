@@ -2,7 +2,7 @@
 
 namespace App\Repositories\User;
 
-use App\Models\User;
+use App\Models\User\User;
 use App\Repositories\User\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
@@ -15,5 +15,12 @@ class UserRepository implements UserRepositoryInterface
     public function update($orderId, array $newDetails)
     {
         return User::whereId($orderId)->update($newDetails);
+    }
+
+    public function create($userDetails)
+    {
+        return User::firstOrCreate(
+            $userDetails
+        );
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\TaskReport;
 
 use App\Enums\SoftDeleteStatus;
-use App\Models\TaskReport;
+use App\Models\TaskReport\TaskReport;
 
 class TaskReportRepository implements TaskReportRepositoryInterface
 {

@@ -3,7 +3,7 @@
 namespace App\Http\Requests\User;
 
 use App\Enums\SoftDeleteStatus;
-use App\Models\User;
+use App\Models\User\User;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

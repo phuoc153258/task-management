@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\TaskReport;
 
-use App\Models\TaskReport;
+use App\Models\TaskReport\TaskReport;
 use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

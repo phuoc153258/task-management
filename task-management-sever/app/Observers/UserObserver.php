@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\User;
+use App\Models\User\User;
 use App\Repositories\Admin\LeaveRequest\LeaveRequestRepository;
 use App\Repositories\Admin\Task\TaskRepository;
 use App\Repositories\Admin\TaskReport\TaskReportRepository;

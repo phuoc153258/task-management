@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\UserProject;
+use App\Models\UserProject\UserProject;
 use App\Repositories\Admin\Task\TaskRepository;
 
 class UserProjectObserver

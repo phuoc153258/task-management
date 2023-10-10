@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Task;
 
-use App\Models\Task;
+use App\Models\Task\Task;
 use App\Repositories\Task\TaskRepositoryInterface;
 
 class TaskRepository implements TaskRepositoryInterface

@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\User;
 
 use App\Enums\SoftDeleteStatus;
-use App\Models\User;
+use App\Models\User\User;
 use App\Repositories\Admin\User\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface

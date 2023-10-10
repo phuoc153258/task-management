@@ -2,7 +2,7 @@
 
 namespace App\Repositories\UserProject;
 
-use App\Models\UserProject;
+use App\Models\UserProject\UserProject;
 use App\Repositories\UserProject\UserProjectRepositoryInterface;
 
 class UserProjectRepository implements UserProjectRepositoryInterface

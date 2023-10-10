@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\LeaveRequest;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\Task;
+use App\Models\Task\Task;
 use App\Repositories\Admin\TaskReport\TaskReportRepository;
 
 class TaskObserver

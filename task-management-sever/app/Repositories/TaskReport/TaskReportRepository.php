@@ -2,7 +2,7 @@
 
 namespace App\Repositories\TaskReport;
 
-use App\Models\TaskReport;
+use App\Models\TaskReport\TaskReport;
 use App\Repositories\TaskReport\TaskReportRepositoryInterface;
 
 class TaskReportRepository implements TaskReportRepositoryInterface

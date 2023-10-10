@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\TaskReport;
+use App\Models\TaskReport\TaskReport;
 use App\Repositories\Task\TaskRepository;
 use App\Repositories\TaskReport\TaskReportRepositoryInterface;
 

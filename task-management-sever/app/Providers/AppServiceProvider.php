@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Task;
-use App\Models\TaskReport;
-use App\Models\User;
-use App\Models\UserProject;
+use App\Models\Task\Task;
+use App\Models\TaskReport\TaskReport;
+use App\Models\User\User;
+use App\Models\UserProject\UserProject;
 use App\Observers\TaskObserver;
 use App\Observers\TaskReportObserver;
 use App\Observers\UserObserver;

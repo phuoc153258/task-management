@@ -3,8 +3,8 @@
 namespace App\Repositories\Admin\Task;
 
 use App\Enums\SoftDeleteStatus;
-use App\Models\Task;
-use App\Models\TaskReport;
+use App\Models\Task\Task;
+use App\Models\TaskReport\TaskReport;
 
 class TaskRepository implements TaskRepositoryInterface
 {

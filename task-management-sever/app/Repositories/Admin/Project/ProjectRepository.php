@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\Project;
 
 use App\Enums\SoftDeleteStatus;
-use App\Models\Project;
+use App\Models\Project\Project;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
