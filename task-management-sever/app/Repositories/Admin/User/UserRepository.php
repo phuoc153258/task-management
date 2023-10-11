@@ -4,7 +4,9 @@ namespace App\Repositories\Admin\User;
 
 use App\Enums\SoftDeleteStatus;
 use App\Models\User\User;
+use App\Notifications\RegisterUserNotification;
 use App\Repositories\Admin\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Notification;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -51,6 +53,7 @@ class UserRepository implements UserRepositoryInterface
                 ]
             )->assignRole($userDetails['role_id']);
         });
+        Notification::send($userResponse, new RegisterUserNotification($userResponse));
 
         return $userResponse;
     }

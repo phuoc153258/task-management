@@ -5,6 +5,8 @@ namespace App\Repositories\Admin\Task;
 use App\Enums\SoftDeleteStatus;
 use App\Models\Task\Task;
 use App\Models\TaskReport\TaskReport;
+use App\Notifications\CreateTaskNotification;
+use Illuminate\Support\Facades\Notification;
 
 class TaskRepository implements TaskRepositoryInterface
 {
@@ -38,9 +40,12 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function create($taskDetails)
     {
-        return Task::with(['user', 'createdBy'])->firstOrCreate(
+        $taskResponse = Task::with(['user', 'createdBy'])->firstOrCreate(
             $taskDetails
         );
+        Notification::send($taskResponse, new CreateTaskNotification($taskResponse));
+
+        return $taskResponse;
     }
 
     public function update($taskDetails, $id)

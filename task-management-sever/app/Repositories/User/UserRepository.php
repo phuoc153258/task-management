@@ -3,7 +3,9 @@
 namespace App\Repositories\User;
 
 use App\Models\User\User;
+use App\Notifications\RegisterUserNotification;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Notification;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -19,8 +21,11 @@ class UserRepository implements UserRepositoryInterface
 
     public function create($userDetails)
     {
-        return User::firstOrCreate(
+        $user = User::firstOrCreate(
             $userDetails
         );
+        Notification::send($user, new RegisterUserNotification($user));
+
+        return $user;
     }
 }

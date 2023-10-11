@@ -6,10 +6,11 @@ use App\Traits\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Task extends Model
 {
-    use HasFactory, Fillable, SoftDeletes, TaskAttribute, TaskRelationship, TaskScope;
+    use HasFactory, Notifiable, Fillable, SoftDeletes, TaskAttribute, TaskRelationship, TaskScope;
 
     protected $fillable = [
         'user_id',
