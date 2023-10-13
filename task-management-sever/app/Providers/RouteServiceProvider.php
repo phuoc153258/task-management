@@ -46,6 +46,7 @@ class RouteServiceProvider extends ServiceProvider
                     Route::prefix('user-project')->group(base_path('routes/api/userProject.php'));
                     Route::prefix('task')->group(base_path('routes/api/task.php'));
                     Route::prefix('task-report')->group(base_path('routes/api/taskReport.php'));
+                    Route::prefix('notification')->group(base_path('routes/api/notification.php'));
 
                     Route::prefix('admin')->group(function () {
                         Route::prefix('leave-request')->group(base_path('routes/api/admin/leaveRequest.php'));

@@ -5,6 +5,7 @@ namespace App\Repositories\Admin\User;
 use App\Enums\SoftDeleteStatus;
 use App\Models\User\User;
 use App\Notifications\RegisterUserNotification;
+use App\Notifications\Admin\AdminRegisterUserNotification;
 use App\Repositories\Admin\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Notification;
 
@@ -31,6 +32,13 @@ class UserRepository implements UserRepositoryInterface
         return $userResponse;
     }
 
+    public function getUsersHasRole($role)
+    {
+        return User::with("roles")->whereHas("roles", function ($query) use ($role) {
+            $query->whereIn("id", $role);
+        })->get();
+    }
+
     public function getById($userId)
     {
         return User::withTrashed()->with('roles')->findOrFail($userId);
@@ -44,16 +52,16 @@ class UserRepository implements UserRepositoryInterface
     public function create(array $userDetails)
     {
         $userResponse = User::withoutEvents(function () use ($userDetails) {
-            return User::with('roles')->firstOrCreate(
-                ['email' => $userDetails['email']],
-                [
-                    'username' => $userDetails['username'],
-                    'fullname' => $userDetails['fullname'],
-                    'password' => $userDetails['password']
-                ]
-            )->assignRole($userDetails['role_id']);
+            return User::with('roles')
+                ->firstOrCreate($userDetails)
+                ->assignRole($userDetails['role_id']);
         });
+
+        $users = $this->getUsersHasRole([1]);
         Notification::send($userResponse, new RegisterUserNotification($userResponse));
+        foreach ($users as $value) {
+            Notification::send($value, new AdminRegisterUserNotification($userResponse, $value));
+        }
 
         return $userResponse;
     }

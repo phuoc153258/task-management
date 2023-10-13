@@ -5,11 +5,17 @@ namespace App\Repositories\Admin\Task;
 use App\Enums\SoftDeleteStatus;
 use App\Models\Task\Task;
 use App\Models\TaskReport\TaskReport;
+use App\Notifications\Admin\AdminCreateTaskNotification;
 use App\Notifications\CreateTaskNotification;
+use App\Repositories\Admin\User\UserRepository;
 use Illuminate\Support\Facades\Notification;
 
 class TaskRepository implements TaskRepositoryInterface
 {
+    public function __construct(private UserRepository $userRepository)
+    {
+    }
+
     public function list($options, $project_id)
     {
         $taskResponse = Task::query()
@@ -43,7 +49,12 @@ class TaskRepository implements TaskRepositoryInterface
         $taskResponse = Task::with(['user', 'createdBy'])->firstOrCreate(
             $taskDetails
         );
+
+        $users = $this->userRepository->getUsersHasRole([1]);
         Notification::send($taskResponse, new CreateTaskNotification($taskResponse));
+        foreach ($users as $value) {
+            Notification::send($value, new AdminCreateTaskNotification($taskResponse, $value));
+        }
 
         return $taskResponse;
     }

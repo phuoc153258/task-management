@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Admin;
 
+use App\Models\Task\Task;
 use App\Models\User\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RegisterUserNotification extends Notification implements ShouldQueue
+class AdminCreateTaskNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(private User $user)
+    public function __construct(private Task $task, private $user)
     {
         //
     }
@@ -27,21 +28,18 @@ class RegisterUserNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail($notifiable)
+    public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->view(
-                'mail.register_user',
-                [
-                    'user' => $this->user
-                ]
-            );
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -53,9 +51,10 @@ class RegisterUserNotification extends Notification implements ShouldQueue
     {
         return [
             'user_id' => $this->user->id,
-            'username' => $this->user->username,
-            'fullname' => $this->user->fullname,
-            'email' => $this->user->email,
+            'task_user_id' => $this->task->user_id,
+            'title' => $this->task->title,
+            'description' => $this->task->description,
+            'hours' => $this->task->hours,
         ];
     }
 }
