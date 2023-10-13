@@ -16,10 +16,12 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $langs = ['en', 'vi'];
-        if (in_array($request->header('Localization'), $langs))
-            App::setLocale($request->header('Localization'));
-        else App::setLocale($langs[0]);
+        $langs = config('lang.country');
+        $defaultLang = config('lang.country')[0];
+
+        if (in_array($request->header('Localization'), $langs)) $defaultLang = $request->header('Localization');
+        App::setLocale($defaultLang);
+
         return $next($request);
     }
 }
