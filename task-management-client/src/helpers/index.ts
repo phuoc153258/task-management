@@ -4,3 +4,4 @@ export * from './image';
 export * from './input';
 export * from './str';
 export * from './time';
+export * from './error';

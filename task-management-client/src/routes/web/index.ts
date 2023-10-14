@@ -10,12 +10,13 @@ import Password from '../../pages/Password';
 import LeaveRequest from '../../pages/Admin/LeaveRequest';
 import User from '../../pages/Admin/User';
 import Task from '../../pages/Task';
+import AuthLayout from '../../layouts/AuthLayout';
 
 const publicRoutes: any = [
     { path: route.home, component: Home, layout: DefaultLayout },
     { path: route.leaveRequest, component: Home, layout: DefaultLayout },
-    { path: route.login, component: Login, layout: null },
-    { path: route.register, component: Register, layout: null },
+    { path: route.login, component: Login, layout: AuthLayout },
+    { path: route.register, component: Register, layout: AuthLayout },
     { path: route.profile, component: Profile, layout: ProfileLayout },
     { path: route.password, component: Password, layout: ProfileLayout },
     { path: route.acceptLeaveRequest, component: LeaveRequest, layout: DefaultLayout },
