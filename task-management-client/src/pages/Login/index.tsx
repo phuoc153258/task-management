@@ -9,6 +9,7 @@ import { isAuthenticate, setToken, setUser } from '../../utils';
 import UserService from '../../services/user';
 import { actions } from '../../store';
 import Loading from '../../components/Loading';
+import route from '../../routes/web/route';
 
 function Login() {
     const [state, dispatch] = useStore();
@@ -79,14 +80,14 @@ function Login() {
                             setPassword(e.target.value);
                         }}
                     />
-                    {showError === true && <p className="text-sm text-gray-400 pt-2">Username or password is incorrect!.</p>}
+                    {showError && <p className="text-sm text-gray-400 pt-2">Username or password is incorrect!.</p>}
                 </div>
 
                 <div className="mb-6">
                     <Button isDisabled={showLoading}
                         title={<div className='flex items-center justify-center gap-5'>
                             <span className='relative text-xl'>Login
-                                {showLoading === true && <div className='absolute top-0 left-[-2rem]'><Loading /></div>}
+                                {showLoading && <div className='absolute top-0 left-[-2rem]'><Loading /></div>}
                             </span>
                         </div>}
                         callback={() => {
@@ -97,7 +98,7 @@ function Login() {
                 <p className="text-sm text-center text-gray-400">
                     Don't have an account yet?
                     <Link
-                        to="/register"
+                        to={route.register}
                         className="font-semibold text-indigo-500 focus:text-indigo-600 focus:outline-none focus:underline"
                     >
                         {' '}Sign up

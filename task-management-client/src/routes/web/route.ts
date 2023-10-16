@@ -10,4 +10,8 @@ const route = {
     task: '/task',
 };
 
+export const leaveRequestGroup = [route.leaveRequest, route.acceptLeaveRequest]
+export const userGroup = [route.user]
+export const taskGroup = [route.task]
+
 export default route;

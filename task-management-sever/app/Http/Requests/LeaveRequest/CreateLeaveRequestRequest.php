@@ -4,6 +4,7 @@ namespace App\Http\Requests\LeaveRequest;
 
 use App\Traits\Authorizable;
 use App\Traits\HttpResponsable;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,6 +24,7 @@ class CreateLeaveRequestRequest extends FormRequest
     {
         $this->merge([
             'user_id' => $this->getCurrentUser()->id,
+            'leave_registration_date' => formatDate($this->input('leave_registration_date'), 'Y-m-d'),
         ]);
     }
 
@@ -42,7 +44,7 @@ class CreateLeaveRequestRequest extends FormRequest
                 'min:1',
                 Rule::exists('leave_request_types', 'id'),
             ],
-            'leave_registration_date' => 'required|date|after:today',
+            'leave_registration_date' => 'required|date|date_format:Y-m-d|after_or_equal:today',
             'user_id' => [
                 'nullable',
                 'numeric',

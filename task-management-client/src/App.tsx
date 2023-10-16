@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { publicRoutes } from './routes/web';
 import { DefaultLayout } from './layouts';
+import LeaveRequest from './pages/LeaveRequest';
 
 function App() {
     return (
         <Routes>
+            <Route path="/" element={<Navigate replace to="/leave-request" />} />
             {publicRoutes.map((route: any, index: any) => {
                 const Page = route.component;
 

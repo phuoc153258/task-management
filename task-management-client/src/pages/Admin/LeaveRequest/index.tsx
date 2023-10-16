@@ -6,6 +6,7 @@ import LeaveRequestService from '../../../services/admin/leaveRequest';
 import { toast } from 'react-toastify';
 import DetailLeaveRequest from './Modal/DetailLeaveRequest';
 import { isHaveRole } from '../../../utils';
+import { ROLE_ADMIN, ROLE_MANAGER } from '../../../constants/user';
 
 function LeaveRequest() {
     const [state, dispatch] = useStore()
@@ -70,7 +71,7 @@ function LeaveRequest() {
     };
 
     useEffect(() => {
-        const isAuth = isHaveRole([1, 4]);
+        const isAuth = isHaveRole([ROLE_ADMIN, ROLE_MANAGER]);
         if (!isAuth) navigate('/');
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -174,7 +175,7 @@ function LeaveRequest() {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                                    {!isLoading ? (
+                                    {!isLoading && (
                                         <>
                                             {leaveRequests.map(
                                                 (value: any, index: any) => {
@@ -287,12 +288,10 @@ function LeaveRequest() {
                                                 },
                                             )}
                                         </>
-                                    ) : (
-                                        <></>
                                     )}
                                 </tbody>
                             </table>
-                            {isLoading ? (
+                            {isLoading && (
                                 <>
                                     {' '}
                                     <div className="flex items-center justify-center py-5">
@@ -319,8 +318,6 @@ function LeaveRequest() {
                                         </div>
                                     </div>
                                 </>
-                            ) : (
-                                <></>
                             )}
                         </div>
                     </div>
@@ -389,7 +386,7 @@ function LeaveRequest() {
                     </span>
                 </div>
             </div>
-            {showModalDetail === true && <DetailLeaveRequest setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} leaveRequest={leaveRequest} handleUpdateStatus={handleUpdateStatus} />}
+            {showModalDetail && <DetailLeaveRequest setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} leaveRequest={leaveRequest} handleUpdateStatus={handleUpdateStatus} />}
         </>
     );
 }

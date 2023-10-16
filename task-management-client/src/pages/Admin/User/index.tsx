@@ -7,6 +7,7 @@ import UserService from '../../../services/admin/user';
 import RoleService from '../../../services/admin/role';
 import CreateUser from './Modal/CreateUser';
 import DetailUser from './Modal/DetailUser';
+import { ROLE_ADMIN } from '../../../constants/user';
 
 function User() {
     const navigate = useNavigate()
@@ -77,7 +78,7 @@ function User() {
     }
 
     useEffect(() => {
-        const isAuth = isHaveRole([1]);
+        const isAuth = isHaveRole([ROLE_ADMIN]);
         if (!isAuth) navigate('/');
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,7 +187,7 @@ function User() {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                                    {!isLoading ? (
+                                    {!isLoading && (
                                         <>
                                             {users.map(
                                                 (value: any, index: any) => {
@@ -262,12 +263,10 @@ function User() {
                                                 },
                                             )}
                                         </>
-                                    ) : (
-                                        <></>
                                     )}
                                 </tbody>
                             </table>
-                            {isLoading ? (
+                            {isLoading && (
                                 <>
                                     {' '}
                                     <div className="flex items-center justify-center py-5">
@@ -294,8 +293,6 @@ function User() {
                                         </div>
                                     </div>
                                 </>
-                            ) : (
-                                <></>
                             )}
                         </div>
                     </div>
@@ -364,8 +361,8 @@ function User() {
                     </span>
                 </div>
             </div>
-            {showModalCreate === true && <CreateUser setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} roles={roles} />}
-            {showModalDetail === true && <DetailUser setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} roles={roles} user={user} />}
+            {showModalCreate && <CreateUser setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} roles={roles} />}
+            {showModalDetail && <DetailUser setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} roles={roles} user={user} />}
         </>
     );
 }

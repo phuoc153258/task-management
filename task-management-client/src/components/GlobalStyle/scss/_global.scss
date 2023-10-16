@@ -1,3 +1,21 @@
 body {
     font-family: 'Open Sans', sans-serif;
 }
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker__input-container input {
+    --tw-text-opacity: 1;
+    color: rgb(17 24 39 / var(--tw-text-opacity));
+    padding: 0.75rem;
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+    --tw-border-opacity: 1;
+    border-color: rgb(209 213 219 / var(--tw-border-opacity));
+    border-width: 1px;
+    border-radius: 0.5rem;
+    width: 100%;
+    display: block;
+}

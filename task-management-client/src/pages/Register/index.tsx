@@ -8,6 +8,7 @@ import { isAuthenticate } from '../../utils';
 import Loading from '../../components/Loading';
 import { toast } from 'react-toastify';
 import { getErrors } from '../../helpers';
+import route from '../../routes/web/route';
 
 function Register() {
     const [userInfo, setUserInfo] = useState({
@@ -124,7 +125,7 @@ function Register() {
                                 <span className='relative text-xl'>Register
                                     <>
                                         {
-                                            showLoading === true && <div className='absolute top-0 left-[-2rem]'><Loading /></div>
+                                            showLoading && <div className='absolute top-0 left-[-2rem]'><Loading /></div>
                                         }
                                     </>
                                 </span>
@@ -137,7 +138,7 @@ function Register() {
                     <p className="text-sm text-center text-gray-400">
                         You have account?
                         <Link
-                            to="/login"
+                            to={route.login}
                             className="font-semibold text-indigo-500 focus:text-indigo-600 focus:outline-none focus:underline"
                         >
                             {' '}Login

@@ -5,6 +5,7 @@ import { ENV } from '../../../config';
 import { Logout, isAuthenticate } from '../../../utils';
 import { actions } from '../../../store';
 import { Link, useNavigate } from 'react-router-dom';
+import route from '../../../routes/web/route';
 
 function Header() {
     const [state, dispatch] = useStore();
@@ -54,7 +55,7 @@ function Header() {
                                 />
                             </svg>
                         </button>
-                        <Link to="/" className="flex ml-2 md:mr-24">
+                        <Link to={route.home} className="flex ml-2 md:mr-24">
                             <img
                                 src="https://flowbite-admin-dashboard.vercel.app/images/logo.svg"
                                 className="h-8 mr-3"
@@ -141,7 +142,7 @@ function Header() {
                                     <ul className="py-1" role="none">
                                         <li>
                                             <Link
-                                                to="/"
+                                                to={route.home}
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                 role="menuitem"
                                             >
@@ -150,7 +151,7 @@ function Header() {
                                         </li>
                                         <li>
                                             <Link
-                                                to="/profile"
+                                                to={route.profile}
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                 role="menuitem"
                                             >

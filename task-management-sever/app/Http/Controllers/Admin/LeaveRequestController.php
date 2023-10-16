@@ -24,7 +24,6 @@ class LeaveRequestController extends Controller
     public function index(ListLeaveRequestRequest $request)
     {
         try {
-            $user = $this->getCurrentUser();
             $leaveRequestResponse = $this->leaveRequestService->index($request->validated());
 
             return $this->success(new PaginateResource($leaveRequestResponse, LeaveRequestResource::collection($leaveRequestResponse->items())), trans('base.base-success'));

@@ -35,7 +35,8 @@
         },
         "files": [
             "app/Helpers/uuid.php",
-            "app/Helpers/file.php"
+            "app/Helpers/file.php",
+            "app/Helpers/date.php"
         ]
     },
     "autoload-dev": {

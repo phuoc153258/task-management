@@ -19,6 +19,13 @@ class CreateLeaveRequestRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'leave_registration_date' => formatDate($this->input('leave_registration_date'), 'Y-m-d'),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -34,7 +41,7 @@ class CreateLeaveRequestRequest extends FormRequest
                 'min:1',
                 Rule::exists('leave_request_types', 'id'),
             ],
-            'leave_registration_date' => 'required|date|after:today',
+            'leave_registration_date' => 'required|date|date_format:Y-m-d|after_or_equal:today',
             'user_id' => [
                 'required',
                 'numeric',

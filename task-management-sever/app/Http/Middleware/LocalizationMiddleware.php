@@ -16,10 +16,9 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $langs = config('lang.country');
         $defaultLang = config('lang.country')[0];
 
-        if (in_array($request->header('Localization'), $langs)) $defaultLang = $request->header('Localization');
+        if (in_array($request->header('Localization'), config('lang.country'))) $defaultLang = $request->header('Localization');
         App::setLocale($defaultLang);
 
         return $next($request);
