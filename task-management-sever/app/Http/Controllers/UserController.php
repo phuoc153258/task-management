@@ -21,21 +21,10 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request)
     {
+
         try {
             $currentUser = $this->getCurrentUser();
             $userResponse = $this->userService->update($request->validated(), $currentUser->id);
-
-            return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('user.update-user-failed'), 400);
-        }
-    }
-
-    public function avatar(UploadAvatarUserRequest $request)
-    {
-        try {
-            $currentUser = $this->getCurrentUser();
-            $userResponse = $this->userService->avatar($request->file('avatar'), $currentUser->id);
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {

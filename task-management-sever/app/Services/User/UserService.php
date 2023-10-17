@@ -17,19 +17,9 @@ class UserService implements UserServiceInterface
     public function update($userInfo, $id)
     {
         $user = $this->userRepository->getById($id);
-        $user->update($userInfo);
-
-        return $user;
-    }
-
-    public function avatar($avatar, $id)
-    {
-        $user = $this->userRepository->getById($id);
-
-        $avatar_name = $this->fileService->upload($avatar, 'avatar');
+        $userInfo['avatar'] = $this->fileService->upload($userInfo['avatar'], 'avatar');
         $this->fileService->delete($user->avatar);
-
-        $user->update(['avatar' => $avatar_name]);
+        $user->update($userInfo);
 
         return $user;
     }

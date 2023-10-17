@@ -8,7 +8,7 @@ class UserService {
     }
     static update(formData: any) {
         let uri = USER_ROUTER.UPDATE_CURRENT_USER;
-        return fetch.postFile(uri, formData);
+        return fetch.post(uri, formData);
     }
 
     static password(params: any) {

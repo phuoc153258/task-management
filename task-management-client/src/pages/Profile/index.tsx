@@ -6,14 +6,22 @@ import UserService from '../../services/user';
 import { actions } from '../../store';
 import { setUser } from '../../utils';
 import { toast } from 'react-toastify';
+import FormLabel from '../../components/FormControl/FormLabel';
+import FormInput from '../../components/FormControl/FormInput';
+import { TYPE_TEXT } from '../../constants/inputType';
+import Button from '../../components/Button';
+import Loading from '../../components/Loading';
+import { getErrors } from '../../helpers';
 
 function Profile() {
     const [state, dispatch] = useStore()
     const [userInfo, setUserInfo] = useState<any>(state.currentUser)
     const [file, setFile] = useState<any>(null);
     const [imagePreview, setImagePreview] = useState(ENV.apiUrl + "/" + userInfo.avatar)
+    const [showLoading, setShowLoading] = useState(false)
 
     const handleUpdateUser = async () => {
+        setShowLoading(true)
         try {
             const formData = new FormData();
             formData.append("avatar", file);
@@ -27,10 +35,11 @@ function Profile() {
                 setUser(JSON.stringify(responseUser.data.data));
                 toast('Update user success')
             }
-        } catch (error) {
-            console.log(error)
-            toast('Update user failed')
+        } catch (error: any) {
+            const errors: any = getErrors(error.response.data.data)[0];
+            toast(errors);
         }
+        setShowLoading(false)
     }
 
     return (
@@ -43,81 +52,48 @@ function Profile() {
                 }} />
                 <label htmlFor='myFile' className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Upload avatar</label>
             </div>
-            <div className=" w-[60%]">
+            <div className="w-[60%]">
                 <div className="mb-6">
-                    <label
-                        htmlFor="large-input"
-                        className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-                    >
-                        Username
-                    </label>
-                    <input
-                        type="text"
-                        className="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        alt="Username..."
-                        readOnly
-                        value={userInfo.username}
-                    />
+                    <FormLabel title={'Username'} />
+                    <FormInput type={TYPE_TEXT} placeholder={'Username...'} readOnly={true} value={userInfo.username} />
+
                 </div>
                 <div className="mb-6">
-                    <label
-                        htmlFor="large-input"
-                        className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-                    >
-                        Fullname
-                    </label>
-                    <input
-                        type="text"
-                        className="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        alt="Fullname..."
+                    <FormLabel title={'Fullname'} />
+                    <FormInput
+                        type={TYPE_TEXT}
+                        placeholder={'Fullname...'}
+                        readOnly={false}
                         value={userInfo.fullname}
-                        onChange={(e) => {
+                        callback={(e: any) => {
                             setUserInfo({ ...userInfo, fullname: e.target.value })
                         }}
                     />
                 </div>
                 <div className="mb-6">
-                    <label
-                        htmlFor="large-input"
-                        className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-                    >
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        className="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        alt="Email..."
+                    <FormLabel title={'Email'} />
+                    <FormInput
+                        type={TYPE_TEXT}
+                        placeholder={'Email...'}
+                        readOnly={false}
                         value={userInfo.email}
-                        onChange={(e) => {
+                        callback={(e: any) => {
                             setUserInfo({ ...userInfo, email: e.target.value })
                         }}
                     />
                 </div>
-                <div className="mb-6">
-                    <label
-                        htmlFor="large-input"
-                        className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-                    >
-                        Created at
-                    </label>
-                    <input
-                        type="text"
-                        className="block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        alt="Created at..."
-                        value={userInfo.created_at}
-                        onChange={(e) => {
-                            setUserInfo({ ...userInfo, created_at: e.target.value })
+                <div className='w-1/4 text-base'>
+                    <Button isDisabled={showLoading}
+                        title={<div className='flex items-center justify-center gap-5'>
+                            <span className='relative text-base'>Update
+                                {showLoading && <div className='absolute top-0 left-[-2rem]'><Loading /></div>}
+                            </span>
+                        </div>}
+                        callback={() => {
+                            handleUpdateUser()
                         }}
                     />
                 </div>
-                <button
-                    onClick={() => {
-                        handleUpdateUser()
-                    }}
-                    className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                    Update
-                </button>
-
             </div>
         </div>
     );

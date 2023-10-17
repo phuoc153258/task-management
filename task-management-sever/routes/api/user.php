@@ -6,9 +6,7 @@ use App\Http\Controllers\UserController;
 
 Route::group(['middleware' => ['auth:api']], function () {
 
-    Route::put('/', [UserController::class, 'update']);
-
-    Route::post('/avatar', [UserController::class, 'avatar']);
+    Route::post('/', [UserController::class, 'update']);
 
     Route::put('/password', [UserController::class, 'password']);
 });
