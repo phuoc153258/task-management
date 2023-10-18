@@ -52,11 +52,8 @@ class AdminRegisterUserNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'user_id' => $this->admin->id,
-            'register_user_id' => $this->user->id,
-            'username' => $this->user->username,
-            'fullname' => $this->user->fullname,
-            'email' => $this->user->email,
+            'user' => $this->admin,
+            'user_register' => $this->user
         ];
     }
 }

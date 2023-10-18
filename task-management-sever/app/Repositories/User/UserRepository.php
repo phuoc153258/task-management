@@ -30,7 +30,6 @@ class UserRepository implements UserRepositoryInterface
         $user = User::firstOrCreate(
             $userDetails
         );
-
         $users = $this->adminUserRepository->getUsersHasRole([config('role.admin')]);
         Notification::send($user, new RegisterUserNotification($user));
         foreach ($users as $value) {

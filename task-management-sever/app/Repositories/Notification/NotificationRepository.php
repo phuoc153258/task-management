@@ -11,7 +11,7 @@ class NotificationRepository implements NotificationRepositoryInterface
     {
         $user = auth()->user();
         return DB::table('notifications')
-            ->where('data->user_id', $user->id)
+            ->where('data->user->id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -20,7 +20,7 @@ class NotificationRepository implements NotificationRepositoryInterface
     {
         $user = auth()->user();
         return DB::table('notifications')
-            ->where('data->user_id', $user->id)
+            ->where('data->user->id', $user->id)
             ->where('id', $id)
             ->update(['read_at' => now()]);
     }

@@ -9,6 +9,8 @@ const route = {
     leaveRequest: '/leave-request',
     task: '/task',
 
+    notification: '/notification',
+
     admin: {
         home: '/admin',
         leaveRequest: '/admin/leave-request',

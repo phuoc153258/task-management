@@ -49,11 +49,9 @@ class AdminCreateLeaveRequestNotification extends Notification implements Should
     public function toArray(object $notifiable): array
     {
         return [
-            'user_id' => $this->admin->id,
-            'leave_request_user_id' => $this->leaveRequest->user_id,
-            'content' => $this->leaveRequest->content,
-            'leave_registration_date' => $this->leaveRequest->leave_registration_date,
-            'leave_request_type_id' => $this->leaveRequest->leave_request_type_id,
+            'user_leave_request' => $this->leaveRequest->user,
+            'leave_request' => $this->leaveRequest,
+            'user' => $this->admin
         ];
     }
 }

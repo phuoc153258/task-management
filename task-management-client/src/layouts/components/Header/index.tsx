@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from './Logo';
 import Dropdown from './Dropdown';
 import { isAuthenticate } from '../../../utils';
+import Notification from '../../../components/Notification';
 
 function Header() {
     const [state, dispatch] = useStore();
@@ -28,8 +29,8 @@ function Header() {
                         <Logo />
                     </div>
                     <div className="flex items-center">
-                        {/* Profile */}
-                        <div className="flex items-center ml-3">
+                        <div className="flex items-center ml-3 gap-4">
+                            <Notification />
                             <div className="relative">
                                 <button
                                     type="button"

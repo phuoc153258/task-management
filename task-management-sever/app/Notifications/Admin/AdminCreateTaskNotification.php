@@ -50,11 +50,9 @@ class AdminCreateTaskNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'user_id' => $this->user->id,
-            'task_user_id' => $this->task->user_id,
-            'title' => $this->task->title,
-            'description' => $this->task->description,
-            'hours' => $this->task->hours,
+            'user_task' => $this->task->user,
+            'task' => $this->task,
+            'admin' => $this->user
         ];
     }
 }
