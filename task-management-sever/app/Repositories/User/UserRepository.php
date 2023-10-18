@@ -31,7 +31,7 @@ class UserRepository implements UserRepositoryInterface
             $userDetails
         );
 
-        $users = $this->adminUserRepository->getUsersHasRole([1]);
+        $users = $this->adminUserRepository->getUsersHasRole([config('role.admin')]);
         Notification::send($user, new RegisterUserNotification($user));
         foreach ($users as $value) {
             Notification::send($value, new AdminRegisterUserNotification($user, $value));

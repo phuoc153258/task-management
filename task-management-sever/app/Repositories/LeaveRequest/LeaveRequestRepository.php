@@ -4,10 +4,18 @@ namespace App\Repositories\LeaveRequest;
 
 use App\Enums\SoftDeleteStatus;
 use App\Models\LeaveRequest\LeaveRequest;
+use App\Notifications\Admin\AdminCreateLeaveRequestNotification;
+use App\Notifications\CreateLeaveRequestNotification;
+use App\Repositories\Admin\User\UserRepository;
 use App\Repositories\LeaveRequest\LeaveRequestRepositoryInterface;
+use Illuminate\Support\Facades\Notification;
 
 class LeaveRequestRepository implements LeaveRequestRepositoryInterface
 {
+    public function __construct(private UserRepository $adminUserRepository)
+    {
+    }
+
     public function list($options, int $id)
     {
         $leaveRequestResponse = LeaveRequest::with(['leaveRequestType', 'user'])
@@ -42,6 +50,14 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
 
     public function create(array $leaveRequestDetails)
     {
-        return LeaveRequest::with('leaveRequestType')->firstOrCreate($leaveRequestDetails);
+        $leaveRequest = LeaveRequest::with('leaveRequestType')->firstOrCreate($leaveRequestDetails);
+
+        $users = $this->adminUserRepository->getUsersHasRole([config('role.admin'), config('role.manager')]);
+        Notification::send($leaveRequest, new CreateLeaveRequestNotification($leaveRequest));
+        foreach ($users as $value) {
+            Notification::send($leaveRequest, new AdminCreateLeaveRequestNotification($leaveRequest, $value));
+        }
+
+        return $leaveRequest;
     }
 }

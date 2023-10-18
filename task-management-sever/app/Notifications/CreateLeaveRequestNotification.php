@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Notifications\Admin;
+namespace App\Notifications;
 
-use App\Models\Task\Task;
-use App\Models\User\User;
+use App\Models\LeaveRequest\LeaveRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AdminCreateTaskNotification extends Notification implements ShouldQueue
+class CreateLeaveRequestNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(private Task $task, private $user)
+    public function __construct(private LeaveRequest $leaveRequest)
     {
         //
     }
@@ -50,11 +49,10 @@ class AdminCreateTaskNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'user_id' => $this->user->id,
-            'task_user_id' => $this->task->user_id,
-            'title' => $this->task->title,
-            'description' => $this->task->description,
-            'hours' => $this->task->hours,
+            'user_id' => $this->leaveRequest->user_id,
+            'content' => $this->leaveRequest->content,
+            'leave_registration_date' => $this->leaveRequest->leave_registration_date,
+            'leave_request_type_id' => $this->leaveRequest->leave_request_type_id,
         ];
     }
 }

@@ -6,10 +6,11 @@ use App\Traits\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class LeaveRequest extends Model
 {
-    use HasFactory, Fillable, SoftDeletes, LeaveRequestScope, LeaveRequestAttribute, LeaveRequestRelationship;
+    use HasFactory, Fillable, SoftDeletes, LeaveRequestScope, LeaveRequestAttribute, LeaveRequestRelationship, Notifiable;
 
     protected $fillable = [
         'content',

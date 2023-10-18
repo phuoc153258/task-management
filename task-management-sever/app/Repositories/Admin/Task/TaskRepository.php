@@ -50,7 +50,7 @@ class TaskRepository implements TaskRepositoryInterface
             $taskDetails
         );
 
-        $users = $this->userRepository->getUsersHasRole([1]);
+        $users = $this->userRepository->getUsersHasRole([config('role.admin')]);
         Notification::send($taskResponse, new CreateTaskNotification($taskResponse));
         foreach ($users as $value) {
             Notification::send($value, new AdminCreateTaskNotification($taskResponse, $value));
