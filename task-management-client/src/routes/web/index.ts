@@ -8,19 +8,27 @@ import Register from '../../pages/Register';
 import Profile from '../../pages/Profile';
 import Password from '../../pages/Password';
 import AdminLeaveRequest from '../../pages/Admin/LeaveRequest';
-import User from '../../pages/Admin/User';
+import AdminAcceptLeaveRequest from '../../pages/Admin/AcceptLeaveRequest';
+import AdminUser from '../../pages/Admin/User';
 import Task from '../../pages/Task';
 import AuthLayout from '../../layouts/AuthLayout';
+import AdminLayout from '../../layouts/AdminLayout';
 
 const publicRoutes: any = [
     { path: route.leaveRequest, component: LeaveRequest, layout: DefaultLayout },
+    { path: route.task, component: Task, layout: DefaultLayout },
+
     { path: route.login, component: Login, layout: AuthLayout },
     { path: route.register, component: Register, layout: AuthLayout },
+
     { path: route.profile, component: Profile, layout: ProfileLayout },
     { path: route.password, component: Password, layout: ProfileLayout },
-    { path: route.acceptLeaveRequest, component: AdminLeaveRequest, layout: DefaultLayout },
-    { path: route.user, component: User, layout: DefaultLayout },
-    { path: route.task, component: Task, layout: DefaultLayout },
+
+    { path: route.admin.leaveRequest, component: AdminLeaveRequest, layout: AdminLayout },
+    { path: route.admin.acceptLeaveRequest, component: AdminAcceptLeaveRequest, layout: AdminLayout },
+    { path: route.admin.user, component: AdminUser, layout: AdminLayout },
+    // { path: route.admin.task, component: AdminUser, layout: AdminLayout },
+
 ];
 
 const privateRoutes: any = [];

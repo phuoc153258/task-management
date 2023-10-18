@@ -1,53 +1,71 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import LeaveRequestService from '../../services/leaveRequest';
-import LeaveRequestTypeService from '../../services/leaveRequestType';
-import CreateLeaveRequest from './Modal/CreateLeaveRequest';
-import UpdateLeaveRequest from './Modal/UpdateLeaveRequest';
+import { useNavigate } from 'react-router-dom';
+import LeaveRequestService from '../../../services/admin/leaveRequest';
 import { toast } from 'react-toastify';
-import { useStore } from '../../hooks';
-import Loading from '../../components/Loading';
-import Table from '../../components/Table';
-import TableButton from '../../components/Table/TableButton';
-import TableData from '../../components/Table/TableData';
-import PaginateSearch from '../../components/Paginate/PaginateSearch';
-import PaginateSort from '../../components/Paginate/PaginateSort';
-import PaginateFooter from '../../components/Paginate/PaginateFooter';
-import Modal from '../../components/Modal';
+import DetailLeaveRequest from '../AcceptLeaveRequest/Modal/DetailLeaveRequest';
+import { isHaveRole } from '../../../utils';
+import { ROLE_ADMIN, ROLE_MANAGER } from '../../../constants/user';
+import PaginateSearch from '../../../components/Paginate/PaginateSearch';
+import PaginateSort from '../../../components/Paginate/PaginateSort';
+import PaginateFooter from '../../../components/Paginate/PaginateFooter';
+import Loading from '../../../components/Loading';
+import Table from '../../../components/Table';
+import TableData from '../../../components/Table/TableData';
+import TableButton from '../../../components/Table/TableButton';
+import Modal from '../../../components/Modal';
+import CreateLeaveRequest from './Modal/CreateLeaveRequest';
+import LeaveRequestTypeService from '../../../services/leaveRequestType';
+import UserService from '../../../services/admin/user';
 
-const tableHeaders = ['ID', 'Content', 'Request leave type', 'Leave registration date', 'Status', 'Actions']
+const tableHeaders = ['ID', 'Content', 'Request leave type', 'User', 'Leave registration date', 'Status', 'Actions']
 
 function LeaveRequest() {
+    const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState(true);
     const [isFetchData, setIsFetchData] = useState<any>(false);
 
     const [leaveRequests, setLeaveRequests] = useState([]);
+    const [leaveRequest, setLeaveRequest] = useState([]);
     const [leaveRequestTypes, setLeaveRequestTypes] = useState([]);
+    const [users, setUsers] = useState([]);
+
     const [paginate, setPaginate] = useState({
         page: 1,
         per_page: 10,
         search: '',
         sort: '',
+        leave_request_status: 0,
         last_page: 0,
         total: 0,
     });
-    const [updateLeaveRequest, setUpdateLeaveRequest] = useState(null);
 
-    const [showModalCreate, setShowModalCreate] = useState(false);
-    const [showModalUpdate, setShowModalUpdate] = useState(false);
+    const [showModalDetail, setShowModalDetail] = useState(false)
+    const [showModalCreate, setShowModalCreate] = useState(false)
+
+    const getLeaveRequest = async (id: any) => {
+        try {
+            const leaveRequestResponse: any = await LeaveRequestService.show({}, id)
+            setLeaveRequest(leaveRequestResponse.data.data)
+            setShowModalDetail(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleUpdateStatus = async (id: any, status: any) => {
+        try {
+            await LeaveRequestService.accept({ status }, id)
+            toast('Update status success')
+            setIsFetchData(!isFetchData)
+        } catch (error) {
+            toast('Update status failed')
+        }
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchData = async () => {
-        try {
-            await fetchLeaveRequest();
-            await fetchLeaveRequestType();
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const fetchLeaveRequest = async () => {
         try {
             setIsLoading(true);
             const leaveRequestsResponse: any = await LeaveRequestService.index(
@@ -78,30 +96,22 @@ function LeaveRequest() {
         }
     };
 
-    const getLeaveRequest = async (id: any) => {
+    const fetchUser = async () => {
         try {
-            const leaveRequestsResponse: any = await LeaveRequestService.show({}, id)
-            setUpdateLeaveRequest(leaveRequestsResponse.data.data)
-            setShowModalUpdate(true)
+            const userResponse: any =
+                await UserService.list();
+            setUsers(userResponse.data.data);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
-
-    const handleDeleteLeaveRequest = async (id: any) => {
-        try {
-            if (window.confirm('Delete this leave request')) {
-                await LeaveRequestService.delete({}, id)
-                setIsFetchData(!isFetchData);
-                toast('Delete leave request success');
-            }
-        } catch (error) {
-            toast('Delete leave request failed')
-        }
-    }
+    };
 
     useEffect(() => {
+        const isAuth = isHaveRole([ROLE_ADMIN, ROLE_MANAGER]);
+        if (!isAuth) navigate('/');
         fetchData();
+        fetchLeaveRequestType();
+        fetchUser();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFetchData]);
 
@@ -111,7 +121,7 @@ function LeaveRequest() {
                 <div className="w-full mb-1">
                     <div className="mb-4">
                         <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                            Leave requests
+                            Accept leave request
                         </h1>
                     </div>
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
@@ -165,6 +175,7 @@ function LeaveRequest() {
                                                                 <TableData data={value.id} />
                                                                 <TableData data={value.content} />
                                                                 <TableData data={value.leave_request_type.title} />
+                                                                <TableData data={value.user.username} />
                                                                 <TableData data={value.leave_registration_date} />
                                                                 <TableData data={value.status_name} />
                                                                 <td className="p-4 space-x-2 whitespace-nowrap">
@@ -187,12 +198,33 @@ function LeaveRequest() {
                                                                                 clipRule="evenodd"
                                                                             />
                                                                         </svg>}
-                                                                        title={`Update`}
+                                                                        title={`Details`}
+                                                                    />
+                                                                    <TableButton
+                                                                        styles='bg-lime-500 hover:bg-primary-800 focus:ring-primary-300'
+                                                                        callback={() => {
+                                                                            handleUpdateStatus(value.id, 1)
+
+                                                                        }}
+                                                                        svg={<svg
+                                                                            className="w-4 h-4 mr-2"
+                                                                            fill="currentColor"
+                                                                            viewBox="0 0 20 20"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                        >
+                                                                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                                                            <path
+                                                                                fillRule="evenodd"
+                                                                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                                                                clipRule="evenodd"
+                                                                            />
+                                                                        </svg>}
+                                                                        title={`Accept`}
                                                                     />
                                                                     <TableButton
                                                                         styles='bg-red-700 hover:bg-red-800 focus:ring-red-300'
                                                                         callback={() => {
-                                                                            handleDeleteLeaveRequest(value.id)
+                                                                            handleUpdateStatus(value.id, 2)
 
                                                                         }}
                                                                         svg={<svg
@@ -207,7 +239,7 @@ function LeaveRequest() {
                                                                                 clipRule="evenodd"
                                                                             />
                                                                         </svg>}
-                                                                        title={`Delete item`}
+                                                                        title={`Reject`}
                                                                     />
                                                                 </td>
                                                             </tr>
@@ -227,9 +259,9 @@ function LeaveRequest() {
 
             <PaginateFooter paginate={paginate} setPaginate={setPaginate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} />
 
-            {showModalCreate && <Modal><CreateLeaveRequest setShowModal={setShowModalCreate} leaveRequestTypes={leaveRequestTypes} isFetchData={isFetchData} setIsFetchData={setIsFetchData} /></Modal>}
+            {showModalDetail && <Modal><DetailLeaveRequest setShowModal={setShowModalDetail} leaveRequest={leaveRequest} handleUpdateStatus={handleUpdateStatus} /></Modal>}
+            {showModalCreate && <Modal><CreateLeaveRequest setShowModal={setShowModalCreate} leaveRequestTypes={leaveRequestTypes} users={users} isFetchData={isFetchData} setIsFetchData={setIsFetchData} /></Modal>}
 
-            {showModalUpdate && <Modal><UpdateLeaveRequest setShowModal={setShowModalUpdate} leaveRequestTypes={leaveRequestTypes} isFetchData={isFetchData} setIsFetchData={setIsFetchData} leaveRequest={updateLeaveRequest} setLeaveRequest={setUpdateLeaveRequest} /></Modal>}
         </>
     );
 }

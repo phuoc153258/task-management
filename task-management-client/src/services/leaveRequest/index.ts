@@ -6,7 +6,7 @@ class LeaveRequestService {
         let uri =
             LEAVE_REQUEST_ROUTER.index +
             `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&per_page=${paginate.per_page}`;
-        return fetch.get(uri, params);
+        return fetch.get(uri);
     }
 
     static create(params: object) {

@@ -83,4 +83,9 @@ class UserService implements UserServiceInterface
 
         return $user;
     }
+
+    public function list()
+    {
+        return $this->userRepository->getAll();
+    }
 }

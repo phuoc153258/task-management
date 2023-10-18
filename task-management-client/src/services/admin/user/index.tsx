@@ -6,7 +6,7 @@ class UserService {
         let uri =
             ADMIN_USER_ROUTER.index +
             `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&limit=${paginate.limit}`;
-        return fetch.get(uri, params);
+        return fetch.get(uri);
     }
 
     static show(params: object, id: any) {
@@ -38,6 +38,13 @@ class UserService {
             ADMIN_USER_ROUTER.show + id;
         return fetch.delete(uri, params);
     }
+
+    static list() {
+        let uri =
+            ADMIN_USER_ROUTER.show + 'list';
+        return fetch.get(uri);
+    }
+
 }
 
 export default UserService;

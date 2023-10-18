@@ -5,7 +5,7 @@ class RoleService {
     static index(params: object) {
         let uri =
             ADMIN_ROLE_ROUTER.index;
-        return fetch.get(uri, params);
+        return fetch.get(uri);
     }
 }
 

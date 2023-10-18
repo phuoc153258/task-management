@@ -12,7 +12,7 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
 
     public function list($options)
     {
-        $leaveRequestResponse = LeaveRequest::with('leaveRequestType')
+        $leaveRequestResponse = LeaveRequest::with(['leaveRequestType', 'user'])
             ->when($options['soft_delete'] == SoftDeleteStatus::OnlySoftDelete->value, function ($query) {
                 return $query->onlyTrashed();
             })

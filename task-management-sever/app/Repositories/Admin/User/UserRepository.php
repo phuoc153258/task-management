@@ -65,4 +65,9 @@ class UserRepository implements UserRepositoryInterface
 
         return $userResponse;
     }
+
+    public function getAll()
+    {
+        return User::get();
+    }
 }

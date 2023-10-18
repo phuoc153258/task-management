@@ -7,6 +7,8 @@ Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
 
     Route::get('/', [UserController::class, 'index']);
 
+    Route::get('/list', [UserController::class, 'list']);
+
     Route::get('/{id}', [UserController::class, 'show']);
 
     Route::post('/', [UserController::class, 'create']);

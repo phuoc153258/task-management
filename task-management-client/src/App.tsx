@@ -2,12 +2,13 @@ import React, { Fragment } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { publicRoutes } from './routes/web';
 import { DefaultLayout } from './layouts';
-import LeaveRequest from './pages/LeaveRequest';
+import route from './routes/web/route';
 
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate replace to="/leave-request" />} />
+            <Route path={route.home} element={<Navigate replace to={route.leaveRequest} />} />
+            <Route path={route.admin.home} element={<Navigate replace to={route.admin.leaveRequest} />} />
             {publicRoutes.map((route: any, index: any) => {
                 const Page = route.component;
 

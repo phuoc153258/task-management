@@ -1,3 +1,5 @@
+import { ADMIN } from "../constants/user";
+
 export function randomString(length: number) {
     let radom13chars = function () {
         return Math.random().toString(16).substring(2, 15);
@@ -9,4 +11,8 @@ export function randomString(length: number) {
             return string + func();
         }, '')
         .substring(0, length);
+}
+
+export function isAdminPage(str: string) {
+    return str.split('/')[1] === ADMIN
 }

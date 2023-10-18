@@ -28,7 +28,6 @@ function Profile() {
             formData.append("fullname", userInfo.fullname);
             formData.append("email", userInfo.email);
             const responseUser: any = await UserService.update(formData);
-            console.log(responseUser)
             if (responseUser?.data?.data) {
                 dispatch(actions.setCurrentUserInfo(undefined));
                 dispatch(actions.setCurrentUserInfo(responseUser.data.data));

@@ -119,4 +119,15 @@ class UserController extends Controller
             return $this->error($th->getMessage(), trans('base.base-failed'), 400);
         }
     }
+
+    public function list()
+    {
+        try {
+            $userResponse = $this->userService->list();
+
+            return $this->success($userResponse, trans('user.get-list-user-success'), 200);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
 }

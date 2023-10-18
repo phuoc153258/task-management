@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { isHaveRole } from '../../../utils';
-import route, { leaveRequestGroup, taskGroup, userGroup } from '../../../routes/web/route';
+import { useLocation } from 'react-router-dom';
+import route, { leaveRequestGroup, taskGroup } from '../../../routes/web/route';
 import SidebarItem from './SidebarItem';
-import { ROLE_ADMIN } from '../../../constants/user';
 
 function Sidebar() {
     const location = useLocation().pathname;
