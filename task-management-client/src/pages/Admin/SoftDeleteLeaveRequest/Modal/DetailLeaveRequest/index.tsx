@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import ModalHeading from '../../../../components/Modal/ModalHeading';
-import ModalLabel from '../../../../components/Modal/ModalLabel';
-import FormInput from '../../../../components/FormControl/FormInput';
-import { TYPE_TEXT } from '../../../../constants/inputType';
-import ModalTextArea from '../../../../components/Modal/ModalTextArea';
-import ModalButton from '../../../../components/Modal/ModalButton';
+import ModalHeading from '../../../../../components/Modal/ModalHeading';
+import ModalLabel from '../../../../../components/Modal/ModalLabel';
+import FormInput from '../../../../../components/FormControl/FormInput';
+import { TYPE_TEXT } from '../../../../../constants/inputType';
+import ModalTextArea from '../../../../../components/Modal/ModalTextArea';
+import ModalButton from '../../../../../components/Modal/ModalButton';
 
-
-function DetailLeaveRequest({ setShowModal, leaveRequest, handleForceLeaveRequest, handleRestoreLeaveRequest }: any) {
+function DetailLeaveRequest({ setShowModal, leaveRequest, handleUpdateStatus }: any) {
 
     return (
         <>
@@ -34,20 +33,20 @@ function DetailLeaveRequest({ setShowModal, leaveRequest, handleForceLeaveReques
             <div className="flex items-center justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <ModalButton
                     callback={() => {
-                        handleRestoreLeaveRequest(leaveRequest.id)
+                        handleUpdateStatus(leaveRequest.id, 1)
                         setShowModal(false)
                     }} styles={'bg-lime-500 hover:bg-primary-800 focus:ring-primary-300 px-3 py-2 text-white'}
                     title={
-                        'Restore'}
+                        'Accept'}
                     isDisabled={false}
                 />
                 <ModalButton
                     callback={() => {
-                        handleForceLeaveRequest(leaveRequest.id)
+                        handleUpdateStatus(leaveRequest.id, 2)
                         setShowModal(false)
                     }} styles={'text-white bg-red-700 hover:bg-red-800 focus:ring-red-300 px-3 py-2'}
                     title={
-                        'Force delete'}
+                        'Reject'}
                     isDisabled={false}
                 />
             </div>

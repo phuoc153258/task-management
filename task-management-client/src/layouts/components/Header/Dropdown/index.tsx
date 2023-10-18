@@ -2,10 +2,11 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import route from '../../../../routes/web/route';
-import { Logout } from '../../../../utils';
+import { Logout, isHaveRole } from '../../../../utils';
 import { useStore } from '../../../../hooks';
 import { actions } from '../../../../store';
 import Item from './Item';
+import { ROLE_ADMIN, ROLE_LEADER, ROLE_MANAGER } from '../../../../constants/user';
 
 function Dropdown({ show }: any) {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ function Dropdown({ show }: any) {
                     </p>
                 </div>
                 <ul className="py-1" role="none">
-                    <Item route={route.admin.leaveRequest} title={'Dashboard'} />
+                    {isHaveRole([ROLE_ADMIN]) && <Item route={route.admin.leaveRequest} title={'Dashboard'} />}
                     <Item route={route.profile} title={'Profile'} />
                     <Item title={<span
                         className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"

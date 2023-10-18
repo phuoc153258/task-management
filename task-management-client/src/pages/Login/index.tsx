@@ -37,7 +37,7 @@ function Login() {
             dispatch(
                 actions.setCurrentUserInfo(responseUser?.data?.data),
             );
-            return navigate('/');
+            return navigate(route.home);
         } catch (error) {
             setShowError(true);
         }
@@ -46,7 +46,7 @@ function Login() {
 
     useEffect(() => {
         const isAuth = isAuthenticate();
-        if (isAuth) navigate('/');
+        if (isAuth) navigate(route.home);
     }, [navigate]);
 
     return (<>

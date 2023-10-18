@@ -9,6 +9,7 @@ import Profile from '../../pages/Profile';
 import Password from '../../pages/Password';
 import AdminLeaveRequest from '../../pages/Admin/LeaveRequest';
 import AdminAcceptLeaveRequest from '../../pages/Admin/AcceptLeaveRequest';
+import AdminSoftDeleteLeaveRequest from '../../pages/Admin/SoftDeleteLeaveRequest';
 import AdminUser from '../../pages/Admin/User';
 import Task from '../../pages/Task';
 import AuthLayout from '../../layouts/AuthLayout';
@@ -26,6 +27,8 @@ const publicRoutes: any = [
 
     { path: route.admin.leaveRequest, component: AdminLeaveRequest, layout: AdminLayout },
     { path: route.admin.acceptLeaveRequest, component: AdminAcceptLeaveRequest, layout: AdminLayout },
+    { path: route.admin.softDeleteLeaveRequest, component: AdminSoftDeleteLeaveRequest, layout: AdminLayout },
+
     { path: route.admin.user, component: AdminUser, layout: AdminLayout },
     // { path: route.admin.task, component: AdminUser, layout: AdminLayout },
 

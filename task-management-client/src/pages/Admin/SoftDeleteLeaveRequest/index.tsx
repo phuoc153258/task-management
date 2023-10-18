@@ -1,67 +1,71 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import UpdateLeaveRequest from './Modal/UpdateLeaveRequest';
 import LeaveRequestService from '../../../services/admin/leaveRequest';
-import LeaveRequestTypeService from '../../../services/leaveRequestType';
+import { toast } from 'react-toastify';
+import DetailLeaveRequest from '../AcceptLeaveRequest/Modal/DetailLeaveRequest';
 import PaginateSearch from '../../../components/Paginate/PaginateSearch';
 import PaginateSort from '../../../components/Paginate/PaginateSort';
+import PaginateFooter from '../../../components/Paginate/PaginateFooter';
+import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
 import TableData from '../../../components/Table/TableData';
 import TableButton from '../../../components/Table/TableButton';
-import Loading from '../../../components/Loading';
-import PaginateFooter from '../../../components/Paginate/PaginateFooter';
 import Modal from '../../../components/Modal';
-import { Link } from 'react-router-dom';
-import route from '../../../routes/web/route';
-import UserService from '../../../services/admin/user';
-
 const tableHeaders = ['ID', 'Content', 'Request leave type', 'User', 'Leave registration date', 'Status', 'Actions']
 
-function LeaveRequest() {
+function SoftDeleteLeaveRequest() {
+
     const [isLoading, setIsLoading] = useState(true);
     const [isFetchData, setIsFetchData] = useState<any>(false);
 
     const [leaveRequests, setLeaveRequests] = useState([]);
-    const [leaveRequestTypes, setLeaveRequestTypes] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [leaveRequest, setLeaveRequest] = useState([]);
 
     const [paginate, setPaginate] = useState({
         page: 1,
         per_page: 10,
         search: '',
         sort: '',
-        leave_request_status: 1,
+        leave_request_status: 0,
         last_page: 0,
         total: 0,
-        soft_delete: 1
+        soft_delete: 2
     });
-    const [updateLeaveRequest, setUpdateLeaveRequest] = useState(null);
 
-    const [showModalUpdate, setShowModalUpdate] = useState(false);
+    const [showModalDetail, setShowModalDetail] = useState(false)
+
+    const getLeaveRequest = async (id: any) => {
+        try {
+            const leaveRequestResponse: any = await LeaveRequestService.show({}, id)
+            setLeaveRequest(leaveRequestResponse.data.data)
+            setShowModalDetail(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleRestoreLeaveRequest = async (id: any) => {
+        try {
+            await LeaveRequestService.restore(id)
+            toast('Restore leave request success')
+            setIsFetchData(!isFetchData)
+        } catch (error) {
+            toast('Restore leave request failed')
+        }
+    }
+
+    const handleForceLeaveRequest = async (id: any) => {
+        try {
+            await LeaveRequestService.force(id)
+            toast('Force delete leave request success')
+            setIsFetchData(!isFetchData)
+        } catch (error) {
+            toast('Force delete leave request failed')
+        }
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchData = async () => {
-        try {
-            await fetchLeaveRequest();
-            await fetchLeaveRequestType();
-            await fetchUser();
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const fetchUser = async () => {
-        try {
-            const userResponse: any =
-                await UserService.list();
-            setUsers(userResponse.data.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const fetchLeaveRequest = async () => {
         try {
             setIsLoading(true);
             const leaveRequestsResponse: any = await LeaveRequestService.index(
@@ -82,37 +86,6 @@ function LeaveRequest() {
         }
     };
 
-    const fetchLeaveRequestType = async () => {
-        try {
-            const leaveRequestsResponse: any =
-                await LeaveRequestTypeService.index({});
-            setLeaveRequestTypes(leaveRequestsResponse.data.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const getLeaveRequest = async (id: any) => {
-        try {
-            const leaveRequestsResponse: any = await LeaveRequestService.show({}, id)
-            setUpdateLeaveRequest(leaveRequestsResponse.data.data)
-            setShowModalUpdate(true)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleDeleteLeaveRequest = async (id: any) => {
-        try {
-            if (window.confirm('Delete this leave request')) {
-                await LeaveRequestService.delete({}, id)
-                setIsFetchData(!isFetchData);
-                toast('Delete leave request success');
-            }
-        } catch (error) {
-            toast('Delete leave request failed')
-        }
-    }
 
     useEffect(() => {
         fetchData();
@@ -125,7 +98,7 @@ function LeaveRequest() {
                 <div className="w-full mb-1">
                     <div className="mb-4">
                         <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                            Leave requests
+                            Soft delete leave request
                         </h1>
                     </div>
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
@@ -146,18 +119,6 @@ function LeaveRequest() {
                             }} />
                         </div>
                         <div className='flex gap-3'>
-                            <Link
-                                to={route.admin.softDeleteLeaveRequest}
-                                className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                            >
-                                Soft delete leave request
-                            </Link>
-                            <Link
-                                to={route.admin.acceptLeaveRequest}
-                                className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                            >
-                                Accept leave request
-                            </Link>
                         </div>
                     </div>
                 </div>
@@ -205,13 +166,33 @@ function LeaveRequest() {
                                                                                 clipRule="evenodd"
                                                                             />
                                                                         </svg>}
-                                                                        title={`Update`}
+                                                                        title={`Details`}
+                                                                    />
+                                                                    <TableButton
+                                                                        styles='bg-lime-500 hover:bg-primary-800 focus:ring-primary-300'
+                                                                        callback={() => {
+                                                                            handleRestoreLeaveRequest(value.id)
+
+                                                                        }}
+                                                                        svg={<svg
+                                                                            className="w-4 h-4 mr-2"
+                                                                            fill="currentColor"
+                                                                            viewBox="0 0 20 20"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                        >
+                                                                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                                                            <path
+                                                                                fillRule="evenodd"
+                                                                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                                                                clipRule="evenodd"
+                                                                            />
+                                                                        </svg>}
+                                                                        title={`Restore`}
                                                                     />
                                                                     <TableButton
                                                                         styles='bg-red-700 hover:bg-red-800 focus:ring-red-300'
                                                                         callback={() => {
-                                                                            handleDeleteLeaveRequest(value.id)
-
+                                                                            handleRestoreLeaveRequest(value.id)
                                                                         }}
                                                                         svg={<svg
                                                                             className="w-4 h-4 mr-2"
@@ -225,7 +206,7 @@ function LeaveRequest() {
                                                                                 clipRule="evenodd"
                                                                             />
                                                                         </svg>}
-                                                                        title={`Delete item`}
+                                                                        title={`Force`}
                                                                     />
                                                                 </td>
                                                             </tr>
@@ -245,9 +226,10 @@ function LeaveRequest() {
 
             <PaginateFooter paginate={paginate} setPaginate={setPaginate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} />
 
-            {showModalUpdate && <Modal><UpdateLeaveRequest setShowModal={setShowModalUpdate} users={users} leaveRequestTypes={leaveRequestTypes} isFetchData={isFetchData} setIsFetchData={setIsFetchData} leaveRequest={updateLeaveRequest} setLeaveRequest={setUpdateLeaveRequest} /></Modal>}
+            {showModalDetail && <Modal><DetailLeaveRequest setShowModal={setShowModalDetail} leaveRequest={leaveRequest} handleRestoreLeaveRequest={handleRestoreLeaveRequest} handleForceLeaveRequest={handleForceLeaveRequest} /></Modal>}
+
         </>
     );
 }
 
-export default LeaveRequest;
+export default SoftDeleteLeaveRequest;

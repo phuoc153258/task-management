@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import LeaveRequestService from '../../../services/admin/leaveRequest';
 import { toast } from 'react-toastify';
 import DetailLeaveRequest from '../AcceptLeaveRequest/Modal/DetailLeaveRequest';
-import { isHaveRole } from '../../../utils';
-import { ROLE_ADMIN, ROLE_MANAGER } from '../../../constants/user';
 import PaginateSearch from '../../../components/Paginate/PaginateSearch';
 import PaginateSort from '../../../components/Paginate/PaginateSort';
 import PaginateFooter from '../../../components/Paginate/PaginateFooter';
@@ -21,7 +18,6 @@ import UserService from '../../../services/admin/user';
 const tableHeaders = ['ID', 'Content', 'Request leave type', 'User', 'Leave registration date', 'Status', 'Actions']
 
 function LeaveRequest() {
-    const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState(true);
     const [isFetchData, setIsFetchData] = useState<any>(false);
@@ -39,6 +35,7 @@ function LeaveRequest() {
         leave_request_status: 0,
         last_page: 0,
         total: 0,
+        soft_delete: 1
     });
 
     const [showModalDetail, setShowModalDetail] = useState(false)
@@ -107,8 +104,6 @@ function LeaveRequest() {
     };
 
     useEffect(() => {
-        const isAuth = isHaveRole([ROLE_ADMIN, ROLE_MANAGER]);
-        if (!isAuth) navigate('/');
         fetchData();
         fetchLeaveRequestType();
         fetchUser();

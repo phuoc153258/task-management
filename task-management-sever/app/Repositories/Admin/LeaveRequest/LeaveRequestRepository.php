@@ -19,12 +19,14 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
             ->when($options['soft_delete'] == SoftDeleteStatus::Both->value, function ($query) {
                 return $query->withTrashed();
             })
-            ->when($options['leave_request_status'] == LeaveRequestStatus::Pending->value, function ($query) {
-                return $query->pendingStatus();
-            })
-            ->when($options['leave_request_status'] == LeaveRequestStatus::Accept->value
-                || $options['leave_request_status'] == LeaveRequestStatus::Reject->value, function ($query) {
-                return $query->notPendingStatus();
+            ->when($options['soft_delete'] == SoftDeleteStatus::NotSoftDelete->value, function ($query) use ($options) {
+                return $query->when($options['leave_request_status'] == LeaveRequestStatus::Pending->value, function ($query) {
+                    return $query->pendingStatus();
+                })
+                    ->when($options['leave_request_status'] == LeaveRequestStatus::Accept->value
+                        || $options['leave_request_status'] == LeaveRequestStatus::Reject->value, function ($query) {
+                        return $query->notPendingStatus();
+                    });
             })
             ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
                 return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");

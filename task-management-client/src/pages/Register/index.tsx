@@ -39,7 +39,7 @@ function Register() {
 
     useEffect(() => {
         const isAuth = isAuthenticate();
-        if (isAuth) navigate('/');
+        if (isAuth) navigate(route.home);
     }, [navigate]);
 
     return (

@@ -8,6 +8,7 @@ import RoleService from '../../../services/admin/role';
 import CreateUser from './Modal/CreateUser';
 import DetailUser from './Modal/DetailUser';
 import { ROLE_ADMIN } from '../../../constants/user';
+import route from '../../../routes/web/route';
 
 function User() {
     const navigate = useNavigate()
@@ -79,7 +80,7 @@ function User() {
 
     useEffect(() => {
         const isAuth = isHaveRole([ROLE_ADMIN]);
-        if (!isAuth) navigate('/');
+        if (!isAuth) navigate(route.home);
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFetchData]);

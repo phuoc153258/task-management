@@ -5,7 +5,7 @@ class LeaveRequestService {
     static index(params: object, paginate: any) {
         let uri =
             ADMIN_LEAVE_REQUEST_ROUTER.index +
-            `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&per_page=${paginate.per_page}&leave_request_status=${paginate.leave_request_status}`;
+            `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&per_page=${paginate.per_page}&leave_request_status=${paginate.leave_request_status}&soft_delete=${paginate.soft_delete}`;
         return fetch.get(uri);
     }
 
@@ -37,6 +37,18 @@ class LeaveRequestService {
         let uri =
             ADMIN_LEAVE_REQUEST_ROUTER.show + id;
         return fetch.delete(uri, params);
+    }
+
+    static restore(id: any) {
+        let uri =
+            ADMIN_LEAVE_REQUEST_ROUTER.show + id + '/restore';
+        return fetch.patch(uri);
+    }
+
+    static force(id: any) {
+        let uri =
+            ADMIN_LEAVE_REQUEST_ROUTER.show + id + '/force';
+        return fetch.delete(uri);
     }
 }
 
