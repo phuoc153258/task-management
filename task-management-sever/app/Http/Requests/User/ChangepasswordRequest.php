@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\User;
 
+use App\Traits\Authorizable;
+use App\Traits\HttpResponsable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChangepasswordRequest extends FormRequest
 {
+    use HttpResponsable, Authorizable;
     /**
      * Determine if the user is authorized to make this request.
      */

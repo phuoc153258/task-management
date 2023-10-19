@@ -25,8 +25,13 @@ function Password() {
                 toast('Change password success')
             }
         } catch (error: any) {
-            const errors: any = getErrors(error.response.data.errors)[0];
-            toast(errors);
+
+            if (error.response.status === 400) toast(error.response.data.data);
+
+            if (error.response.status === 422) {
+                const errors: any = getErrors(error.response.data.errors)[0];
+                toast(errors);
+            }
         }
         setShowLoading(false)
     }

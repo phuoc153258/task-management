@@ -80,7 +80,6 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                             <>
                                 {
                                     users.map((value: any, index: any) => {
-                                        console.log(value)
                                         return <option key={index} value={value.id}>{value.username}</option>
                                     })
                                 }

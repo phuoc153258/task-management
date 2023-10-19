@@ -38,12 +38,13 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                 <div className="mb-6 ">
                     <ModalLabel title={`Leave request type`} />
                     <ModalSelect
+                        defaultValue={leaveRequest.leave_request_type_id}
                         callback={(e: any) => setLeaveRequest({ ...leaveRequest, leave_request_type_id: parseInt(e.target.value) })}
                         data={
                             <>
                                 {
                                     leaveRequestTypes.map((value: any, index: any) => {
-                                        return <option selected={value.id === leaveRequest.leave_request_type_id} key={index} value={value.id}>{value.title}</option>
+                                        return <option key={index} value={value.id}>{value.title}</option>
                                     })
                                 }
                             </>
@@ -65,12 +66,13 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                 <div className="mb-6 ">
                     <ModalLabel title={`User`} />
                     <ModalSelect
+                        defaultValue={leaveRequest.user_id}
                         callback={(e: any) => setLeaveRequest({ ...leaveRequest, user_id: parseInt(e.target.value) })}
                         data={
                             <>
                                 {
                                     users.map((value: any, index: any) => {
-                                        return <option selected={value.id === leaveRequest.user_id} key={index} value={value.id}>{value.username}</option>
+                                        return <option key={index} value={value.id}>{value.username}</option>
                                     })
                                 }
                             </>

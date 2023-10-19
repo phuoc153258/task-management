@@ -35,6 +35,7 @@ class UpdateUserRequest extends FormRequest
                 'min:1',
                 Rule::exists('roles', 'id'),
             ],
+            'avatar' => 'nullable|max:2000|mimes:jpeg,png,jpg'
         ];
     }
 }

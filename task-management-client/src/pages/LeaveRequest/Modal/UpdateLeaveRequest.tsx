@@ -39,11 +39,12 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                     <ModalLabel title={`Leave request type`} />
                     <ModalSelect
                         callback={(e: any) => setLeaveRequest({ ...leaveRequest, leave_request_type_id: parseInt(e.target.value) })}
+                        defaultValue={leaveRequest.leave_request_type_id}
                         data={
                             <>
                                 {
                                     leaveRequestTypes.map((value: any, index: any) => {
-                                        return <option selected={value.id === leaveRequest.leave_request_type_id} key={index} value={value.id}>{value.title}</option>
+                                        return <option key={index} value={value.id}>{value.title}</option>
                                     })
                                 }
                             </>

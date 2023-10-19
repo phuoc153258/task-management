@@ -56,8 +56,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         try {
-            $userInfo = $request->validated();
-            $userResponse = $this->userService->update($userInfo, $id);
+            $userResponse = $this->userService->update($request->validated(), $id);
 
             return $this->success(new UserResource($userResponse), trans('user.update-user-success'), 200);
         } catch (\Throwable $th) {

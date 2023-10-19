@@ -53,7 +53,7 @@ class UserRepository implements UserRepositoryInterface
     {
         $userResponse = User::withoutEvents(function () use ($userDetails) {
             return User::with('roles')
-                ->firstOrCreate($userDetails)
+                ->firstOrCreate(array_diff_key($userDetails, array_flip(['role_id'])))
                 ->assignRole($userDetails['role_id']);
         });
 

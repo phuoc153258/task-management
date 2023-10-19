@@ -24,7 +24,8 @@ function Profile() {
         setShowLoading(true)
         try {
             const formData = new FormData();
-            formData.append("avatar", file);
+            if (file !== null)
+                formData.append("avatar", file);
             formData.append("fullname", userInfo.fullname);
             formData.append("email", userInfo.email);
             const responseUser: any = await UserService.update(formData);

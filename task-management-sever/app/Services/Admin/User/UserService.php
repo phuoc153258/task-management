@@ -33,6 +33,11 @@ class UserService implements UserServiceInterface
     {
         $user = $this->userRepository->getById($id);
 
+        if (!empty($userInfo['avatar'])) {
+            $userInfo['avatar'] = $this->fileService->upload($userInfo['avatar'], 'avatar');
+            $this->fileService->delete($user->avatar);
+        }
+
         $user->update($userInfo);
         $user->syncRoles([])->assignRole($userInfo['role_id']);
 
