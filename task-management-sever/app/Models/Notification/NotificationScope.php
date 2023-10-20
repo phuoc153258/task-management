@@ -10,9 +10,4 @@ trait NotificationScope
     {
         $query->where('data->user->id', $id);
     }
-
-    public function scopeOfNotification(Builder $query, $id): void
-    {
-        $query->where('id', $id);
-    }
 }

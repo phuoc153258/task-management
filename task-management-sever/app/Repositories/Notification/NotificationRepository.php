@@ -13,13 +13,13 @@ class NotificationRepository implements NotificationRepositoryInterface
         $user = auth()->user();
 
         return Notification::ofUser($user->id)
-            ->orderBy('created_at', 'desc')
+            ->orderByDesc('created_at')
             ->get();
     }
 
-    public function getNotification($id, $user_id)
+    public function getNotification($id, $userId)
     {
-        return Notification::ofUser($user_id)->findOrFail($id);
+        return Notification::ofUser($userId)->findOrFail($id);
     }
 
     public function readNotification($id)
