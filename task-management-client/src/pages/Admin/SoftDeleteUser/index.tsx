@@ -1,85 +1,55 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import LeaveRequestService from '../../../services/admin/leaveRequest';
-import { toast } from 'react-toastify';
-import DetailLeaveRequest from '../AcceptLeaveRequest/Modal/DetailLeaveRequest';
+import { useNavigate } from 'react-router-dom';
+import { isHaveRole } from '../../../utils';
+import UserService from '../../../services/admin/user';
+import { ROLE_ADMIN } from '../../../constants/user';
+import route from '../../../routes/web/route';
 import PaginateSearch from '../../../components/Paginate/PaginateSearch';
 import PaginateSort from '../../../components/Paginate/PaginateSort';
-import PaginateFooter from '../../../components/Paginate/PaginateFooter';
-import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
 import TableData from '../../../components/Table/TableData';
 import TableButton from '../../../components/Table/TableButton';
-import Modal from '../../../components/Modal';
+import Loading from '../../../components/Loading';
+import PaginateFooter from '../../../components/Paginate/PaginateFooter';
+import ContentHeader from '../../../components/ContentHeader';
 
-const tableHeaders = ['ID', 'Content', 'Request leave type', 'User', 'Leave registration date', 'Status', 'Actions']
+const tableHeaders = ['ID', 'Username', 'Fullname', 'Email', 'Actions']
 
-function SoftDeleteLeaveRequest() {
+function SoftDeleteUser() {
+    const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState(true);
     const [isFetchData, setIsFetchData] = useState<any>(false);
 
-    const [leaveRequests, setLeaveRequests] = useState([]);
-    const [leaveRequest, setLeaveRequest] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const [paginate, setPaginate] = useState({
         page: 1,
         per_page: 10,
         search: '',
         sort: '',
-        leave_request_status: 0,
         last_page: 0,
         total: 0,
         soft_delete: 2
     });
 
-    const [showModalDetail, setShowModalDetail] = useState(false)
-
-    const getLeaveRequest = async (id: any) => {
-        try {
-            const leaveRequestResponse: any = await LeaveRequestService.show({}, id)
-            setLeaveRequest(leaveRequestResponse.data.data)
-            setShowModalDetail(true)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleRestoreLeaveRequest = async (id: any) => {
-        try {
-            await LeaveRequestService.restore(id)
-            toast('Restore leave request success')
-            setIsFetchData(!isFetchData)
-        } catch (error) {
-            toast('Restore leave request failed')
-        }
-    }
-
-    const handleForceLeaveRequest = async (id: any) => {
-        try {
-            await LeaveRequestService.force(id)
-            toast('Force delete leave request success')
-            setIsFetchData(!isFetchData)
-        } catch (error) {
-            toast('Force delete leave request failed')
-        }
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchData = async () => {
         try {
             setIsLoading(true);
-            const leaveRequestsResponse: any = await LeaveRequestService.index(
+            const usersPromise = UserService.index(
                 {},
                 paginate,
             );
-            setLeaveRequests(leaveRequestsResponse.data.data.data);
+            const response: any = await Promise.all([usersPromise])
+            setUsers(response[0].data.data.data);
             setPaginate({
                 ...paginate,
-                page: leaveRequestsResponse.data.data.current_page,
-                last_page: leaveRequestsResponse.data.data.last_page,
-                per_page: leaveRequestsResponse.data.data.per_page,
-                total: leaveRequestsResponse.data.data.total,
+                page: response[0].data.data.current_page,
+                last_page: response[0].data.data.last_page,
+                per_page: response[0].data.data.per_page,
+                total: response[0].data.data.total,
             });
             setIsLoading(false);
         } catch (error) {
@@ -87,8 +57,9 @@ function SoftDeleteLeaveRequest() {
         }
     };
 
-
     useEffect(() => {
+        const isAuth = isHaveRole([ROLE_ADMIN]);
+        if (!isAuth) navigate(route.home);
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFetchData]);
@@ -97,11 +68,7 @@ function SoftDeleteLeaveRequest() {
         <>
             <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
                 <div className="w-full mb-1">
-                    <div className="mb-4">
-                        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                            Soft delete leave request
-                        </h1>
-                    </div>
+                    <ContentHeader title={'Soft delete user'} />
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                         <div className="flex items-center mb-4 sm:mb-0">
                             <PaginateSearch callback={(e: any) => {
@@ -134,7 +101,7 @@ function SoftDeleteLeaveRequest() {
                                     <>
                                         {!isLoading && (
                                             <>
-                                                {leaveRequests.map(
+                                                {users.map(
                                                     (value: any, index: any) => {
                                                         return (
                                                             <tr
@@ -142,16 +109,14 @@ function SoftDeleteLeaveRequest() {
                                                                 key={index}
                                                             >
                                                                 <TableData data={value.id} />
-                                                                <TableData data={value.content} />
-                                                                <TableData data={value.leave_request_type.title} />
-                                                                <TableData data={value.user.username} />
-                                                                <TableData data={value.leave_registration_date} />
-                                                                <TableData data={value.status_name} />
+                                                                <TableData data={value.username} />
+                                                                <TableData data={value.fullname} />
+                                                                <TableData data={value.email} />
                                                                 <td className="p-4 space-x-2 whitespace-nowrap">
                                                                     <TableButton
                                                                         styles='bg-indigo-500 hover:bg-primary-800 focus:ring-primary-300'
                                                                         callback={() => {
-                                                                            getLeaveRequest(value.id)
+                                                                            // getLeaveRequest(value.id)
 
                                                                         }}
                                                                         svg={<svg
@@ -172,7 +137,7 @@ function SoftDeleteLeaveRequest() {
                                                                     <TableButton
                                                                         styles='bg-lime-500 hover:bg-primary-800 focus:ring-primary-300'
                                                                         callback={() => {
-                                                                            handleRestoreLeaveRequest(value.id)
+                                                                            // handleRestoreLeaveRequest(value.id)
 
                                                                         }}
                                                                         svg={<svg
@@ -193,7 +158,7 @@ function SoftDeleteLeaveRequest() {
                                                                     <TableButton
                                                                         styles='bg-red-700 hover:bg-red-800 focus:ring-red-300'
                                                                         callback={() => {
-                                                                            handleRestoreLeaveRequest(value.id)
+                                                                            // handleRestoreLeaveRequest(value.id)
                                                                         }}
                                                                         svg={<svg
                                                                             className="w-4 h-4 mr-2"
@@ -226,11 +191,8 @@ function SoftDeleteLeaveRequest() {
             </div>
 
             <PaginateFooter paginate={paginate} setPaginate={setPaginate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} />
-
-            {showModalDetail && <Modal><DetailLeaveRequest setShowModal={setShowModalDetail} leaveRequest={leaveRequest} handleRestoreLeaveRequest={handleRestoreLeaveRequest} handleForceLeaveRequest={handleForceLeaveRequest} /></Modal>}
-
         </>
     );
 }
 
-export default SoftDeleteLeaveRequest;
+export default SoftDeleteUser;

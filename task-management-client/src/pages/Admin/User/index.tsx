@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { isHaveRole } from '../../../utils';
 import UserService from '../../../services/admin/user';
@@ -17,6 +17,9 @@ import TableButton from '../../../components/Table/TableButton';
 import Loading from '../../../components/Loading';
 import PaginateFooter from '../../../components/Paginate/PaginateFooter';
 import Modal from '../../../components/Modal';
+import Button from '../../../components/Button';
+import ModalButton from '../../../components/Modal/ModalButton';
+import FormLink from '../../../components/FormControl/FormLink';
 
 const tableHeaders = ['ID', 'Username', 'Fullname', 'Email', 'Actions']
 
@@ -123,15 +126,13 @@ function User() {
                             }} />
                         </div>
                         <div className='flex gap-3'>
-                            <button
-                                className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                                type="button"
-                                onClick={() => {
+                            <FormLink route={route.admin.softDeleteUser} styles={`bg-indigo-500 focus:ring-primary-300`} title={'Soft delete user'} />
+                            <ModalButton
+                                title={` Add user`} callback={() => {
                                     setShowModalCreate(true);
                                 }}
-                            >
-                                Add user
-                            </button>
+                                styles={`text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 px-5 py-2.5`}
+                            />
                         </div>
                     </div>
                 </div>

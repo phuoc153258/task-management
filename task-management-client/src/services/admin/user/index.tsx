@@ -5,7 +5,7 @@ class UserService {
     static index(params: object, paginate: any) {
         let uri =
             ADMIN_USER_ROUTER.index +
-            `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&limit=${paginate.limit}`;
+            `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&per_page=${paginate.per_page}&soft_delete=${paginate.soft_delete}`;
         return fetch.get(uri);
     }
 
