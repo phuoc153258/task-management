@@ -7,7 +7,7 @@ function ModalButton({ callback, title, styles, isDisabled = false }: any) {
             type="button"
             disabled={isDisabled}
             onClick={callback}
-            className={`text-base text-center focus:ring-4 focus:outline-none rounded-lg font-medium ${styles}`}
+            className={`text-base text-center focus:ring-4 focus:outline-none rounded-lg ${styles}`}
         >
             {title}
         </button>

@@ -19,6 +19,8 @@ const route = {
         softDeleteLeaveRequest: '/admin/leave-request/soft-delete',
 
         user: '/admin/user',
+        softDeleteUser: '/admin/user/soft-delete',
+
         task: '/admin/task',
     }
 
@@ -28,6 +30,6 @@ export const leaveRequestGroup = [route.leaveRequest, route.admin.leaveRequest, 
 
 export const taskGroup = [route.task, route.admin.task]
 
-export const userGroup = [route.admin.user]
+export const userGroup = [route.admin.user, route.admin.softDeleteUser]
 
 export default route;

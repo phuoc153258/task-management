@@ -11,6 +11,7 @@ import AdminLeaveRequest from '../../pages/Admin/LeaveRequest';
 import AdminAcceptLeaveRequest from '../../pages/Admin/AcceptLeaveRequest';
 import AdminSoftDeleteLeaveRequest from '../../pages/Admin/SoftDeleteLeaveRequest';
 import AdminUser from '../../pages/Admin/User';
+import AdminSoftDeleteUser from '../../pages/Admin/SoftDeleteUser';
 import Task from '../../pages/Task';
 import AuthLayout from '../../layouts/AuthLayout';
 import AdminLayout from '../../layouts/AdminLayout';
@@ -30,6 +31,8 @@ const publicRoutes: any = [
     { path: route.admin.softDeleteLeaveRequest, component: AdminSoftDeleteLeaveRequest, layout: AdminLayout },
 
     { path: route.admin.user, component: AdminUser, layout: AdminLayout },
+    { path: route.admin.softDeleteUser, component: AdminSoftDeleteUser, layout: AdminLayout },
+
     // { path: route.admin.task, component: AdminUser, layout: AdminLayout },
 
 ];
