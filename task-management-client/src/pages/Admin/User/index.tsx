@@ -84,7 +84,7 @@ function User() {
 
     const getUser = async (id: any) => {
         try {
-            const userResponse: any = await UserService.show({}, id)
+            const userResponse: any = await UserService.show(id)
             setUser(userResponse.data.data)
             setShowModalDetail(true)
         } catch (error) {

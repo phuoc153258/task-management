@@ -65,7 +65,7 @@ function DetailUser({ setShowModal, isFetchData, setIsFetchData, roles, user }: 
 
     return (
         <>
-            <ModalHeading title={'Add user'} callback={() => setShowModal(false)} />
+            <ModalHeading title={'Detail user'} callback={() => setShowModal(false)} />
 
             <div className="p-6 space-y-6">
                 <div className="flex">

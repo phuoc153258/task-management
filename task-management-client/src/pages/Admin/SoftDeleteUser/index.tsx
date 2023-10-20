@@ -13,6 +13,8 @@ import TableButton from '../../../components/Table/TableButton';
 import Loading from '../../../components/Loading';
 import PaginateFooter from '../../../components/Paginate/PaginateFooter';
 import ContentHeader from '../../../components/ContentHeader';
+import Modal from '../../../components/Modal';
+import DetailUser from './Modal/DetailUser';
 
 const tableHeaders = ['ID', 'Username', 'Fullname', 'Email', 'Actions']
 
@@ -21,8 +23,10 @@ function SoftDeleteUser() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isFetchData, setIsFetchData] = useState<any>(false);
+    const [showModalDetail, setShowModalDetail] = useState<any>(false);
 
     const [users, setUsers] = useState([]);
+    const [user, setUser] = useState<any>({});
 
     const [paginate, setPaginate] = useState({
         page: 1,
@@ -33,6 +37,16 @@ function SoftDeleteUser() {
         total: 0,
         soft_delete: 2
     });
+
+    const getUser = async (id: any) => {
+        try {
+            const userResponse: any = await UserService.show(id)
+            setUser(userResponse.data.data)
+            setShowModalDetail(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchData = async () => {
@@ -116,8 +130,7 @@ function SoftDeleteUser() {
                                                                     <TableButton
                                                                         styles='bg-indigo-500 hover:bg-primary-800 focus:ring-primary-300'
                                                                         callback={() => {
-                                                                            // getLeaveRequest(value.id)
-
+                                                                            getUser(value.id)
                                                                         }}
                                                                         svg={<svg
                                                                             className="w-4 h-4 mr-2"
@@ -191,6 +204,7 @@ function SoftDeleteUser() {
             </div>
 
             <PaginateFooter paginate={paginate} setPaginate={setPaginate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} />
+            {showModalDetail && <Modal><DetailUser setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} user={user} /></Modal>}
         </>
     );
 }
