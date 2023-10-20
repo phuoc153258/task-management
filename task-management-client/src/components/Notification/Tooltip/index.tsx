@@ -35,7 +35,7 @@ function Tooltip({ show }: any) {
                             <div className='overflow-auto h-[30rem]'>
                                 {
                                     notifications.map((item: any, index: any) => {
-                                        return <TooltipItem setIsFetchData={setIsFetchData} isFetchData={isFetchData} key={index} notification={{ ...item, data: JSON.parse(item.data) }} />
+                                        return <TooltipItem setIsFetchData={setIsFetchData} isFetchData={isFetchData} key={index} notification={{ ...item, data: item.data }} />
                                     })
                                 }
 
