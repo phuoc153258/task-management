@@ -9,10 +9,10 @@ class UserService {
         return fetch.get(uri);
     }
 
-    static show(params: object, id: any) {
+    static show(id: any) {
         let uri =
             ADMIN_USER_ROUTER.show + id;
-        return fetch.get(uri, params);
+        return fetch.get(uri);
     }
 
     static create(params: object) {
