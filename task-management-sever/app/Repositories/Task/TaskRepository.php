@@ -15,11 +15,13 @@ class TaskRepository implements TaskRepositoryInterface
     {
     }
 
-    public function list($options, $project_id, $user_id)
+    public function list($options, $user_id)
     {
         $taskResponse = Task::query()
             ->with(['user', 'createdBy'])
-            ->ofProject($project_id)
+            ->when(!empty($options['project_id']), function ($query) use ($options) {
+                return $query->ofProject($options['project_id']);
+            })
             ->ofUser($user_id)
             ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
                 return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");

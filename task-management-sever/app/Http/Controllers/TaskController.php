@@ -19,11 +19,11 @@ class TaskController extends Controller
     {
     }
 
-    public function index(ListTaskRequest $request, $project_id)
+    public function index(ListTaskRequest $request)
     {
         try {
             $user = $this->getCurrentUser();
-            $taskResponse = $this->taskService->index($request->validated(), $project_id, $user->id);
+            $taskResponse = $this->taskService->index($request->validated(), $user->id);
 
             return $this->success(new PaginateResource($taskResponse, TaskResource::collection($taskResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {

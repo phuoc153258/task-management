@@ -5,7 +5,7 @@ use App\Http\Controllers\TaskController;
 
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::get('/project/{project_id}', [TaskController::class, 'index']);
+    Route::get('/', [TaskController::class, 'index']);
 
     Route::get('/{id}', [TaskController::class, 'show']);
 

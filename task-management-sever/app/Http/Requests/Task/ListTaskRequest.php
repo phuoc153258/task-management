@@ -29,7 +29,6 @@ class ListTaskRequest extends FormRequest
             'sort' => $this->input('sort') === null ? config('paginate.default.sort') : $this->input('sort'),
             'search_by' =>  $this->input('search_by') === null ? config('paginate.task.search_by') : $this->input('search_by'),
             'sort_by' =>  $this->input('sort_by') === null ? config('paginate.task.sort_by') : $this->input('sort_by'),
-            'soft_delete' =>  $this->input('soft_delete') === null ? config('paginate.default.soft_delete') : (int) $this->input('soft_delete'),
         ]);
     }
 
@@ -55,10 +54,11 @@ class ListTaskRequest extends FormRequest
                 'string',
                 Rule::in(Task::getFields()),
             ],
-            'soft_delete' => [
+            'project_id' => [
                 'nullable',
                 'numeric',
-                Rule::in(SoftDeleteStatus::cases()),
+                'min:1',
+                Rule::exists('projects', 'id'),
             ],
         ];
     }
