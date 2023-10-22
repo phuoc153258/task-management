@@ -10,9 +10,9 @@ class TaskService implements TaskServiceInterface
     {
     }
 
-    public function index($options, $project_id, $user_id)
+    public function index($options, $user_id)
     {
-        return  $this->taskRepository->list($options, $project_id, $user_id);
+        return  $this->taskRepository->list($options, $user_id);
     }
 
     public function show($id, $user_id)
