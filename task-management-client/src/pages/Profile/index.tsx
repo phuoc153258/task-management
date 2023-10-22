@@ -12,6 +12,7 @@ import { TYPE_TEXT } from '../../constants/inputType';
 import Button from '../../components/Button';
 import Loading from '../../components/Loading';
 import { getErrors } from '../../helpers';
+import FormImage from '../../components/FormControl/FormImage';
 
 function Profile() {
     const [state, dispatch] = useStore()
@@ -45,12 +46,7 @@ function Profile() {
     return (
         <div className="flex">
             <div className=" w-[40%] text-center">
-                <img className="w-52 mb-5 h-52 rounded-full block mx-auto" src={imagePreview} alt="Rounded avatar" />
-                <input type="file" id="myFile" className='hidden' onChange={(e: any) => {
-                    setFile(e.target.files[0])
-                    setImagePreview(URL.createObjectURL(e.target.files[0]))
-                }} />
-                <label htmlFor='myFile' className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Upload avatar</label>
+                <FormImage setFile={setFile} imagePreview={imagePreview} setImagePreview={imagePreview} />
             </div>
             <div className="w-[60%]">
                 <div className="mb-6">

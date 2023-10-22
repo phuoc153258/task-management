@@ -6,10 +6,10 @@ import ModalHeading from '../../../../components/Modal/ModalHeading';
 import FormLabel from '../../../../components/FormControl/FormLabel';
 import FormInput from '../../../../components/FormControl/FormInput';
 import { TYPE_EMAIL, TYPE_PASSWORD, TYPE_TEXT } from '../../../../constants/inputType';
-import ModalSelect from '../../../../components/Modal/ModalSelect';
 import ModalButton from '../../../../components/Modal/ModalButton';
 import Loading from '../../../../components/Loading';
 import { getErrors } from '../../../../helpers';
+import FormSelect from '../../../../components/FormControl/FormSelect';
 
 function CreateUser({ setShowModal, isFetchData, setIsFetchData, roles }: any) {
     const [user, setUser] = useState({
@@ -98,7 +98,7 @@ function CreateUser({ setShowModal, isFetchData, setIsFetchData, roles }: any) {
                 </div>
                 <div className="mb-6 ">
                     <FormLabel title={'Role'} />
-                    <ModalSelect
+                    <FormSelect
                         callback={(e: any) => {
                             setUser({ ...user, role_id: parseInt(e.target.value) })
                         }}

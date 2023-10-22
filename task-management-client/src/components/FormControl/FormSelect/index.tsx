@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
-function ModalSelect({ callback, data, defaultValue }: any) {
+function FormSelect({ callback, data, defaultValue }: any) {
     return (
         <select
             onChange={callback}
@@ -12,4 +12,4 @@ function ModalSelect({ callback, data, defaultValue }: any) {
     );
 }
 
-export default ModalSelect;
+export default FormSelect;

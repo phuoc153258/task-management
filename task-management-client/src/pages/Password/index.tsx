@@ -6,7 +6,7 @@ import Button from '../../components/Button';
 import { getErrors } from '../../helpers';
 import Loading from '../../components/Loading';
 import FormLabel from '../../components/FormControl/FormLabel';
-import FormInput from '../../components/GlobalStyle/FormInput';
+import FormInput from '../../components/FormControl/FormInput';
 import { TYPE_PASSWORD } from '../../constants/inputType';
 
 function Password() {
@@ -69,7 +69,8 @@ function Password() {
                     }} />
             </div>
             <div className='w-1/6 text-base'>
-                <Button isDisabled={showLoading}
+                <Button
+                    isDisabled={showLoading}
                     title={<div className='flex items-center justify-center gap-5'>
                         <span className='relative text-base'>Update
                             {showLoading && <div className='absolute top-0 left-[-2rem]'><Loading /></div>}

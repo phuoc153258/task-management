@@ -15,6 +15,8 @@ import Modal from '../../../components/Modal';
 import { Link } from 'react-router-dom';
 import route from '../../../routes/web/route';
 import UserService from '../../../services/admin/user';
+import ContentHeader from '../../../components/ContentHeader';
+import FormLink from '../../../components/FormControl/FormLink';
 
 const tableHeaders = ['ID', 'Content', 'Request leave type', 'User', 'Leave registration date', 'Status', 'Actions']
 
@@ -123,11 +125,7 @@ function LeaveRequest() {
         <>
             <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
                 <div className="w-full mb-1">
-                    <div className="mb-4">
-                        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                            Leave requests
-                        </h1>
-                    </div>
+                    <ContentHeader title={'Leave requests'} />
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                         <div className="flex items-center mb-4 sm:mb-0">
                             <PaginateSearch callback={(e: any) => {
@@ -146,18 +144,16 @@ function LeaveRequest() {
                             }} />
                         </div>
                         <div className='flex gap-3'>
-                            <Link
-                                to={route.admin.softDeleteLeaveRequest}
-                                className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                            >
-                                Soft delete leave request
-                            </Link>
-                            <Link
-                                to={route.admin.acceptLeaveRequest}
-                                className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                            >
-                                Accept leave request
-                            </Link>
+                            <FormLink
+                                route={route.admin.softDeleteLeaveRequest}
+                                styles={'bg-indigo-500 focus:ring-primary-300 font-medium rounded-lg'}
+                                title={'Soft delete leave request'}
+                            />
+                            <FormLink
+                                route={route.admin.acceptLeaveRequest}
+                                styles={'bg-indigo-500 focus:ring-primary-300 font-medium rounded-lg'}
+                                title={'Accept leave request'}
+                            />
                         </div>
                     </div>
                 </div>

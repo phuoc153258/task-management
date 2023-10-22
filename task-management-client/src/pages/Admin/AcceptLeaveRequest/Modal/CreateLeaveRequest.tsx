@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 import LeaveRequestService from '../../../../services/admin/leaveRequest';
 import { getErrors } from '../../../../helpers';
 import ModalHeading from '../../../../components/Modal/ModalHeading';
-import ModalLabel from '../../../../components/Modal/ModalLabel';
-import ModalSelect from '../../../../components/Modal/ModalSelect';
+import FormSelect from '../../../../components/FormControl/FormSelect';
 import DatePicker from '../../../../components/DatePicker';
-import ModalTextArea from '../../../../components/Modal/ModalTextArea';
+import FormTextArea from '../../../../components/FormControl/FormTextArea';
 import ModalButton from '../../../../components/Modal/ModalButton';
 import Loading from '../../../../components/Loading';
+import FormLabel from '../../../../components/FormControl/FormLabel';
 
 
 function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setIsFetchData, users }: any) {
@@ -40,8 +40,8 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
             <ModalHeading title={`Add leave request`} callback={() => setShowModal(false)} />
             <div className="p-6 space-y-6">
                 <div className="mb-6 ">
-                    <ModalLabel title={`Leave request type`} />
-                    <ModalSelect
+                    <FormLabel title={`Leave request type`} />
+                    <FormSelect
                         callback={(e: any) => {
                             setLeaveRequest({ ...leaveRequest, leave_request_type_id: parseInt(e.target.value) })
                         }}
@@ -57,13 +57,13 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                     />
                 </div>
                 <div className="mb-6">
-                    <ModalLabel title={`Leave registration date`} />
+                    <FormLabel title={`Leave registration date`} />
                     <DatePicker date={leaveRequest.leave_registration_date} callback={(date: any) => setLeaveRequest({ ...leaveRequest, leave_registration_date: date })} />
                 </div>
 
                 <div className="mb-6">
-                    <ModalLabel title={`Content`} />
-                    <ModalTextArea
+                    <FormLabel title={`Content`} />
+                    <FormTextArea
                         placeholder={`Content...`}
                         callback={(e: any) => {
                             setLeaveRequest({ ...leaveRequest, content: e.target.value })
@@ -71,8 +71,8 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                         value={leaveRequest.content} />
                 </div>
                 <div className="mb-6 ">
-                    <ModalLabel title={`User`} />
-                    <ModalSelect
+                    <FormLabel title={`User`} />
+                    <FormSelect
                         callback={(e: any) => {
                             setLeaveRequest({ ...leaveRequest, user_id: parseInt(e.target.value) })
                         }}

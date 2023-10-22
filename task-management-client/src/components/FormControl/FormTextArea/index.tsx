@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
-function ModalTextArea({ placeholder, callback, value }: any) {
+function FormTextArea({ placeholder, callback, value }: any) {
     return (
         <textarea
             rows={2}
@@ -14,4 +14,4 @@ function ModalTextArea({ placeholder, callback, value }: any) {
     );
 }
 
-export default ModalTextArea;
+export default FormTextArea;

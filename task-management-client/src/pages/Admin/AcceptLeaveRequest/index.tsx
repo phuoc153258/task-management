@@ -14,6 +14,8 @@ import Modal from '../../../components/Modal';
 import CreateLeaveRequest from './Modal/CreateLeaveRequest';
 import LeaveRequestTypeService from '../../../services/leaveRequestType';
 import UserService from '../../../services/admin/user';
+import Button from '../../../components/Button';
+import ContentHeader from '../../../components/ContentHeader';
 
 const tableHeaders = ['ID', 'Content', 'Request leave type', 'User', 'Leave registration date', 'Status', 'Actions']
 
@@ -114,11 +116,7 @@ function LeaveRequest() {
         <>
             <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
                 <div className="w-full mb-1">
-                    <div className="mb-4">
-                        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                            Accept leave request
-                        </h1>
-                    </div>
+                    <ContentHeader title={'Accept leave request'} />
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                         <div className="flex items-center mb-4 sm:mb-0">
                             <PaginateSearch callback={(e: any) => {
@@ -137,15 +135,14 @@ function LeaveRequest() {
                             }} />
                         </div>
                         <div className='flex gap-3'>
-                            <button
-                                className="text-white bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                                type="button"
-                                onClick={() => {
+                            <Button
+                                title={'Add leave request'}
+                                callback={() => {
                                     setShowModalCreate(true);
                                 }}
-                            >
-                                Add leave request
-                            </button>
+                                isDisabled={false}
+                                styles={'bg-indigo-500 focus:ring-primary-300 px-3 py-2 rounded-lg'}
+                            />
                         </div>
                     </div>
                 </div>
