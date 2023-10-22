@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { ENV } from '../../../../config';
 import { useStore } from '../../../../hooks';
 import { actions } from '../../../../store';
-import ModalSelect from '../../../../components/Modal/ModalSelect';
+import FormSelect from '../../../../components/FormControl/FormSelect';
 import { getErrors } from '../../../../helpers';
 import ModalHeading from '../../../../components/Modal/ModalHeading';
 import FormImage from '../../../../components/FormControl/FormImage';
@@ -111,7 +111,7 @@ function DetailUser({ setShowModal, isFetchData, setIsFetchData, roles, user }: 
                         </div>
                         <div className="mb-6 ">
                             <FormLabel title={'Role'} />
-                            <ModalSelect
+                            <FormSelect
                                 callback={(e: any) => {
                                     setUserInfo({ ...userInfo, role_id: parseInt(e.target.value) })
                                 }}

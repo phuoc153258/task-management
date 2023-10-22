@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import LeaveRequestService from '../../../services/leaveRequest';
 import { toast } from 'react-toastify';
 import ModalHeading from '../../../components/Modal/ModalHeading';
-import ModalLabel from '../../../components/Modal/ModalLabel';
 import DatePicker from '../../../components/DatePicker';
-import ModalSelect from '../../../components/Modal/ModalSelect';
-import ModalTextArea from '../../../components/Modal/ModalTextArea';
+import FormSelect from '../../../components/FormControl/FormSelect';
+import FormTextArea from '../../../components/FormControl/FormTextArea';
 import { getErrors } from '../../../helpers';
 import ModalButton from '../../../components/Modal/ModalButton';
 import Loading from '../../../components/Loading';
+import FormLabel from '../../../components/FormControl/FormLabel';
 
 
 function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setIsFetchData, leaveRequest, setLeaveRequest }: any) {
@@ -36,8 +36,8 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
 
             <div className="p-6 space-y-6">
                 <div className="mb-6 ">
-                    <ModalLabel title={`Leave request type`} />
-                    <ModalSelect
+                    <FormLabel title={`Leave request type`} />
+                    <FormSelect
                         callback={(e: any) => setLeaveRequest({ ...leaveRequest, leave_request_type_id: parseInt(e.target.value) })}
                         defaultValue={leaveRequest.leave_request_type_id}
                         data={
@@ -52,12 +52,12 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                     />
                 </div>
                 <div className="mb-6">
-                    <ModalLabel title={`Leave registration date`} />
+                    <FormLabel title={`Leave registration date`} />
                     <DatePicker date={new Date(leaveRequest.leave_registration_date)} callback={(date: any) => setLeaveRequest({ ...leaveRequest, leave_registration_date: date })} />
                 </div>
                 <div className="mb-6">
-                    <ModalLabel title={`Content`} />
-                    <ModalTextArea
+                    <FormLabel title={`Content`} />
+                    <FormTextArea
                         placeholder={'Content...'}
                         callback={(e: any) => setLeaveRequest({ ...leaveRequest, content: e.target.value })}
                         value={leaveRequest.content}

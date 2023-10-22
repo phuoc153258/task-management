@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Button from '../../components/Button';
-import FormInput from '../../components/GlobalStyle/FormInput';
+import FormInput from '../../components/FormControl/FormInput';
 import AuthService from '../../services/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { isAuthenticate } from '../../utils';
@@ -9,6 +9,7 @@ import Loading from '../../components/Loading';
 import { toast } from 'react-toastify';
 import { getErrors } from '../../helpers';
 import route from '../../routes/web/route';
+import FormLabel from '../../components/FormControl/FormLabel';
 
 function Register() {
     const [userInfo, setUserInfo] = useState({
@@ -52,8 +53,8 @@ function Register() {
             <div className="m-6">
                 <form className="mb-4">
                     <div className="mb-4">
+                        <FormLabel title={'Username'} />
                         <FormInput
-                            title={'Username'}
                             type={'text'}
                             placeholder={`Your username`}
                             value={userInfo.username}
@@ -66,8 +67,8 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
+                        <FormLabel title={'Username'} />
                         <FormInput
-                            title={'Email'}
                             type={'email'}
                             placeholder={`Your email`}
                             value={userInfo.email}
@@ -80,8 +81,8 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
+                        <FormLabel title={'Fullname'} />
                         <FormInput
-                            title={'Fullname'}
                             type={'text'}
                             placeholder={`Your fullname`}
                             value={userInfo.fullname}
@@ -94,8 +95,8 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
+                        <FormLabel title={'Password'} />
                         <FormInput
-                            title={'Password'}
                             type={'password'}
                             placeholder={`Password...`}
                             value={userInfo.password}
@@ -108,8 +109,8 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
+                        <FormLabel title={'Confirm password'} />
                         <FormInput
-                            title={'Confirm password'}
                             type={'password'}
                             placeholder={`Confirm password...`}
                             value={confirmPassword}

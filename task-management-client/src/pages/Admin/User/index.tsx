@@ -20,6 +20,7 @@ import Modal from '../../../components/Modal';
 import Button from '../../../components/Button';
 import ModalButton from '../../../components/Modal/ModalButton';
 import FormLink from '../../../components/FormControl/FormLink';
+import ContentHeader from '../../../components/ContentHeader';
 
 const tableHeaders = ['ID', 'Username', 'Fullname', 'Email', 'Actions']
 
@@ -103,11 +104,7 @@ function User() {
         <>
             <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
                 <div className="w-full mb-1">
-                    <div className="mb-4">
-                        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                            Users
-                        </h1>
-                    </div>
+                    <ContentHeader title={'Users'} />
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                         <div className="flex items-center mb-4 sm:mb-0">
                             <PaginateSearch callback={(e: any) => {

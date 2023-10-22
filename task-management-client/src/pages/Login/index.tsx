@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import FormInput from '../../components/GlobalStyle/FormInput';
+import FormInput from '../../components/FormControl/FormInput';
 import Button from '../../components/Button';
 import { useStore } from '../../hooks';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import UserService from '../../services/user';
 import { actions } from '../../store';
 import Loading from '../../components/Loading';
 import route from '../../routes/web/route';
+import FormLabel from '../../components/FormControl/FormLabel';
 
 function Login() {
     const [state, dispatch] = useStore();
@@ -60,8 +61,8 @@ function Login() {
         </div>    <div className="m-6">
             <form className="mb-4">
                 <div className="mb-6">
+                    <FormLabel title={'Username'} />
                     <FormInput
-                        title={'Username'}
                         type={'text'}
                         placeholder={`Your username`}
                         value={username}
@@ -71,8 +72,8 @@ function Login() {
                     />
                 </div>
                 <div className="mb-8">
+                    <FormLabel title={'Password'} />
                     <FormInput
-                        title={'Password'}
                         type={'password'}
                         placeholder={'Your password '}
                         value={password}
@@ -84,7 +85,8 @@ function Login() {
                 </div>
 
                 <div className="mb-6">
-                    <Button isDisabled={showLoading}
+                    <Button
+                        isDisabled={showLoading}
                         title={<div className='flex items-center justify-center gap-5'>
                             <span className='relative text-xl'>Login
                                 {showLoading && <div className='absolute top-0 left-[-2rem]'><Loading /></div>}
