@@ -19,11 +19,11 @@ class TaskReportController extends Controller
     {
     }
 
-    public function index(ListTaskReportRequest $request, $id)
+    public function index(ListTaskReportRequest $request)
     {
         try {
             $user = $this->getCurrentUser();
-            $taskReportResponse = $this->taskReportService->index($request->validated(), $id, $user->id);
+            $taskReportResponse = $this->taskReportService->index($request->validated(), $user->id);
             return $this->success(new PaginateResource($taskReportResponse, TaskReportResource::collection($taskReportResponse->items())), trans('base.base-success'));
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));

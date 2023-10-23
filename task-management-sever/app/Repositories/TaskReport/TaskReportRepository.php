@@ -7,12 +7,14 @@ use App\Repositories\TaskReport\TaskReportRepositoryInterface;
 
 class TaskReportRepository implements TaskReportRepositoryInterface
 {
-    public function list($options, $task_id, $user_id)
+    public function list($options, $user_id)
     {
         return TaskReport::query()
             ->with(['task'])
             ->ofUser($user_id)
-            ->ofTask($task_id)
+            ->when(!empty($options['task_id']), function ($query) use ($options) {
+                return $query->ofTask($options['task_id']);
+            })
             ->when(isset($options['search_by']) && isset($options['search']), function ($query) use ($options) {
                 return $query->whereRaw($options['search_by'] . " like '%" .  $options['search'] . "%'");
             })
