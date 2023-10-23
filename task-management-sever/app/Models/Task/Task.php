@@ -21,7 +21,6 @@ class Task extends Model
         'status',
         'hours',
         'start_date',
-        'end_date',
     ];
 
     protected $appends = ['status_name'];

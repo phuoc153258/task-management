@@ -23,7 +23,8 @@ class CreateTaskRequest extends FormRequest
     {
         $this->merge([
             'created_by' => $this->getCurrentUser()->id,
-            'status' => config('paginate.task.status')
+            'status' => config('paginate.task.status'),
+            'start_date' => formatDate($this->input('start_date'), 'Y-m-d'),
         ]);
     }
 
@@ -51,8 +52,7 @@ class CreateTaskRequest extends FormRequest
             'title' => 'required|string|min:5|max:50',
             'description' => 'required|string|min:5|max:50',
             'hours' => 'required|integer',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'start_date' => 'required|date|date_format:Y-m-d|after_or_equal:today',
             'created_by' => [
                 'required',
                 'numeric',

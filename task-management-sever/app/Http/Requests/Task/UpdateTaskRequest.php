@@ -15,6 +15,14 @@ class UpdateTaskRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'start_date' => formatDate($this->input('start_date'), 'Y-m-d'),
+        ]);
+    }
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -38,8 +46,7 @@ class UpdateTaskRequest extends FormRequest
             'title' => 'required|string|min:5|max:50',
             'description' => 'required|string|min:5|max:50',
             'hours' => 'required|integer',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'start_date' => 'required|date|date_format:Y-m-d|after_or_equal:today',
         ];
     }
 }

@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('status')->default(0); // range 0 - 100
             $table->integer('hours');
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('end_date')->nullable();
+            $table->date('start_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

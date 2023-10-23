@@ -25,7 +25,6 @@ class TaskFactory extends Factory
             'status' => 0,
             'hours' => 8,
             'start_date' => $this->faker->dateTimeBetween('-30 days', '+30 days'),
-            'end_date' => $this->faker->dateTimeBetween('now', '+90 days'),
         ];
     }
 }
