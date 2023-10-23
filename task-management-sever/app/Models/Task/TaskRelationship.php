@@ -2,6 +2,7 @@
 
 namespace App\Models\Task;
 
+use App\Models\Project\Project;
 use App\Models\User\User;
 
 trait TaskRelationship
@@ -14,5 +15,10 @@ trait TaskRelationship
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 }

@@ -18,7 +18,7 @@ class TaskRepository implements TaskRepositoryInterface
     public function list($options, $user_id)
     {
         $taskResponse = Task::query()
-            ->with(['user', 'createdBy'])
+            ->with(['user', 'createdBy', 'project'])
             ->when(!empty($options['project_id']), function ($query) use ($options) {
                 return $query->ofProject($options['project_id']);
             })
@@ -37,17 +37,17 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function show(int $id, $user_id)
     {
-        return Task::with(['user', 'createdBy'])->ofUser($user_id)->findOrFail($id);
+        return Task::with(['user', 'createdBy', 'project'])->ofUser($user_id)->findOrFail($id);
     }
 
     public function getById($id)
     {
-        return Task::with(['user', 'createdBy'])->findOrFail($id);
+        return Task::with(['user', 'createdBy', 'project'])->findOrFail($id);
     }
 
     public function create($taskDetails)
     {
-        $taskResponse = Task::with(['user', 'createdBy'])->firstOrCreate(
+        $taskResponse = Task::with(['user', 'createdBy', 'project'])->firstOrCreate(
             $taskDetails
         );
 
