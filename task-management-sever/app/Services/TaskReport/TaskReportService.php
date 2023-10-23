@@ -11,9 +11,9 @@ class TaskReportService implements TaskReportServiceInterface
     {
     }
 
-    public function index($options, $task_id, $user_id)
+    public function index($options, $user_id)
     {
-        return $this->taskReportRepository->list($options, $task_id, $user_id);
+        return $this->taskReportRepository->list($options, $user_id);
     }
 
     public function show($id, $user_id)

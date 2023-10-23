@@ -53,6 +53,12 @@ class ListTaskReportRequest extends FormRequest
                 'string',
                 Rule::in(TaskReport::getFields()),
             ],
+            'task_id' => [
+                'nullable',
+                'numeric',
+                'min:1',
+                Rule::exists('tasks', 'id'),
+            ],
         ];
     }
 }

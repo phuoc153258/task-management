@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskReportController;
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::get('/task/{id}', [TaskReportController::class, 'index']);
+    Route::get('/', [TaskReportController::class, 'index']);
 
     Route::get('/{id}', [TaskReportController::class, 'show']);
 
