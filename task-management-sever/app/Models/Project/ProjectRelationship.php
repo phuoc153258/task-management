@@ -3,6 +3,7 @@
 namespace App\Models\Project;
 
 use App\Models\User\User;
+use App\Models\UserProject\UserProject;
 
 trait ProjectRelationship
 {
