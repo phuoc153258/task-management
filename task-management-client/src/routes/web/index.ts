@@ -15,10 +15,12 @@ import AdminSoftDeleteUser from '../../pages/Admin/SoftDeleteUser';
 import Task from '../../pages/Task';
 import AuthLayout from '../../layouts/AuthLayout';
 import AdminLayout from '../../layouts/AdminLayout';
+import Project from '../../pages/Project';
 
 const publicRoutes: any = [
     { path: route.leaveRequest, component: LeaveRequest, layout: DefaultLayout },
     { path: route.task, component: Task, layout: DefaultLayout },
+    { path: route.project, component: Project, layout: DefaultLayout },
 
     { path: route.login, component: Login, layout: AuthLayout },
     { path: route.register, component: Register, layout: AuthLayout },
