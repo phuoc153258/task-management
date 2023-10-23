@@ -6,3 +6,5 @@ export * from './notification';
 export * from './admin/leaveRequest';
 export * from './admin/user';
 export * from './admin/role';
+export * from './task';
+export * from './project';
