@@ -30,7 +30,7 @@ const route = {
 
 export const leaveRequestGroup = [route.leaveRequest, route.admin.leaveRequest, route.admin.acceptLeaveRequest, route.admin.softDeleteLeaveRequest]
 
-export const taskGroup = [route.task, route.admin.task]
+export const taskGroup = [route.task, route.project, route.admin.task]
 
 export const userGroup = [route.admin.user, route.admin.softDeleteUser]
 
