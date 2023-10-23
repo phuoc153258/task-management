@@ -14,6 +14,12 @@ class TaskReportService {
             TASK_REPORT_ROUTER.index
         return fetch.post(uri, params);
     }
+
+    static delete(id: any) {
+        let uri =
+            TASK_REPORT_ROUTER.show + id
+        return fetch.delete(uri);
+    }
 }
 
 export default TaskReportService;

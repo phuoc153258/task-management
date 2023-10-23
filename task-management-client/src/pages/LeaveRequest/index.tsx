@@ -189,7 +189,6 @@ function LeaveRequest() {
                                                                         styles='bg-red-700 hover:bg-red-800 focus:ring-red-300'
                                                                         callback={() => {
                                                                             handleDeleteLeaveRequest(value.id)
-
                                                                         }}
                                                                         svg={<svg
                                                                             className="w-4 h-4 mr-2"
