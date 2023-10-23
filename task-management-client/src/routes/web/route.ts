@@ -7,7 +7,9 @@ const route = {
     password: '/password',
 
     leaveRequest: '/leave-request',
+
     task: '/task',
+    project: '/project',
 
     notification: '/notification',
 
