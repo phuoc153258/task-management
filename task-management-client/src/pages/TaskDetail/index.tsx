@@ -16,6 +16,9 @@ import FormTextArea from '../../components/FormControl/FormTextArea';
 import { useParams } from 'react-router-dom';
 import TaskReportService from '../../services/taskReport';
 import { convertToDate } from '../../helpers';
+import Button from '../../components/Button';
+import Modal from '../../components/Modal';
+import CreateTaskReport from './Modal/CreateTaskReport';
 
 const tableHeaders = ['ID', 'Title', 'Description', 'Status', 'Created at', 'Actions']
 
@@ -37,6 +40,9 @@ function TaskDetail() {
         last_page: 0,
         total: 0,
     });
+
+    const [showModalCreate, setShowModalCreate] = useState(false);
+
 
     const fetchTaskReports = async () => {
         try {
@@ -172,6 +178,14 @@ function TaskDetail() {
                                         }} />
                                     </div>
                                     <div className='flex gap-3'>
+                                        <Button
+                                            title={'Add task report'}
+                                            callback={() => {
+                                                setShowModalCreate(true)
+                                            }}
+                                            isDisabled={false}
+                                            styles={'bg-indigo-500 focus:ring-primary-300 rounded-lg'}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -241,6 +255,7 @@ function TaskDetail() {
                 </div>
             </div >
 
+            {showModalCreate && <Modal><CreateTaskReport setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} taskId={id} /></Modal>}
 
         </>
     );

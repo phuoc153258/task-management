@@ -8,6 +8,12 @@ class TaskReportService {
             `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&per_page=${paginate.per_page}&task_id=${task_id !== undefined ? task_id : ''}`;
         return fetch.get(uri);
     }
+
+    static create(params: any) {
+        let uri =
+            TASK_REPORT_ROUTER.index
+        return fetch.post(uri, params);
+    }
 }
 
 export default TaskReportService;

@@ -67,7 +67,7 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
-                        <FormLabel title={'Username'} />
+                        <FormLabel title={'Email'} />
                         <FormInput
                             type={'email'}
                             placeholder={`Your email`}
