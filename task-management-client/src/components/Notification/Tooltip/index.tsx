@@ -4,12 +4,15 @@ import TooltipHeading from './TooltipHeading';
 import TooltipFooter from './TooltipFooter';
 import TooltipItem from './TooltipItem';
 import NotificationService from '../../../services/notification';
+import Loading from '../../Loading';
 
 function Tooltip({ show }: any) {
     const [isFetchData, setIsFetchData] = useState(false)
     const [notifications, setNotifications] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const fetchData = async () => {
+        setIsLoading(true)
         try {
             const notificationResponse: any =
                 await NotificationService.index();
@@ -17,6 +20,7 @@ function Tooltip({ show }: any) {
         } catch (error) {
             console.log(error);
         }
+        setIsLoading(false)
     };
     useEffect(() => {
         fetchData();
@@ -32,13 +36,13 @@ function Tooltip({ show }: any) {
                     <ul>
                         <div className="max-w-[24rem]">
                             <TooltipHeading />
-                            <div className='overflow-auto h-[30rem]'>
+                            <div className='overflow-auto h-[24rem]'>
                                 {
                                     notifications.map((item: any, index: any) => {
                                         return <TooltipItem setIsFetchData={setIsFetchData} isFetchData={isFetchData} key={index} notification={{ ...item, data: item.data }} />
                                     })
                                 }
-
+                                {isLoading && <div className="flex items-center justify-center py-5 h-full"><Loading /></div>}
                             </div>
                             <TooltipFooter />
                         </div>
