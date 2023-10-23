@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from './Sidebar';
 import { isHaveRole } from '../../utils';
-import { ROLE_ADMIN, ROLE_LEADER, ROLE_MANAGER } from '../../constants/user';
+import { ROLE_ADMIN, } from '../../constants/user';
 import { useNavigate } from 'react-router-dom';
 import route from '../../routes/web/route';
 
@@ -15,7 +15,7 @@ const DefaultLayout = ({
     const navigate = useNavigate();
 
     useEffect(() => {
-        const isAuth = isHaveRole([ROLE_ADMIN, ROLE_MANAGER, ROLE_LEADER]);
+        const isAuth = isHaveRole([ROLE_ADMIN]);
         if (!isAuth) navigate(route.home);
     }, [navigate])
 

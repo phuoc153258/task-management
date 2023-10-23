@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LeaveRequestController;
 
-Route::group(['middleware' => ['auth:api', 'role:manager|admin']], function () {
+Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
     Route::get('/', [LeaveRequestController::class, 'index']);
 
     Route::get('/{id}', [LeaveRequestController::class, 'show']);

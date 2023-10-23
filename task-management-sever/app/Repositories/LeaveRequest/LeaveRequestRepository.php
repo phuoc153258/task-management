@@ -52,7 +52,7 @@ class LeaveRequestRepository implements LeaveRequestRepositoryInterface
     {
         $leaveRequest = LeaveRequest::with('leaveRequestType')->firstOrCreate($leaveRequestDetails);
 
-        $users = $this->adminUserRepository->getUsersHasRole([config('role.admin'), config('role.manager')]);
+        $users = $this->adminUserRepository->getUsersHasRole([config('role.admin')]);
         Notification::send($leaveRequest, new CreateLeaveRequestNotification($leaveRequest));
         foreach ($users as $value) {
             Notification::send($leaveRequest, new AdminCreateLeaveRequestNotification($leaveRequest, $value));

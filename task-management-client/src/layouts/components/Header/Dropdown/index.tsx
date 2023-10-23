@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import route from '../../../../routes/web/route';
 import { Logout, isHaveRole } from '../../../../utils';
 import { useStore } from '../../../../hooks';
 import { actions } from '../../../../store';
 import Item from './Item';
-import { ROLE_ADMIN, ROLE_LEADER, ROLE_MANAGER } from '../../../../constants/user';
+import { ROLE_ADMIN } from '../../../../constants/user';
 
 function Dropdown({ show }: any) {
     const navigate = useNavigate();
