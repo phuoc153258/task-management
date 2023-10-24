@@ -9,6 +9,18 @@ class TaskReportService {
         return fetch.get(uri);
     }
 
+    static show(id: any) {
+        let uri =
+            TASK_REPORT_ROUTER.show + id
+        return fetch.get(uri);
+    }
+
+    static update(id: any, params: any) {
+        let uri =
+            TASK_REPORT_ROUTER.show + id
+        return fetch.put(uri, params);
+    }
+
     static create(params: any) {
         let uri =
             TASK_REPORT_ROUTER.index

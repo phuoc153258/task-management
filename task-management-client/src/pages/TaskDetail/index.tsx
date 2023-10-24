@@ -20,6 +20,7 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import CreateTaskReport from './Modal/CreateTaskReport';
 import { toast } from 'react-toastify';
+import GetTaskReport from './Modal/GetTaskReport';
 
 const tableHeaders = ['ID', 'Title', 'Description', 'Status', 'Created at', 'Actions']
 
@@ -32,6 +33,7 @@ function TaskDetail() {
 
     const [task, setTask] = useState<any>({});
     const [taskReports, setTaskReports] = useState<any>([])
+    const [taskReport, setTaskReport] = useState<any>({});
 
     const [paginate, setPaginate] = useState({
         page: 1,
@@ -43,7 +45,7 @@ function TaskDetail() {
     });
 
     const [showModalCreate, setShowModalCreate] = useState(false);
-
+    const [showModalDetail, setShowModalDetail] = useState(false);
 
     const fetchTaskReports = async () => {
         try {
@@ -82,6 +84,16 @@ function TaskDetail() {
             }
         } catch (error) {
             toast('Delete leave request failed')
+        }
+    }
+
+    const getTaskReport = async (id: any) => {
+        try {
+            const taskResponse: any = await TaskReportService.show(id)
+            setTaskReport(taskResponse.data.data)
+            setShowModalDetail(true)
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -229,8 +241,7 @@ function TaskDetail() {
                                                                                 <TableButton
                                                                                     styles='bg-indigo-500 hover:bg-primary-800 focus:ring-primary-300'
                                                                                     callback={() => {
-                                                                                        // getLeaveRequest(value.id)
-
+                                                                                        getTaskReport(value.id)
                                                                                     }}
                                                                                     svg={<svg
                                                                                         className="w-4 h-4 mr-2"
@@ -288,7 +299,7 @@ function TaskDetail() {
             </div >
 
             {showModalCreate && <Modal><CreateTaskReport setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} taskId={id} /></Modal>}
-
+            {showModalDetail && <Modal><GetTaskReport setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} taskReport={taskReport} setTaskReport={setTaskReport} /></Modal>}
         </>
     );
 }
