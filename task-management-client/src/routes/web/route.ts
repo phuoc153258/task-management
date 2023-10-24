@@ -11,6 +11,7 @@ const route = {
     task: '/task',
     taskDetail: '/task/:id',
     project: '/project',
+    projectDetail: '/project/:id',
 
     notification: '/notification',
 

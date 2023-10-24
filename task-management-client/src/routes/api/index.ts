@@ -9,3 +9,4 @@ export * from './admin/role';
 export * from './task';
 export * from './project';
 export * from './taskReport';
+export * from './userProject';

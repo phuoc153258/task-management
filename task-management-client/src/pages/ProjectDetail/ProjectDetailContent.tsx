@@ -1,47 +1,43 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import ContentHeader from '../../components/ContentHeader';
-import TaskService from '../../services/task';
 import FormLabel from '../../components/FormControl/FormLabel';
 import FormInput from '../../components/FormControl/FormInput';
 import { TYPE_TEXT } from '../../constants/inputType';
-import FormTextArea from '../../components/FormControl/FormTextArea';
-import { useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
-import TaskReport from './TaskReport';
+import FormTextArea from '../../components/FormControl/FormTextArea';
+import ProjectService from '../../services/project';
 
-function TaskDetail() {
-    const { id } = useParams();
-
+function ProjectDetailContent({ projectId }: any) {
+    const [isFetchData, setIsFetchData] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
-    const [task, setTask] = useState<any>({});
 
-    const fetchTask = async () => {
+    const [project, setProject] = useState<any>({});
+
+    const fetchProject = async () => {
+        setIsLoading(true)
         try {
-            const tasksResponse: any = await TaskService.show(id);
-            setTask(tasksResponse.data.data)
+            const projectResponse: any = await ProjectService.show(projectId);
+            setProject(projectResponse.data.data)
         } catch (error) {
             console.log(error);
         }
-        setIsLoading(false)
-    }
+        setIsLoading(false);
+    };
 
     useEffect(() => {
-        fetchTask();
+        fetchProject();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [isFetchData]);
+    return <>
+        {isLoading && <div className="flex items-center justify-center py-10 bg-white"><Loading /></div>}
 
-    if (isLoading) return <><div className="flex items-center justify-center py-10 bg-white"><Loading /></div></>
-
-    return (
-        <>
-            <div className="grid grid-cols-1 gap-y-6 px-4">
+        {!isLoading &&
+            <div className="grid grid-cols-1 gap-y-6 px-4 min-h-[44rem]">
                 <div
-                    className="flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col mt-5"
+                    className="flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col mt-5 max-h-[18rem]"
                 >
                     <div className="flex h-full flex-col justify-center gap-4 p-6">
-                        <ContentHeader title={'Task Details'} />
-                        <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+                        <div className="m-6 grid grid-cols-1 gap-6 md:grid-cols-3 p-4">
                             <div className="col-span-1 grid grid-cols-1 gap-y-3">
                                 <div className="grid grid-cols-1">
                                     <FormLabel title='ID' />
@@ -49,7 +45,7 @@ function TaskDetail() {
                                         type={TYPE_TEXT}
                                         placeholder={'ID...'}
                                         readOnly={true}
-                                        value={task.id}
+                                        value={project.id}
                                     />
                                 </div>
                                 <div className="grid grid-cols-1">
@@ -58,27 +54,18 @@ function TaskDetail() {
                                         type={TYPE_TEXT}
                                         placeholder={'Title...'}
                                         readOnly={true}
-                                        value={task.title}
+                                        value={project.title}
                                     />
                                 </div>
+                            </div>
+                            <div className="col-span-1 grid grid-cols-1 gap-y-3">
                                 <div className="grid grid-cols-1">
                                     <FormLabel title='Status' />
                                     <FormInput
                                         type={TYPE_TEXT}
                                         placeholder={'Status...'}
                                         readOnly={true}
-                                        value={task.status_name}
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-span-1 grid grid-cols-1 gap-y-3">
-                                <div className="grid grid-cols-1">
-                                    <FormLabel title='Hours' />
-                                    <FormInput
-                                        type={TYPE_TEXT}
-                                        placeholder={'Hours...'}
-                                        readOnly={true}
-                                        value={task.hours}
+                                        value={project.status_name}
                                     />
                                 </div>
                                 <div className="grid grid-cols-1">
@@ -87,16 +74,7 @@ function TaskDetail() {
                                         type={TYPE_TEXT}
                                         placeholder={'Created by...'}
                                         readOnly={true}
-                                        value={task.created_by.username}
-                                    />
-                                </div>
-                                <div className="grid grid-cols-1">
-                                    <FormLabel title='Project' />
-                                    <FormInput
-                                        type={TYPE_TEXT}
-                                        placeholder={'Project...'}
-                                        readOnly={true}
-                                        value={task.project.title}
+                                        value={project.user.username}
                                     />
                                 </div>
                             </div>
@@ -104,18 +82,17 @@ function TaskDetail() {
                                 <FormLabel title='Description' />
                                 <FormTextArea
                                     placeholder={'Description...'}
-                                    value={task.description}
-                                    rows={8}
+                                    value={project.description}
+                                    rows={6}
                                     readOnly={true}
                                 />
                             </div>
                         </div>
-                        <TaskReport taskId={id} />
                     </div>
                 </div>
-            </div >
-        </>
-    );
+            </div>
+        }
+    </>;
 }
 
-export default TaskDetail;
+export default ProjectDetailContent;

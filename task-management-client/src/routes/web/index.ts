@@ -17,12 +17,14 @@ import TaskDetail from '../../pages/TaskDetail';
 import AuthLayout from '../../layouts/AuthLayout';
 import AdminLayout from '../../layouts/AdminLayout';
 import Project from '../../pages/Project';
+import ProjectDetail from '../../pages/ProjectDetail';
 
 const publicRoutes: any = [
     { path: route.leaveRequest, component: LeaveRequest, layout: DefaultLayout },
     { path: route.task, component: Task, layout: DefaultLayout },
     { path: route.taskDetail, component: TaskDetail, layout: DefaultLayout },
     { path: route.project, component: Project, layout: DefaultLayout },
+    { path: route.projectDetail, component: ProjectDetail, layout: DefaultLayout },
 
     { path: route.login, component: Login, layout: AuthLayout },
     { path: route.register, component: Register, layout: AuthLayout },

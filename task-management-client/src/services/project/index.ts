@@ -8,6 +8,11 @@ class ProjectService {
             `?search=${paginate.search}&sort=${paginate.sort}&page=${paginate.page}&per_page=${paginate.per_page}`;
         return fetch.get(uri);
     }
+    static show(id: any) {
+        let uri =
+            PROJECT_ROUTER.show + id
+        return fetch.get(uri);
+    }
 }
 
 export default ProjectService;
