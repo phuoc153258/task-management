@@ -48,9 +48,11 @@ function SoftDeleteLeaveRequest() {
 
     const handleRestoreLeaveRequest = async (id: any) => {
         try {
-            await LeaveRequestService.restore(id)
-            toast('Restore leave request success')
-            setIsFetchData(!isFetchData)
+            if (window.confirm('Restore this leave request')) {
+                await LeaveRequestService.restore(id)
+                toast('Restore leave request success')
+                setIsFetchData(!isFetchData)
+            }
         } catch (error) {
             toast('Restore leave request failed')
         }
@@ -58,9 +60,11 @@ function SoftDeleteLeaveRequest() {
 
     const handleForceLeaveRequest = async (id: any) => {
         try {
-            await LeaveRequestService.force(id)
-            toast('Force delete leave request success')
-            setIsFetchData(!isFetchData)
+            if (window.confirm('Restore this project')) {
+                await LeaveRequestService.force(id)
+                toast('Force delete leave request success')
+                setIsFetchData(!isFetchData)
+            }
         } catch (error) {
             toast('Force delete leave request failed')
         }
@@ -190,7 +194,7 @@ function SoftDeleteLeaveRequest() {
                                                                     <TableButton
                                                                         styles='bg-red-700 hover:bg-red-800 focus:ring-red-300'
                                                                         callback={() => {
-                                                                            handleRestoreLeaveRequest(value.id)
+                                                                            handleForceLeaveRequest(value.id)
                                                                         }}
                                                                         svg={<svg
                                                                             className="w-4 h-4 mr-2"

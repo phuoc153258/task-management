@@ -7,17 +7,19 @@ import Login from '../../pages/Login';
 import Register from '../../pages/Register';
 import Profile from '../../pages/Profile';
 import Password from '../../pages/Password';
-import AdminLeaveRequest from '../../pages/Admin/LeaveRequest';
-import AdminAcceptLeaveRequest from '../../pages/Admin/AcceptLeaveRequest';
-import AdminSoftDeleteLeaveRequest from '../../pages/Admin/SoftDeleteLeaveRequest';
-import AdminUser from '../../pages/Admin/User';
-import AdminSoftDeleteUser from '../../pages/Admin/SoftDeleteUser';
 import Task from '../../pages/Task';
 import TaskDetail from '../../pages/TaskDetail';
 import AuthLayout from '../../layouts/AuthLayout';
 import AdminLayout from '../../layouts/AdminLayout';
 import Project from '../../pages/Project';
 import ProjectDetail from '../../pages/ProjectDetail';
+import AdminProject from '../../pages/Admin/Project'
+import AdminSoftDeleteProject from '../../pages/Admin/SoftDeleteProject'
+import AdminLeaveRequest from '../../pages/Admin/LeaveRequest';
+import AdminAcceptLeaveRequest from '../../pages/Admin/AcceptLeaveRequest';
+import AdminSoftDeleteLeaveRequest from '../../pages/Admin/SoftDeleteLeaveRequest';
+import AdminUser from '../../pages/Admin/User';
+import AdminSoftDeleteUser from '../../pages/Admin/SoftDeleteUser';
 
 const publicRoutes: any = [
     { path: route.leaveRequest, component: LeaveRequest, layout: DefaultLayout },
@@ -39,7 +41,8 @@ const publicRoutes: any = [
     { path: route.admin.user, component: AdminUser, layout: AdminLayout },
     { path: route.admin.softDeleteUser, component: AdminSoftDeleteUser, layout: AdminLayout },
 
-    // { path: route.admin.task, component: AdminUser, layout: AdminLayout },
+    { path: route.admin.project, component: AdminProject, layout: AdminLayout },
+    { path: route.admin.softDeleteProject, component: AdminSoftDeleteProject, layout: AdminLayout },
 
 ];
 

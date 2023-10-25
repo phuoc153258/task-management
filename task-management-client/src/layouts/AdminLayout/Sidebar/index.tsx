@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import SidebarItem from '../../components/Sidebar/SidebarItem';
-import route, { LEAVE_REQUEST, TASK, USER } from '../../../routes/web/route';
+import route, { LEAVE_REQUEST, PROJECT, TASK, USER } from '../../../routes/web/route';
 import { useLocation } from 'react-router-dom';
 
 function Sidebar() {
@@ -18,7 +18,7 @@ function Sidebar() {
                         <div className="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                             <ul className="pb-2 space-y-2">
                                 <SidebarItem url={route.admin.leaveRequest} title={`Leave request`} active={location[2] === LEAVE_REQUEST} />
-                                <SidebarItem url={route.admin.task} title={"Task"} active={location[2] === TASK} />
+                                <SidebarItem url={route.admin.project} title={"Project"} active={location[2] === TASK || location[2] === PROJECT} />
                                 <SidebarItem url={route.admin.user} title={"User"} active={location[2] === USER} />
                             </ul>
                         </div>

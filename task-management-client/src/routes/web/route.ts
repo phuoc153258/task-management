@@ -25,9 +25,10 @@ const route = {
         user: '/admin/user',
         softDeleteUser: '/admin/user/soft-delete',
 
+        project: '/admin/project',
+        softDeleteProject: '/admin/project/soft-delete',
         task: '/admin/task',
     }
-
 };
 
 export const LEAVE_REQUEST = 'leave-request'

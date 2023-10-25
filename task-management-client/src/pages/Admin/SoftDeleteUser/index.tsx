@@ -15,6 +15,7 @@ import PaginateFooter from '../../../components/Paginate/PaginateFooter';
 import ContentHeader from '../../../components/ContentHeader';
 import Modal from '../../../components/Modal';
 import DetailUser from './Modal/DetailUser';
+import { toast } from 'react-toastify';
 
 const tableHeaders = ['ID', 'Username', 'Fullname', 'Email', 'Actions']
 
@@ -70,6 +71,30 @@ function SoftDeleteUser() {
             console.log(error);
         }
     };
+
+    const handleRestoreUser = async (id: any) => {
+        try {
+            if (window.confirm('Restore this project')) {
+                await UserService.restore(id)
+                toast('Restore project success')
+                setIsFetchData(!isFetchData)
+            }
+        } catch (error) {
+            toast('Restore project failed')
+        }
+    }
+
+    const handleForceUser = async (id: any) => {
+        try {
+            if (window.confirm('Force delete this project')) {
+                await UserService.force(id)
+                toast('Force delete project success')
+                setIsFetchData(!isFetchData)
+            }
+        } catch (error) {
+            toast('Force delete project failed')
+        }
+    }
 
     useEffect(() => {
         const isAuth = isHaveRole([ROLE_ADMIN]);
@@ -150,7 +175,7 @@ function SoftDeleteUser() {
                                                                     <TableButton
                                                                         styles='bg-lime-500 hover:bg-primary-800 focus:ring-primary-300'
                                                                         callback={() => {
-                                                                            // handleRestoreLeaveRequest(value.id)
+                                                                            handleRestoreUser(value.id)
 
                                                                         }}
                                                                         svg={<svg
@@ -171,7 +196,7 @@ function SoftDeleteUser() {
                                                                     <TableButton
                                                                         styles='bg-red-700 hover:bg-red-800 focus:ring-red-300'
                                                                         callback={() => {
-                                                                            // handleRestoreLeaveRequest(value.id)
+                                                                            handleForceUser(value.id)
                                                                         }}
                                                                         svg={<svg
                                                                             className="w-4 h-4 mr-2"

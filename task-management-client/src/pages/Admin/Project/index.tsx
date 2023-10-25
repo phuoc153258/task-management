@@ -1,24 +1,28 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import ContentHeader from '../../components/ContentHeader';
-import PaginateSearch from '../../components/Paginate/PaginateSearch';
-import Button from '../../components/Button';
-import PaginateSort from '../../components/Paginate/PaginateSort';
-import Loading from '../../components/Loading';
-import Table from '../../components/Table';
-import TableButton from '../../components/Table/TableButton';
-import TableData from '../../components/Table/TableData';
-import PaginateFooter from '../../components/Paginate/PaginateFooter';
-import { convertToDate } from '../../helpers';
-import Modal from '../../components/Modal';
-import CreateTaskReport from './Modal/CreateTaskReport';
-import GetTaskReport from './Modal/GetTaskReport';
-import TaskReportService from '../../services/taskReport';
+import ContentHeader from '../../../components/ContentHeader';
+import PaginateSearch from '../../../components/Paginate/PaginateSearch';
+import PaginateSort from '../../../components/Paginate/PaginateSort';
+import Table from '../../../components/Table';
+import TableData from '../../../components/Table/TableData';
+import FormLink from '../../../components/FormControl/FormLink';
+import route from '../../../routes/web/route';
+import Loading from '../../../components/Loading';
+import PaginateFooter from '../../../components/Paginate/PaginateFooter';
+import ProjectService from '../../../services/admin/project';
+import Button from '../../../components/Button';
+import Modal from '../../../components/Modal';
+import CreateProject from './Modal/CreateProject';
+import TableButton from '../../../components/Table/TableButton';
 import { toast } from 'react-toastify';
 
-const tableHeaders = ['ID', 'Title', 'Description', 'Status', 'Created at', 'Actions']
+const tableHeaders = ['ID', 'Title', 'Description', 'Created by', 'Actions']
 
-function TaskReport({ taskId }: any) {
+function Project() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFetchData, setIsFetchData] = useState<any>(false);
+
+    const [projects, setProjects] = useState([]);
 
     const [paginate, setPaginate] = useState({
         page: 1,
@@ -27,27 +31,22 @@ function TaskReport({ taskId }: any) {
         sort: '',
         last_page: 0,
         total: 0,
+        soft_delete: 1
     });
+    const [showModalCreate, setShowModalCreate] = useState(false)
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [isFetchData, setIsFetchData] = useState<any>(false);
 
-    const [showModalCreate, setShowModalCreate] = useState(false);
-    const [showModalDetail, setShowModalDetail] = useState(false);
-    const [taskReports, setTaskReports] = useState<any>([])
-    const [taskReport, setTaskReport] = useState<any>({});
-
-    const fetchTaskReports = async () => {
+    const fetchProject = async () => {
         try {
             setIsLoading(true);
-            const taskReportsResponse: any = await TaskReportService.index(paginate, taskId);
-            setTaskReports(taskReportsResponse.data.data.data);
+            const projectResponse: any = await ProjectService.index(paginate);
+            setProjects(projectResponse.data.data.data);
             setPaginate({
                 ...paginate,
-                page: taskReportsResponse.data.data.current_page,
-                last_page: taskReportsResponse.data.data.last_page,
-                per_page: taskReportsResponse.data.data.per_page,
-                total: taskReportsResponse.data.data.total,
+                page: projectResponse.data.data.current_page,
+                last_page: projectResponse.data.data.last_page,
+                per_page: projectResponse.data.data.per_page,
+                total: projectResponse.data.data.total,
             });
             setIsLoading(false);
         } catch (error) {
@@ -55,39 +54,28 @@ function TaskReport({ taskId }: any) {
         }
     };
 
-    const handleDeleteTaskReport = async (taskReportId: any) => {
+    const handleDeleteProject = async (id: any) => {
         try {
-            if (window.confirm('Delete this task report')) {
-                await TaskReportService.delete(taskReportId)
+            if (window.confirm('Delete this project')) {
+                await ProjectService.delete(id)
                 setIsFetchData(!isFetchData);
-                toast('Delete task report success');
+                toast('Delete project success');
             }
         } catch (error) {
-            toast('Delete task report failed')
-        }
-    }
-
-    const getTaskReport = async (id: any) => {
-        try {
-            const taskResponse: any = await TaskReportService.show(id)
-            setTaskReport(taskResponse.data.data)
-            setShowModalDetail(true)
-        } catch (error) {
-            console.log(error)
+            toast('Delete project failed')
         }
     }
 
     useEffect(() => {
-        fetchTaskReports()
+        fetchProject();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFetchData]);
 
-
     return (
         <>
-            <div className="py-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
                 <div className="w-full mb-1">
-                    <ContentHeader title={'Task reports'} />
+                    <ContentHeader title={'Projects'} />
                     <div className="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                         <div className="flex items-center mb-4 sm:mb-0">
                             <PaginateSearch callback={(e: any) => {
@@ -105,14 +93,19 @@ function TaskReport({ taskId }: any) {
                                 });
                             }} />
                         </div>
-                        <div className='flex gap-3'>
+                        <div className='flex gap-3 w-[22rem]'>
+                            <FormLink
+                                route={route.admin.softDeleteProject}
+                                styles={'w-full bg-indigo-500 focus:ring-primary-300 px!-3 py!-2 font-medium rounded-lg'}
+                                title={'Soft delete project'}
+                            />
                             <Button
-                                title={'Add task report'}
+                                title={'Add project'}
                                 callback={() => {
-                                    setShowModalCreate(true)
+                                    setShowModalCreate(true);
                                 }}
                                 isDisabled={false}
-                                styles={'bg-indigo-500 focus:ring-primary-300 rounded-lg'}
+                                styles={'bg-indigo-500 focus:ring-primary-300 px-3 py-2 rounded-lg'}
                             />
                         </div>
                     </div>
@@ -128,7 +121,7 @@ function TaskReport({ taskId }: any) {
                                     <>
                                         {!isLoading && (
                                             <>
-                                                {taskReports.map(
+                                                {projects.map(
                                                     (value: any, index: any) => {
                                                         return (
                                                             <tr
@@ -138,33 +131,18 @@ function TaskReport({ taskId }: any) {
                                                                 <TableData data={value.id} />
                                                                 <TableData data={value.title} />
                                                                 <TableData data={value.description} />
-                                                                <TableData data={value.status_name} />
-                                                                <TableData data={convertToDate(value.created_at)} />
+                                                                <TableData data={value.user.username} />
                                                                 <td className="p-4 space-x-2 whitespace-nowrap">
-                                                                    <TableButton
+                                                                    <FormLink
                                                                         styles='bg-indigo-500 hover:bg-primary-800 focus:ring-primary-300'
-                                                                        callback={() => {
-                                                                            getTaskReport(value.id)
-                                                                        }}
-                                                                        svg={<svg
-                                                                            className="w-4 h-4 mr-2"
-                                                                            fill="currentColor"
-                                                                            viewBox="0 0 20 20"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                        >
-                                                                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                                                                            <path
-                                                                                fillRule="evenodd"
-                                                                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                                                                                clipRule="evenodd"
-                                                                            />
-                                                                        </svg>}
+                                                                        route={route.project + '/' + value.id}
                                                                         title={`Details`}
                                                                     />
                                                                     <TableButton
                                                                         styles='bg-red-700 hover:bg-red-800 focus:ring-red-300'
                                                                         callback={() => {
-                                                                            handleDeleteTaskReport(value.id)
+                                                                            handleDeleteProject(value.id)
+
                                                                         }}
                                                                         svg={<svg
                                                                             className="w-4 h-4 mr-2"
@@ -197,11 +175,10 @@ function TaskReport({ taskId }: any) {
             </div>
 
             <PaginateFooter paginate={paginate} setPaginate={setPaginate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} />
+            {showModalCreate && <Modal><CreateProject setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} /></Modal>}
 
-            {showModalCreate && <Modal><CreateTaskReport setShowModal={setShowModalCreate} isFetchData={isFetchData} setIsFetchData={setIsFetchData} taskId={taskId} /></Modal>}
-            {showModalDetail && <Modal><GetTaskReport setShowModal={setShowModalDetail} isFetchData={isFetchData} setIsFetchData={setIsFetchData} taskReport={taskReport} setTaskReport={setTaskReport} /></Modal>}
         </>
     );
 }
 
-export default TaskReport;
+export default Project;

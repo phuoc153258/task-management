@@ -45,6 +45,18 @@ class UserService {
         return fetch.get(uri);
     }
 
+    static restore(id: any) {
+        let uri =
+            ADMIN_USER_ROUTER.show + id + '/restore'
+        return fetch.patch(uri);
+    }
+
+    static force(id: any) {
+        let uri =
+            ADMIN_USER_ROUTER.show + id + '/force'
+        return fetch.delete(uri);
+    }
+
 }
 
 export default UserService;

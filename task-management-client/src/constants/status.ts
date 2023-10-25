@@ -12,3 +12,14 @@ export const TASK_STATUS = [
         value: 2
     }
 ]
+
+export const PROJECT_STATUS = [
+    {
+        name: 'Open',
+        value: 1
+    },
+    {
+        name: 'Close',
+        value: 2
+    }
+]
