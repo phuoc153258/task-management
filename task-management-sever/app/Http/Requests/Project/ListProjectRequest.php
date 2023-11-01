@@ -29,7 +29,6 @@ class ListProjectRequest extends FormRequest
             'sort' => $this->input('sort') === null ? config('paginate.default.sort') : $this->input('sort'),
             'search_by' =>  $this->input('search_by') === null ? config('paginate.project.search_by') : $this->input('search_by'),
             'sort_by' =>  $this->input('sort_by') === null ? config('paginate.project.sort_by') : $this->input('sort_by'),
-            'soft_delete' =>  $this->input('soft_delete') === null ? config('paginate.default.soft_delete') : (int) $this->input('soft_delete'),
         ]);
     }
 
@@ -54,11 +53,6 @@ class ListProjectRequest extends FormRequest
                 'nullable',
                 'string',
                 Rule::in(Project::getFields()),
-            ],
-            'soft_delete' => [
-                'nullable',
-                'numeric',
-                Rule::in(SoftDeleteStatus::cases()),
             ],
         ];
     }

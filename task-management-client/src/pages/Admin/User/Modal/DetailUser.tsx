@@ -74,7 +74,7 @@ function DetailUser({ setShowModal, isFetchData, setIsFetchData, roles, user }: 
                     </div>
                     <div className="w-[60%]">
                         <div className="mb-6 w-full">
-                            <FormLabel title={'Username'} />
+                            <FormLabel title={'Username*'} />
                             <FormInput
                                 type={TYPE_TEXT}
                                 placeholder={'Username...'}
@@ -86,7 +86,7 @@ function DetailUser({ setShowModal, isFetchData, setIsFetchData, roles, user }: 
                             />
                         </div>
                         <div className="mb-6 w-full">
-                            <FormLabel title={'Fullname'} />
+                            <FormLabel title={'Fullname*'} />
                             <FormInput
                                 type={TYPE_TEXT}
                                 placeholder={'Fullname...'}
@@ -98,7 +98,7 @@ function DetailUser({ setShowModal, isFetchData, setIsFetchData, roles, user }: 
                             />
                         </div>
                         <div className="mb-6 w-full">
-                            <FormLabel title={'Email'} />
+                            <FormLabel title={'Email*'} />
                             <FormInput
                                 type={TYPE_EMAIL}
                                 placeholder={'Email...'}

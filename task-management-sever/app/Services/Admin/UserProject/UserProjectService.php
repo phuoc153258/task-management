@@ -15,6 +15,11 @@ class UserProjectService implements UserProjectServiceInterface
         return $this->userProjectRepository->list($options, $project_id);
     }
 
+    public function list($project_id)
+    {
+        return $this->userProjectRepository->getAll($project_id);
+    }
+
     public function create($project_id, $user_id)
     {
         return $this->userProjectRepository->create($project_id, $user_id);
@@ -25,24 +30,6 @@ class UserProjectService implements UserProjectServiceInterface
         $userProject = $this->userProjectRepository->isJoined($project_id, $user_id);
         if (!$userProject) abort(400, trans('base.base-failed'));
         $userProject->delete();
-
-        return $userProject;
-    }
-
-    public function restore($project_id, $user_id)
-    {
-        $userProject = $this->userProjectRepository->isJoined($project_id, $user_id);
-        if (!$userProject) abort(400, trans('base.base-failed'));
-        $userProject->restore();
-
-        return $userProject;
-    }
-
-    public function force($project_id, $user_id)
-    {
-        $userProject = $this->userProjectRepository->isJoined($project_id, $user_id);
-        if (!$userProject) abort(400, trans('base.base-failed'));
-        $userProject->forceDelete();
 
         return $userProject;
     }

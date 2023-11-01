@@ -52,7 +52,7 @@ class AdminCreateTaskNotification extends Notification implements ShouldQueue
         return [
             'user_task' => $this->task->user,
             'task' => $this->task,
-            'admin' => $this->user
+            'user' => $this->user
         ];
     }
 }

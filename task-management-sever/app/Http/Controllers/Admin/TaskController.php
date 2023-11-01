@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Task\ListTaskRequest;
 use App\Http\Requests\Task\CreateTaskRequest;
-use App\Http\Requests\Task\ListTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\TaskResource;

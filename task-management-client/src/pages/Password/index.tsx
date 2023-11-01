@@ -39,7 +39,7 @@ function Password() {
     return (
         <div className="">
             <div className="mb-6 w-full">
-                <FormLabel title={'Old password'} />
+                <FormLabel title={'Old password*'} />
                 <FormInput
                     type={TYPE_PASSWORD}
                     placeholder={'Old password...'}
@@ -49,7 +49,7 @@ function Password() {
                     }} />
             </div>
             <div className="mb-6 w-full">
-                <FormLabel title={'New password'} />
+                <FormLabel title={'New password*'} />
                 <FormInput
                     type={TYPE_PASSWORD}
                     placeholder={'New password...'}
@@ -59,7 +59,7 @@ function Password() {
                     }} />
             </div>
             <div className="mb-6 w-full">
-                <FormLabel title={'Confim password'} />
+                <FormLabel title={'Confim password*'} />
                 <FormInput
                     type={TYPE_PASSWORD}
                     placeholder={'Confim password...'}

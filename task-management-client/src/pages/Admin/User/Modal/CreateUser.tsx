@@ -42,7 +42,7 @@ function CreateUser({ setShowModal, isFetchData, setIsFetchData, roles }: any) {
             <ModalHeading title={'Add user'} callback={() => setShowModal(false)} />
             <div className="p-6 space-y-6">
                 <div className="mb-6 w-full">
-                    <FormLabel title={'Username'} />
+                    <FormLabel title={'Username*'} />
                     <FormInput
                         type={TYPE_TEXT}
                         placeholder={'Username...'}
@@ -53,7 +53,7 @@ function CreateUser({ setShowModal, isFetchData, setIsFetchData, roles }: any) {
                         }} />
                 </div>
                 <div className="mb-6 w-full">
-                    <FormLabel title={'Fullname'} />
+                    <FormLabel title={'Fullname*'} />
                     <FormInput
                         type={TYPE_TEXT}
                         placeholder={'Fullname...'}
@@ -64,7 +64,7 @@ function CreateUser({ setShowModal, isFetchData, setIsFetchData, roles }: any) {
                         }} />
                 </div>
                 <div className="mb-6 w-full">
-                    <FormLabel title={'Email'} />
+                    <FormLabel title={'Email*'} />
                     <FormInput
                         type={TYPE_EMAIL}
                         placeholder={'Email...'}
@@ -75,7 +75,7 @@ function CreateUser({ setShowModal, isFetchData, setIsFetchData, roles }: any) {
                         }} />
                 </div>
                 <div className="mb-6 w-full">
-                    <FormLabel title={'Password'} />
+                    <FormLabel title={'Password*'} />
                     <FormInput
                         type={TYPE_PASSWORD}
                         placeholder={'Password...'}
@@ -86,7 +86,7 @@ function CreateUser({ setShowModal, isFetchData, setIsFetchData, roles }: any) {
                         }} />
                 </div>
                 <div className="mb-6 w-full">
-                    <FormLabel title={'Confirm password'} />
+                    <FormLabel title={'Confirm password*'} />
                     <FormInput
                         type={TYPE_PASSWORD}
                         placeholder={'Confirm password...'}

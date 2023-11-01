@@ -59,7 +59,7 @@ function GetTaskReport({ setShowModal, isFetchData, setIsFetchData, taskReport, 
                     />
                 </div>
                 <div className="mb-6">
-                    <FormLabel title={`Status`} />
+                    <FormLabel title={`Status*`} />
                     <FormSelect
                         callback={(e: any) => {
                             setTaskReport({ ...taskReport, status: parseInt(e.target.value) })

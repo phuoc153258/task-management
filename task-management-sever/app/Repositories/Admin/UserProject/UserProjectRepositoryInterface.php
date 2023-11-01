@@ -6,6 +6,8 @@ interface UserProjectRepositoryInterface
 {
     public function list($options, $project_id);
 
+    public function getAll($project_id);
+
     public function getById(int $id, $project_id);
 
     public function isJoined($project_id, $user_id);

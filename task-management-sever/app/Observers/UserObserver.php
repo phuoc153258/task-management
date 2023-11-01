@@ -40,8 +40,6 @@ class UserObserver
     public function deleted(User $user): void
     {
         $this->leaveRequestRepository->deleteMany($user->id);
-        $this->userProjectRepository->deleteMany($user->id);
-        // $this->taskRepository->deleteMany($user->id);
     }
 
     /**
@@ -50,8 +48,6 @@ class UserObserver
     public function restored(User $user): void
     {
         $this->leaveRequestRepository->restoreMany($user->id);
-        $this->userProjectRepository->restoreMany($user->id);
-        // $this->taskRepository->restoreMany($user->id);
     }
 
     /**
@@ -60,7 +56,6 @@ class UserObserver
     public function forceDeleted(User $user): void
     {
         $this->leaveRequestRepository->forceMany($user->id);
-        $this->userProjectRepository->forceMany($user->id);
-        // $this->taskRepository->forceMany($user->id);
+        $this->userProjectRepository->deleteMany($user->id);
     }
 }

@@ -26,8 +26,10 @@ const route = {
         softDeleteUser: '/admin/user/soft-delete',
 
         project: '/admin/project',
+        projectDetail: '/admin/project/:id',
         softDeleteProject: '/admin/project/soft-delete',
         task: '/admin/task',
+        taskDetail: '/admin/task/:id',
     }
 };
 

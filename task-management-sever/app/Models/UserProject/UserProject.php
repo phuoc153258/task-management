@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserProject extends Model
 {
-    use HasFactory, Fillable, SoftDeletes, UserProjectAttribute, UserProjectRelationship, UserProjectScope;
+    use HasFactory, Fillable, UserProjectAttribute, UserProjectRelationship, UserProjectScope;
 
     protected $fillable = [
         'user_id',

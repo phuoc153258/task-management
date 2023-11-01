@@ -135,7 +135,7 @@ function Project() {
                                                                 <td className="p-4 space-x-2 whitespace-nowrap">
                                                                     <FormLink
                                                                         styles='bg-indigo-500 hover:bg-primary-800 focus:ring-primary-300'
-                                                                        route={route.project + '/' + value.id}
+                                                                        route={route.admin.project + '/' + value.id}
                                                                         title={`Details`}
                                                                     />
                                                                     <TableButton

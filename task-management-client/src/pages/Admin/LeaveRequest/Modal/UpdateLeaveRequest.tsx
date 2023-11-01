@@ -56,7 +56,7 @@ function UpdateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                     <DatePicker date={new Date(leaveRequest.leave_registration_date)} callback={(date: any) => setLeaveRequest({ ...leaveRequest, leave_registration_date: date })} />
                 </div>
                 <div className="mb-6">
-                    <FormLabel title={`Content`} />
+                    <FormLabel title={`Content*`} />
                     <FormTextArea
                         placeholder={'Content...'}
                         callback={(e: any) => setLeaveRequest({ ...leaveRequest, content: e.target.value })}

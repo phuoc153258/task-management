@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateUserRequest;
+use App\Http\Requests\Admin\User\GetAllUserRequest;
+use App\Http\Requests\Admin\User\ListUserRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Http\Requests\Admin\User\UploadAvatarUserRequest;
-use App\Http\Requests\User\ListUserRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\Admin\UserResource;
 use App\Services\Admin\User\UserService;
@@ -119,10 +120,10 @@ class UserController extends Controller
         }
     }
 
-    public function list()
+    public function list(GetAllUserRequest $request)
     {
         try {
-            $userResponse = $this->userService->list();
+            $userResponse = $this->userService->list($request->validated());
 
             return $this->success($userResponse, trans('user.get-list-user-success'), 200);
         } catch (\Throwable $th) {

@@ -61,7 +61,7 @@ function CreateLeaveRequest({ setShowModal, leaveRequestTypes, isFetchData, setI
                 </div>
 
                 <div className="mb-6">
-                    <FormLabel title={`Content`} />
+                    <FormLabel title={`Content*`} />
                     <FormTextArea
                         placeholder={`Content...`}
                         callback={(e: any) => {

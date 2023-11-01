@@ -52,7 +52,7 @@ function Task({ projectId }: any) {
     }, [isFetchData]);
     return (
         <>
-            <div className="items-center justify-between block sm:flex md:divide-x mb-4">
+            <div className="items-center justify-between block sm:flex md:divide-x mb-4 p-4">
                 <div className="flex items-center mb-4 sm:mb-0">
                     <PaginateSearch callback={(e: any) => {
                         setIsFetchData(!isFetchData);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ENV } from '../../../../config';
-import { NOTIFICATION_ADMIN_CREATE_LEAVE_REQUEST, NOTIFICATION_ADMIN_REGISTER_USER, NOTIFICATION_CREATE_LEAVE_REQUEST, NOTIFICATION_REGISTER_USER } from '../../../../constants/notification';
+import { NOTIFICATION_ADMIN_CREATE_LEAVE_REQUEST, NOTIFICATION_ADMIN_CREATE_TASK, NOTIFICATION_ADMIN_REGISTER_USER, NOTIFICATION_CREATE_LEAVE_REQUEST, NOTIFICATION_CREATE_TASK, NOTIFICATION_REGISTER_USER } from '../../../../constants/notification';
 import { convertToDate } from '../../../../helpers';
 import NotificationService from '../../../../services/notification';
 
@@ -53,7 +53,21 @@ function TooltipItem({ notification, setIsFetchData, isFetchData }: any) {
                     {
                         notification.type === NOTIFICATION_ADMIN_CREATE_LEAVE_REQUEST &&
                         <div className={`mb-1.5 text-base font-normal text-gray-800`}>
-                            User {notification.data.user.username} has just created a leave request #{notification.data.leave_request.id}
+                            User {notification.data.user.username} has just created a leave request #{notification.data.task.id}
+                        </div>
+                    }
+
+                    {
+                        notification.type === NOTIFICATION_CREATE_TASK &&
+                        <div className={`mb-1.5 text-base font-normal text-gray-800`}>
+                            You has just received a task #{notification.data.task.id}
+                        </div>
+                    }
+
+                    {
+                        notification.type === NOTIFICATION_ADMIN_CREATE_TASK &&
+                        <div className={`mb-1.5 text-base font-normal text-gray-800`}>
+                            User {notification.data.user.username} has just received a task #{notification.data.task.id}
                         </div>
                     }
 

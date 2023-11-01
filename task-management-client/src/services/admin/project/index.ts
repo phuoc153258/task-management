@@ -16,6 +16,12 @@ class ProjectService {
         return fetch.get(uri);
     }
 
+    static update(params: any, id: any) {
+        let uri =
+            ADMIN_PROJECT_ROUTER.show + id
+        return fetch.put(uri, params);
+    }
+
     static create(params: any) {
         let uri =
             ADMIN_PROJECT_ROUTER.index

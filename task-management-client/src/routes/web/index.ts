@@ -14,12 +14,14 @@ import AdminLayout from '../../layouts/AdminLayout';
 import Project from '../../pages/Project';
 import ProjectDetail from '../../pages/ProjectDetail';
 import AdminProject from '../../pages/Admin/Project'
+import AdminProjectDetail from '../../pages/Admin/ProjectDetail'
 import AdminSoftDeleteProject from '../../pages/Admin/SoftDeleteProject'
 import AdminLeaveRequest from '../../pages/Admin/LeaveRequest';
 import AdminAcceptLeaveRequest from '../../pages/Admin/AcceptLeaveRequest';
 import AdminSoftDeleteLeaveRequest from '../../pages/Admin/SoftDeleteLeaveRequest';
 import AdminUser from '../../pages/Admin/User';
 import AdminSoftDeleteUser from '../../pages/Admin/SoftDeleteUser';
+import AdminTaskDetail from '../../pages/Admin/TaskDetail';
 
 const publicRoutes: any = [
     { path: route.leaveRequest, component: LeaveRequest, layout: DefaultLayout },
@@ -42,7 +44,10 @@ const publicRoutes: any = [
     { path: route.admin.softDeleteUser, component: AdminSoftDeleteUser, layout: AdminLayout },
 
     { path: route.admin.project, component: AdminProject, layout: AdminLayout },
+    { path: route.admin.projectDetail, component: AdminProjectDetail, layout: AdminLayout },
     { path: route.admin.softDeleteProject, component: AdminSoftDeleteProject, layout: AdminLayout },
+
+    { path: route.admin.taskDetail, component: AdminTaskDetail, layout: AdminLayout },
 
 ];
 

@@ -55,7 +55,7 @@ function Profile() {
 
                 </div>
                 <div className="mb-6">
-                    <FormLabel title={'Fullname'} />
+                    <FormLabel title={'Fullname*'} />
                     <FormInput
                         type={TYPE_TEXT}
                         placeholder={'Fullname...'}
@@ -67,7 +67,7 @@ function Profile() {
                     />
                 </div>
                 <div className="mb-6">
-                    <FormLabel title={'Email'} />
+                    <FormLabel title={'Email*'} />
                     <FormInput
                         type={TYPE_TEXT}
                         placeholder={'Email...'}

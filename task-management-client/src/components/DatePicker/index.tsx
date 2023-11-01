@@ -4,9 +4,9 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-const DatePicker = ({ date, callback }: any) => {
+const DatePicker = ({ date, callback, readOnly = false }: any) => {
     return (
-        <ReactDatePicker selected={date} onChange={callback} dateFormat="yyyy-MM-dd" />
+        <ReactDatePicker selected={date} onChange={callback} dateFormat="yyyy-MM-dd" readOnly={readOnly} />
     );
 };
 

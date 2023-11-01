@@ -29,6 +29,17 @@ class UserProjectController extends Controller
         }
     }
 
+    public function list($project_id)
+    {
+        try {
+            $userProjectResponse = $this->userProjectService->list($project_id);
+
+            return $this->success(UserProjectResource::collection($userProjectResponse), trans('base.base-success'));
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), trans('base.base-failed'));
+        }
+    }
+
     public function create($project_id, $user_id)
     {
         try {
@@ -44,28 +55,6 @@ class UserProjectController extends Controller
     {
         try {
             $userProjectResponse = $this->userProjectService->delete($project_id, $user_id);
-
-            return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
-        }
-    }
-
-    public function restore($project_id, $user_id)
-    {
-        try {
-            $userProjectResponse = $this->userProjectService->restore($project_id, $user_id);
-
-            return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage(), trans('base.base-failed'));
-        }
-    }
-
-    public function force($project_id, $user_id)
-    {
-        try {
-            $userProjectResponse = $this->userProjectService->force($project_id, $user_id);
 
             return $this->success(new UserProjectResource($userProjectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {

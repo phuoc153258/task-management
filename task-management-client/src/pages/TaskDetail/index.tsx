@@ -9,6 +9,7 @@ import FormTextArea from '../../components/FormControl/FormTextArea';
 import { useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import TaskReport from './TaskReport';
+import DatePicker from '../../components/DatePicker';
 
 function TaskDetail() {
     const { id } = useParams();
@@ -101,11 +102,15 @@ function TaskDetail() {
                                 </div>
                             </div>
                             <div className="col-span-1 grid grid-cols-1 gap-y-2">
+                                <div className="grid grid-cols-1">
+                                    <FormLabel title='Project' />
+                                    <DatePicker date={new Date(task.start_date)} readOnly={true} />
+                                </div>
                                 <FormLabel title='Description' />
                                 <FormTextArea
                                     placeholder={'Description...'}
                                     value={task.description}
-                                    rows={8}
+                                    rows={4}
                                     readOnly={true}
                                 />
                             </div>

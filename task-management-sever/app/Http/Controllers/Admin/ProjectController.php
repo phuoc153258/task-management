@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Project\CreateProjectRequest;
+use App\Http\Requests\Admin\Project\ListProjectRequest;
 use App\Http\Requests\Admin\Project\UpdateProjectUser;
-use App\Http\Requests\Project\ListProjectRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\ProjectResource;
 use App\Services\Admin\Project\ProjectService;
@@ -36,7 +36,7 @@ class ProjectController extends Controller
         try {
             $projectResponse = $this->projectService->show($id);
 
-            return $this->success($projectResponse, trans('base.base-success'), 200);
+            return $this->success(new ProjectResource($projectResponse), trans('base.base-success'), 200);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), trans('base.base-failed'));
         }

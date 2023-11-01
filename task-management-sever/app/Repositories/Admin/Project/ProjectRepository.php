@@ -31,7 +31,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function show($id)
     {
-        return Project::withTrashed()->findOrFail($id);
+        return Project::withTrashed()->with('user')->findOrFail($id);
     }
 
     public function create($projectDetails)

@@ -53,7 +53,7 @@ function Register() {
             <div className="m-6">
                 <form className="mb-4">
                     <div className="mb-4">
-                        <FormLabel title={'Username'} />
+                        <FormLabel title={'Username*'} />
                         <FormInput
                             type={'text'}
                             placeholder={`Your username`}
@@ -67,7 +67,7 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
-                        <FormLabel title={'Email'} />
+                        <FormLabel title={'Email*'} />
                         <FormInput
                             type={'email'}
                             placeholder={`Your email`}
@@ -81,7 +81,7 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
-                        <FormLabel title={'Fullname'} />
+                        <FormLabel title={'Fullname*'} />
                         <FormInput
                             type={'text'}
                             placeholder={`Your fullname`}
@@ -95,7 +95,7 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
-                        <FormLabel title={'Password'} />
+                        <FormLabel title={'Password*'} />
                         <FormInput
                             type={'password'}
                             placeholder={`Password...`}
@@ -109,7 +109,7 @@ function Register() {
                         />
                     </div>
                     <div className="mb-4">
-                        <FormLabel title={'Confirm password'} />
+                        <FormLabel title={'Confirm password*'} />
                         <FormInput
                             type={'password'}
                             placeholder={`Confirm password...`}

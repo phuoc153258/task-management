@@ -41,7 +41,7 @@ function CreateProject({ setShowModal, isFetchData, setIsFetchData }: any) {
             <ModalHeading title={`Add project`} callback={() => setShowModal(false)} />
             <div className="p-6 space-y-6">
                 <div className="mb-6 ">
-                    <FormLabel title={`Title`} />
+                    <FormLabel title={`Title*`} />
                     <FormInput
                         type={TYPE_TEXT}
                         placeholder={'Title...'}
@@ -54,7 +54,7 @@ function CreateProject({ setShowModal, isFetchData, setIsFetchData }: any) {
                 </div>
 
                 <div className="mb-6">
-                    <FormLabel title={`Description`} />
+                    <FormLabel title={`Description*`} />
                     <FormTextArea
                         placeholder={`Description...`}
                         callback={(e: any) => {

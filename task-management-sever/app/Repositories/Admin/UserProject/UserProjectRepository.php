@@ -24,6 +24,14 @@ class UserProjectRepository implements UserProjectRepositoryInterface
         return $userProjectResponse;
     }
 
+    public function getAll($project_id)
+    {
+        return UserProject::query()
+            ->with(['user', 'project'])
+            ->ofProject($project_id)
+            ->get();
+    }
+
     public function getById(int $id, $project_id)
     {
         return UserProject::ofProject($project_id)->find($id);

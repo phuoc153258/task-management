@@ -29,7 +29,7 @@ function CreateTaskReport({ setShowModal, isFetchData, setIsFetchData, taskId }:
             await TaskReportService.create(taskReport)
             setShowModal(false)
             setIsFetchData(!isFetchData)
-            toast('Create leave request success');
+            toast('Create task report success');
         } catch (error: any) {
             const errors: any = getErrors(error.response.data.data)[0];
             toast(errors);
@@ -39,10 +39,10 @@ function CreateTaskReport({ setShowModal, isFetchData, setIsFetchData, taskId }:
 
     return (
         <>
-            <ModalHeading title={`Add leave request`} callback={() => setShowModal(false)} />
+            <ModalHeading title={`Add task report`} callback={() => setShowModal(false)} />
             <div className="p-6 space-y-6">
                 <div className="mb-6">
-                    <FormLabel title={`Title`} />
+                    <FormLabel title={`Title*`} />
                     <FormInput
                         type={TYPE_TEXT}
                         placeholder={'Title...'}
@@ -54,7 +54,7 @@ function CreateTaskReport({ setShowModal, isFetchData, setIsFetchData, taskId }:
                     />
                 </div>
                 <div className="mb-6">
-                    <FormLabel title={`Description`} />
+                    <FormLabel title={`Description*`} />
                     <FormTextArea
                         placeholder={`Description...`}
                         callback={(e: any) => {
